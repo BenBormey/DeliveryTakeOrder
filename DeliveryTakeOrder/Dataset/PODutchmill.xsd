@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PODutchmill" targetNamespace="http://tempuri.org/PODutchmill.xsd" xmlns:mstns="http://tempuri.org/PODutchmill.xsd" xmlns="http://tempuri.org/PODutchmill.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PODutchmill" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PODutchmill" msprop:Generator_UserDSName="PODutchmill">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PODutchmill" msprop:Generator_TableClassName="PODutchmillDataTable" msprop:Generator_TableVarName="tablePODutchmill" msprop:Generator_RowChangedName="PODutchmillRowChanged" msprop:Generator_TablePropName="_PODutchmill" msprop:Generator_RowDeletingName="PODutchmillRowDeleting" msprop:Generator_RowChangingName="PODutchmillRowChanging" msprop:Generator_RowEvHandlerName="PODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="PODutchmillRowDeleted" msprop:Generator_RowClassName="PODutchmillRow" msprop:Generator_UserTableName="PODutchmill" msprop:Generator_RowEvArgName="PODutchmillRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Barcode" msprop:Generator_ColumnVarNameInTable="columnBarcode" msprop:Generator_ColumnPropNameInRow="Barcode" msprop:Generator_ColumnPropNameInTable="BarcodeColumn" msprop:Generator_UserColumnName="Barcode" type="xs:string" minOccurs="0" />
+              <xs:element name="ProName" msprop:Generator_ColumnVarNameInTable="columnProName" msprop:Generator_ColumnPropNameInRow="ProName" msprop:Generator_ColumnPropNameInTable="ProNameColumn" msprop:Generator_UserColumnName="ProName" type="xs:string" minOccurs="0" />
+              <xs:element name="Remark" msprop:Generator_ColumnVarNameInTable="columnRemark" msprop:Generator_ColumnPropNameInRow="Remark" msprop:Generator_ColumnPropNameInTable="RemarkColumn" msprop:Generator_UserColumnName="Remark" type="xs:string" minOccurs="0" />
+              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size" type="xs:string" minOccurs="0" />
+              <xs:element name="QtyPCase" msprop:Generator_ColumnVarNameInTable="columnQtyPCase" msprop:Generator_ColumnPropNameInRow="QtyPCase" msprop:Generator_ColumnPropNameInTable="QtyPCaseColumn" msprop:Generator_UserColumnName="QtyPCase" type="xs:int" minOccurs="0" />
+              <xs:element name="CusName" msprop:Generator_ColumnVarNameInTable="columnCusName" msprop:Generator_ColumnPropNameInRow="CusName" msprop:Generator_ColumnPropNameInTable="CusNameColumn" msprop:Generator_UserColumnName="CusName" type="xs:string" minOccurs="0" />
+              <xs:element name="TotalPcsOrder" msprop:Generator_ColumnVarNameInTable="columnTotalPcsOrder" msprop:Generator_ColumnPropNameInRow="TotalPcsOrder" msprop:Generator_ColumnPropNameInTable="TotalPcsOrderColumn" msprop:Generator_UserColumnName="TotalPcsOrder" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Missing" msprop:Generator_ColumnVarNameInTable="columnMissing" msprop:Generator_ColumnPropNameInRow="Missing" msprop:Generator_ColumnPropNameInTable="MissingColumn" msprop:Generator_UserColumnName="Missing" type="xs:boolean" minOccurs="0" />
+              <xs:element name="PiecesPerTray" msprop:Generator_ColumnVarNameInTable="columnPiecesPerTray" msprop:Generator_ColumnPropNameInRow="PiecesPerTray" msprop:Generator_ColumnPropNameInTable="PiecesPerTrayColumn" msprop:Generator_UserColumnName="PiecesPerTray" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="XrPODutchmill" msprop:Generator_TableClassName="XrPODutchmillDataTable" msprop:Generator_TableVarName="tableXrPODutchmill" msprop:Generator_TablePropName="XrPODutchmill" msprop:Generator_RowDeletingName="XrPODutchmillRowDeleting" msprop:Generator_RowChangingName="XrPODutchmillRowChanging" msprop:Generator_RowEvHandlerName="XrPODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="XrPODutchmillRowDeleted" msprop:Generator_UserTableName="XrPODutchmill" msprop:Generator_RowChangedName="XrPODutchmillRowChanged" msprop:Generator_RowEvArgName="XrPODutchmillRowChangeEvent" msprop:Generator_RowClassName="XrPODutchmillRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Barcode" msprop:Generator_ColumnVarNameInTable="columnBarcode" msprop:Generator_ColumnPropNameInRow="Barcode" msprop:Generator_ColumnPropNameInTable="BarcodeColumn" msprop:Generator_UserColumnName="Barcode" type="xs:string" minOccurs="0" />
+              <xs:element name="ProName" msprop:Generator_ColumnVarNameInTable="columnProName" msprop:Generator_ColumnPropNameInRow="ProName" msprop:Generator_ColumnPropNameInTable="ProNameColumn" msprop:Generator_UserColumnName="ProName" type="xs:string" minOccurs="0" />
+              <xs:element name="Remark" msprop:Generator_ColumnVarNameInTable="columnRemark" msprop:Generator_ColumnPropNameInRow="Remark" msprop:Generator_ColumnPropNameInTable="RemarkColumn" msprop:Generator_UserColumnName="Remark" type="xs:string" minOccurs="0" />
+              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size" type="xs:string" minOccurs="0" />
+              <xs:element name="QtyPCase" msprop:Generator_ColumnVarNameInTable="columnQtyPCase" msprop:Generator_ColumnPropNameInRow="QtyPCase" msprop:Generator_ColumnPropNameInTable="QtyPCaseColumn" msprop:Generator_UserColumnName="QtyPCase" type="xs:int" minOccurs="0" />
+              <xs:element name="TotalOrder" msdata:Caption="TotalPcsOrder" msprop:Generator_ColumnVarNameInTable="columnTotalOrder" msprop:Generator_ColumnPropNameInRow="TotalOrder" msprop:Generator_ColumnPropNameInTable="TotalOrderColumn" msprop:Generator_UserColumnName="TotalOrder" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PiecesPerTray" msprop:Generator_ColumnVarNameInTable="columnPiecesPerTray" msprop:Generator_ColumnPropNameInRow="PiecesPerTray" msprop:Generator_ColumnPropNameInTable="PiecesPerTrayColumn" msprop:Generator_UserColumnName="PiecesPerTray" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalExtraLeft" msprop:Generator_ColumnVarNameInTable="columnTotalExtraLeft" msprop:Generator_ColumnPropNameInRow="TotalExtraLeft" msprop:Generator_ColumnPropNameInTable="TotalExtraLeftColumn" msprop:Generator_UserColumnName="TotalExtraLeft" type="xs:string" minOccurs="0" />
+              <xs:element name="TotalOrderToThailand" msprop:Generator_ColumnVarNameInTable="columnTotalOrderToThailand" msprop:Generator_ColumnPropNameInRow="TotalOrderToThailand" msprop:Generator_ColumnPropNameInTable="TotalOrderToThailandColumn" msprop:Generator_UserColumnName="TotalOrderToThailand" type="xs:string" minOccurs="0" />
+              <xs:element name="TotalTray" msprop:Generator_ColumnVarNameInTable="columnTotalTray" msprop:Generator_ColumnPropNameInRow="TotalTray" msprop:Generator_ColumnPropNameInTable="TotalTrayColumn" msprop:Generator_UserColumnName="TotalTray" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38C5D7CF-4B5F-47A8-A687-F900F1E9D39A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>DeliveryTakeOrder.My.MyApplication</StartupObject>
+    <RootNamespace>DeliveryTakeOrder</RootNamespace>
+    <AssemblyName>Qs Delivery Take Order %28UNT Wholesale%29</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Qs Delivery Take Order %28UNT Wholesale%29.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Qs Delivery Take Order %28UNT Wholesale%29.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo UNT.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2.UI, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v17.2.Wizard, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v17.2.Extensions, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.12\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dataset\ArrivalTransaction.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArrivalTransaction.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\ExpiryDate.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpiryDate.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\OverCreditNTerm.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OverCreditNTerm.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\PODutchmill.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PODutchmill.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\PODutchmill.vb">
+      <DependentUpon>PODutchmill.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Declares\Initialized.vb" />
+    <Compile Include="Dev\sExpiryDate.Designer.vb">
+      <DependentUpon>sExpiryDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\sExpiryDate.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Frameworks\ApplicationFramework.vb" />
+    <Compile Include="Frameworks\Configuration.vb" />
+    <Compile Include="Frameworks\DatabaseFramework.vb" />
+    <Compile Include="Interfaces\FrmAlertBadPayment.Designer.vb">
+      <DependentUpon>FrmAlertBadPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertBadPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmCheckExpiryDate.Designer.vb">
+      <DependentUpon>FrmCheckExpiryDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmCheckExpiryDate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmOverCreditAmountOrCreditTerm.Designer.vb">
+      <DependentUpon>FrmOverCreditAmountOrCreditTerm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmOverCreditAmountOrCreditTerm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmUnlockPrinterTakeOrder.Designer.vb">
+      <DependentUpon>FrmUnlockPrinterTakeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmUnlockPrinterTakeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillViewer.Designer.vb">
+      <DependentUpon>FrmPODutchmillViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderPreviewNEdit.Designer.vb">
+      <DependentUpon>FrmProcessTakeOrderPreviewNEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderPreviewNEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderViewSummaryCredit.designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderViewSummaryCredit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderViewSummaryCredit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertCustomerHistory.Designer.vb">
+      <DependentUpon>FrmAlertCustomerHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertCustomerHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderViewCredit.designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderViewCredit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderViewCredit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderCustomer.designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderRetrieve.Designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderRetrieve.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderRetrieve.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderPONumber.Designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderPONumber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderPONumber.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderQty.Designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDownloadSaleTeam.Designer.vb">
+      <DependentUpon>FrmDownloadSaleTeam.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDownloadSaleTeam.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrder.Designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderQtyOrder.Designer.vb">
+      <DependentUpon>FrmProcessTakeOrderQtyOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderQtyOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderDelto.Designer.vb">
+      <DependentUpon>FrmProcessTakeOrderDelto.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderDelto.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderCustomer.Designer.vb">
+      <DependentUpon>FrmProcessTakeOrderCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrderCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmSetPiecesPerTray.Designer.vb">
+      <DependentUpon>FrmSetPiecesPerTray.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmSetPiecesPerTray.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeltoListForDutchmillPO.designer.vb">
+      <DependentUpon>FrmDeltoListForDutchmillPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeltoListForDutchmillPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillDate.Designer.vb">
+      <DependentUpon>FrmPODutchmillDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillDate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillSelected.designer.vb">
+      <DependentUpon>FrmPODutchmillSelected.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillSelected.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrderInfoAeon.Designer.vb">
+      <DependentUpon>FrmDeliveryTakeOrderInfoAeon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrderInfoAeon.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertCreditAmount.Designer.vb">
+      <DependentUpon>FrmAlertCreditAmount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertCreditAmount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertBankGarantee.Designer.vb">
+      <DependentUpon>FrmAlertBankGarantee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmAlertBankGarantee.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmChangePassword.designer.vb">
+      <DependentUpon>FrmChangePassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmChangePassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrder.Designer.vb">
+      <DependentUpon>FrmDeliveryTakeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrderMessage.Designer.vb">
+      <DependentUpon>FrmDeliveryTakeOrderMessage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDeliveryTakeOrderMessage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPasswordLogin.designer.vb">
+      <DependentUpon>FrmPasswordLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPasswordLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrder.Designer.vb">
+      <DependentUpon>FrmProcessTakeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmProcessTakeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmSelectedPayment.designer.vb">
+      <DependentUpon>FrmSelectedPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmSelectedPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPasswordContinues.designer.vb">
+      <DependentUpon>FrmPasswordContinues.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPasswordContinues.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmUnlockPrinter.Designer.vb">
+      <DependentUpon>FrmUnlockPrinter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmUnlockPrinter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmViewProcessingTakeOrder.designer.vb">
+      <DependentUpon>FrmViewProcessingTakeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmViewProcessingTakeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\MDI.Designer.vb">
+      <DependentUpon>MDI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\MDI.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reports\xOverCreditNOverTerm.Designer.vb">
+      <DependentUpon>xOverCreditNOverTerm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\xOverCreditNOverTerm.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\XtraPODutchmills.Designer.vb">
+      <DependentUpon>XtraPODutchmills.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\XtraPODutchmills.vb">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dev\sExpiryDate.resx">
+      <DependentUpon>sExpiryDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmAlertBadPayment.resx">
+      <DependentUpon>FrmAlertBadPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmCheckExpiryDate.resx">
+      <DependentUpon>FrmCheckExpiryDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmOverCreditAmountOrCreditTerm.resx">
+      <DependentUpon>FrmOverCreditAmountOrCreditTerm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmUnlockPrinterTakeOrder.resx">
+      <DependentUpon>FrmUnlockPrinterTakeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPODutchmillViewer.resx">
+      <DependentUpon>FrmPODutchmillViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmProcessTakeOrderPreviewNEdit.resx">
+      <DependentUpon>FrmProcessTakeOrderPreviewNEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderViewSummaryCredit.resx">
+      <DependentUpon>FrmDutchmillTakeOrderViewSummaryCredit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmAlertCustomerHistory.resx">
+      <DependentUpon>FrmAlertCustomerHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderViewCredit.resx">
+      <DependentUpon>FrmDutchmillTakeOrderViewCredit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderCustomer.resx">
+      <DependentUpon>FrmDutchmillTakeOrderCustomer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderRetrieve.resx">
+      <DependentUpon>FrmDutchmillTakeOrderRetrieve.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderPONumber.resx">
+      <DependentUpon>FrmDutchmillTakeOrderPONumber.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderQty.resx">
+      <DependentUpon>FrmDutchmillTakeOrderQty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDownloadSaleTeam.resx">
+      <DependentUpon>FrmDownloadSaleTeam.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrder.resx">
+      <DependentUpon>FrmDutchmillTakeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmProcessTakeOrderQtyOrder.resx">
+      <DependentUpon>FrmProcessTakeOrderQtyOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmProcessTakeOrderDelto.resx">
+      <DependentUpon>FrmProcessTakeOrderDelto.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmProcessTakeOrderCustomer.resx">
+      <DependentUpon>FrmProcessTakeOrderCustomer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmSetPiecesPerTray.resx">
+      <DependentUpon>FrmSetPiecesPerTray.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDeltoListForDutchmillPO.resx">
+      <DependentUpon>FrmDeltoListForDutchmillPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPODutchmillDate.resx">
+      <DependentUpon>FrmPODutchmillDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPODutchmillSelected.resx">
+      <DependentUpon>FrmPODutchmillSelected.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDeliveryTakeOrderInfoAeon.resx">
+      <DependentUpon>FrmDeliveryTakeOrderInfoAeon.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmAlertCreditAmount.resx">
+      <DependentUpon>FrmAlertCreditAmount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmAlertBankGarantee.resx">
+      <DependentUpon>FrmAlertBankGarantee.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmChangePassword.resx">
+      <DependentUpon>FrmChangePassword.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDeliveryTakeOrder.resx">
+      <DependentUpon>FrmDeliveryTakeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDeliveryTakeOrderMessage.resx">
+      <DependentUpon>FrmDeliveryTakeOrderMessage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPasswordLogin.resx">
+      <DependentUpon>FrmPasswordLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmProcessTakeOrder.resx">
+      <DependentUpon>FrmProcessTakeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmSelectedPayment.resx">
+      <DependentUpon>FrmSelectedPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPasswordContinues.resx">
+      <DependentUpon>FrmPasswordContinues.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmUnlockPrinter.resx">
+      <DependentUpon>FrmUnlockPrinter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmViewProcessingTakeOrder.resx">
+      <DependentUpon>FrmViewProcessingTakeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\MDI.resx">
+      <DependentUpon>MDI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="Reports\Backup_PODutchmill.rdlc" />
+    <EmbeddedResource Include="Reports\PODutchmill.rdlc" />
+    <EmbeddedResource Include="Reports\PrintArrivalTransaction.rdlc" />
+    <EmbeddedResource Include="Reports\PrintRequestAdvanceBankTT.rdlc" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\xOverCreditNOverTerm.resx">
+      <DependentUpon>xOverCreditNOverTerm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\XtraPODutchmills.resx">
+      <DependentUpon>XtraPODutchmills.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Dataset\ArrivalTransaction.xsc">
+      <DependentUpon>ArrivalTransaction.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\ArrivalTransaction.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ArrivalTransaction.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Dataset\ArrivalTransaction.xss">
+      <DependentUpon>ArrivalTransaction.xsd</DependentUpon>
+    </None>
+    <Fakes Include="Fakes\MySql.Data.fakes" />
+    <None Include="Dataset\ExpiryDate.xsc">
+      <DependentUpon>ExpiryDate.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\ExpiryDate.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ExpiryDate.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Dataset\ExpiryDate.xss">
+      <DependentUpon>ExpiryDate.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\OverCreditNTerm.xsc">
+      <DependentUpon>OverCreditNTerm.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\OverCreditNTerm.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OverCreditNTerm.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Dataset\OverCreditNTerm.xss">
+      <DependentUpon>OverCreditNTerm.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\PODutchmill.xsc">
+      <DependentUpon>PODutchmill.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\PODutchmill.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PODutchmill.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Dataset\PODutchmill.xss">
+      <DependentUpon>PODutchmill.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Logo UNT.ico" />
+    <None Include="packages.config" />
+    <None Include="Resources\advanced.png" />
+    <None Include="Resources\Add-User.png" />
+    <None Include="Resources\Addition16.png" />
+    <None Include="Resources\add16.png" />
+    <None Include="Resources\Add New Bank Book16.png" />
+    <None Include="Resources\Add New Bank Book.png" />
+    <None Include="Resources\Add Cheque.png" />
+    <None Include="Resources\waiting_1.png" />
+    <None Include="Resources\waiting.png" />
+    <None Include="Resources\waiting clock.png" />
+    <None Include="Resources\wait-green.png" />
+    <None Include="Resources\view_takeorder.png" />
+    <None Include="Resources\VAT_1.png" />
+    <None Include="Resources\VAT.png" />
+    <None Include="Resources\UserName.png" />
+    <None Include="Resources\Update-User.png" />
+    <None Include="Resources\Update_Text16.png" />
+    <None Include="Resources\Update_Text.png" />
+    <None Include="Resources\update_blue.png" />
+    <None Include="Resources\update_16.png" />
+    <None Include="Resources\Unlock_Printer.png" />
+    <None Include="Resources\tree.png" />
+    <None Include="Resources\Transfers.png" />
+    <None Include="Resources\Transfer.png" />
+    <None Include="Resources\tools.png" />
+    <None Include="Resources\tick_16.png" />
+    <None Include="Resources\Tax Free.png" />
+    <None Include="Resources\Supplier.png" />
+    <None Include="Resources\sub_category.png" />
+    <None Include="Resources\ShareHolder.png" />
+    <None Include="Resources\Search16.png" />
+    <None Include="Resources\Search.png" />
+    <None Include="Resources\Save_16.png" />
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\salary2.png" />
+    <None Include="Resources\Salary_1.png" />
+    <None Include="Resources\Salary.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\refresh_16.png" />
+    <None Include="Resources\Refresh.png" />
+    <None Include="Resources\redtick.png" />
+    <None Include="Resources\Receipt.png" />
+    <None Include="Resources\Rebate1.png" />
+    <None Include="Resources\Rebate.png" />
+    <None Include="Resources\question_mark.png" />
+    <None Include="Resources\promotion_32.png" />
+    <None Include="Resources\Products.png" />
+    <None Include="Resources\Printer_icon_32.png" />
+    <None Include="Resources\Printer_icon_16.png" />
+    <None Include="Resources\Print16.png" />
+    <None Include="Resources\Print.png" />
+    <None Include="Resources\Print Cheque.png" />
+    <None Include="Resources\Preview_32.png" />
+    <None Include="Resources\Preview.png" />
+    <None Include="Resources\Petty_Cash.png" />
+    <None Include="Resources\Penalty-Yellow.png" />
+    <None Include="Resources\Penalty-Red.png" />
+    <None Include="Resources\penalty.png" />
+    <None Include="Resources\Payroll.png" />
+    <None Include="Resources\Password16.png" />
+    <None Include="Resources\Password.png" />
+    <None Include="Resources\OK.png" />
+    <None Include="Resources\notice.png" />
+    <None Include="Resources\next_red.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\Monthly.png" />
+    <None Include="Resources\Modify.png" />
+    <None Include="Resources\Minus.png" />
+    <None Include="Resources\Logo.png" />
+    <None Include="Resources\Lock_Printer.png" />
+    <None Include="Resources\loan-c.png" />
+    <None Include="Resources\loan-b.png" />
+    <None Include="Resources\loan-a.png" />
+    <None Include="Resources\loan.png" />
+    <None Include="Resources\listingfee.png" />
+    <None Include="Resources\link.png" />
+    <None Include="Resources\Khmer Flag.png" />
+    <None Include="Resources\Invoices.png" />
+    <None Include="Resources\Invoice.png" />
+    <None Include="Resources\inventory.png" />
+    <None Include="Resources\income.png" />
+    <None Include="Resources\import_32.png" />
+    <None Include="Resources\import_2_32.png" />
+    <None Include="Resources\import_1_32.png" />
+    <None Include="Resources\guarantee.png" />
+    <None Include="Resources\group_16.png" />
+    <None Include="Resources\GRN.png" />
+    <None Include="Resources\gainandlost.png" />
+    <None Include="Resources\FixedAssets.png" />
+    <None Include="Resources\Fill_Form.png" />
+    <None Include="Resources\Export.png" />
+    <None Include="Resources\Expiried.png" />
+    <None Include="Resources\Exchange Rate.png" />
+    <None Include="Resources\Excel16.png" />
+    <None Include="Resources\Excel.png" />
+    <None Include="Resources\Download.png" />
+    <None Include="Resources\Document.png" />
+    <None Include="Resources\Discount.png" />
+    <None Include="Resources\Delivery.png" />
+    <None Include="Resources\Delete-User.png" />
+    <None Include="Resources\Deleted16.png" />
+    <None Include="Resources\Debit Note.png" />
+    <None Include="Resources\DatabaseUpdate.png" />
+    <None Include="Resources\DatabaseRemove.png" />
+    <None Include="Resources\DatabaseAdd.png" />
+    <None Include="Resources\Database.png" />
+    <None Include="Resources\Damage Goods.png" />
+    <None Include="Resources\Daily.png" />
+    <None Include="Resources\Customer.png" />
+    <None Include="Resources\CurrencyAdd.png" />
+    <None Include="Resources\Currency.png" />
+    <None Include="Resources\cover.png" />
+    <None Include="Resources\Contract.png" />
+    <None Include="Resources\Consignee.png" />
+    <None Include="Resources\Close16.png" />
+    <None Include="Resources\Close.png" />
+    <None Include="Resources\Clear.png" />
+    <None Include="Resources\checklist16.png" />
+    <None Include="Resources\Check_List.png" />
+    <None Include="Resources\Check List.png" />
+    <None Include="Resources\Check Arrival16.png" />
+    <None Include="Resources\Check Arrival.png" />
+    <None Include="Resources\category.png" />
+    <None Include="Resources\Cancel16.png" />
+    <None Include="Resources\cancel_16.png" />
+    <None Include="Resources\Cancel.png" />
+    <None Include="Resources\Borrow.png" />
+    <None Include="Resources\bonus_circle_16.png" />
+    <None Include="Resources\bonus_circle.png" />
+    <None Include="Resources\bonus_16.png" />
+    <None Include="Resources\bonus.png" />
+    <None Include="Resources\ben_test.png" />
+    <None Include="Resources\BankTT.png" />
+    <None Include="Resources\Bank Fee Voucher.png" />
+    <None Include="Resources\Bank Fee Voucher 1.png" />
+    <None Include="Resources\Bank Book.png" />
+    <None Include="Resources\arrow_circle_double.png" />
+    <None Include="Resources\Arrival Transaction.png" />
+    <None Include="Resources\Application.png" />
+    <None Include="Resources\annualleave.png" />
+    <None Include="Resources\anniversary.png" />
+    <None Include="Resources\Alert.png" />
+    <None Include="Resources\Agreement.png" />
+    <None Include="Resources\retrieve.png" />
+    <None Include="Resources\forward.png" />
+    <None Include="Resources\change_quantity.ico" />
+    <None Include="Resources\renew.ico" />
+    <None Include="Resources\not_accept.ico" />
+    <None Include="Resources\change_quantity.png" />
+    <None Include="Resources\renew.png" />
+    <None Include="Resources\not_accept.png" />
+    <None Include="Resources\tray.png" />
+    <None Include="Resources\alert1.png" />
+    <None Include="Resources\to.PNG" />
+    <None Include="Resources\po.png" />
+    <None Include="Resources\newprice.png" />
+    <None Include="Resources\Separately.png" />
+    <None Include="Resources\minus_16.png" />
+    <None Include="Resources\exception.png" />
+    <None Include="Resources\group_32.png" />
+    <None Include="Resources\circle_old_code.png" />
+    <None Include="Resources\codereview.png" />
+    <None Include="Resources\dot.png" />
+    <None Include="Resources\delto.png" />
+    <None Include="Resources\trash_16.png" />
+    <None Include="Resources\move_16.png" />
+    <None Include="Resources\deleted_16.png" />
+    <None Include="Resources\delete_16.png" />
+    <None Include="Resources\search_products.png" />
+    <None Include="Resources\empty_image.png" />
+    <None Include="Resources\Cancel_red.png" />
+    <None Include="Resources\PriceSetting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

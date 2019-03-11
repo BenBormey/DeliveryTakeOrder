@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ExpiryDate" targetNamespace="http://tempuri.org/ExpiryDate.xsd" xmlns:mstns="http://tempuri.org/ExpiryDate.xsd" xmlns="http://tempuri.org/ExpiryDate.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ExpiryDate" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ExpiryDate" msprop:Generator_UserDSName="ExpiryDate">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtExpiryDate" msprop:Generator_TableClassName="dtExpiryDateDataTable" msprop:Generator_TableVarName="tabledtExpiryDate" msprop:Generator_TablePropName="dtExpiryDate" msprop:Generator_RowDeletingName="dtExpiryDateRowDeleting" msprop:Generator_RowChangingName="dtExpiryDateRowChanging" msprop:Generator_RowEvHandlerName="dtExpiryDateRowChangeEventHandler" msprop:Generator_RowDeletedName="dtExpiryDateRowDeleted" msprop:Generator_UserTableName="dtExpiryDate" msprop:Generator_RowChangedName="dtExpiryDateRowChanged" msprop:Generator_RowEvArgName="dtExpiryDateRowChangeEvent" msprop:Generator_RowClassName="dtExpiryDateRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitNumber" msprop:Generator_ColumnVarNameInTable="columnUnitNumber" msprop:Generator_ColumnPropNameInRow="UnitNumber" msprop:Generator_ColumnPropNameInTable="UnitNumberColumn" msprop:Generator_UserColumnName="UnitNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="PackNumber" msprop:Generator_ColumnVarNameInTable="columnPackNumber" msprop:Generator_ColumnPropNameInRow="PackNumber" msprop:Generator_ColumnPropNameInTable="PackNumberColumn" msprop:Generator_UserColumnName="PackNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="CaseNumber" msprop:Generator_ColumnVarNameInTable="columnCaseNumber" msprop:Generator_ColumnPropNameInRow="CaseNumber" msprop:Generator_ColumnPropNameInTable="CaseNumberColumn" msprop:Generator_UserColumnName="CaseNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="ProName" msprop:Generator_ColumnVarNameInTable="columnProName" msprop:Generator_ColumnPropNameInRow="ProName" msprop:Generator_ColumnPropNameInTable="ProNameColumn" msprop:Generator_UserColumnName="ProName" type="xs:string" minOccurs="0" />
+              <xs:element name="KhmerName" msprop:Generator_ColumnVarNameInTable="columnKhmerName" msprop:Generator_ColumnPropNameInRow="KhmerName" msprop:Generator_ColumnPropNameInTable="KhmerNameColumn" msprop:Generator_UserColumnName="KhmerName" type="xs:string" minOccurs="0" />
+              <xs:element name="Size" msprop:Generator_ColumnVarNameInTable="columnSize" msprop:Generator_ColumnPropNameInRow="Size" msprop:Generator_ColumnPropNameInTable="SizeColumn" msprop:Generator_UserColumnName="Size" type="xs:string" minOccurs="0" />
+              <xs:element name="QtyPerCase" msprop:Generator_ColumnVarNameInTable="columnQtyPerCase" msprop:Generator_ColumnPropNameInRow="QtyPerCase" msprop:Generator_ColumnPropNameInTable="QtyPerCaseColumn" msprop:Generator_UserColumnName="QtyPerCase" type="xs:decimal" minOccurs="0" />
+              <xs:element name="QtyPerPack" msprop:Generator_ColumnVarNameInTable="columnQtyPerPack" msprop:Generator_ColumnPropNameInRow="QtyPerPack" msprop:Generator_ColumnPropNameInTable="QtyPerPackColumn" msprop:Generator_UserColumnName="QtyPerPack" type="xs:decimal" minOccurs="0" />
+              <xs:element name="StockIn" msprop:Generator_ColumnVarNameInTable="columnStockIn" msprop:Generator_ColumnPropNameInRow="StockIn" msprop:Generator_ColumnPropNameInTable="StockInColumn" msprop:Generator_UserColumnName="StockIn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SupNum" msprop:Generator_ColumnVarNameInTable="columnSupNum" msprop:Generator_ColumnPropNameInRow="SupNum" msprop:Generator_ColumnPropNameInTable="SupNumColumn" msprop:Generator_UserColumnName="SupNum" type="xs:string" minOccurs="0" />
+              <xs:element name="SupName" msprop:Generator_ColumnVarNameInTable="columnSupName" msprop:Generator_ColumnPropNameInRow="SupName" msprop:Generator_ColumnPropNameInTable="SupNameColumn" msprop:Generator_UserColumnName="SupName" type="xs:string" minOccurs="0" />
+              <xs:element name="locationname" msprop:Generator_ColumnVarNameInTable="columnlocationname" msprop:Generator_ColumnPropNameInRow="locationname" msprop:Generator_ColumnPropNameInTable="locationnameColumn" msprop:Generator_UserColumnName="locationname" type="xs:string" minOccurs="0" />
+              <xs:element name="location" msprop:Generator_ColumnVarNameInTable="columnlocation" msprop:Generator_ColumnPropNameInRow="location" msprop:Generator_ColumnPropNameInTable="locationColumn" msprop:Generator_UserColumnName="location" type="xs:string" minOccurs="0" />
+              <xs:element name="level" msprop:Generator_ColumnVarNameInTable="columnlevel" msprop:Generator_ColumnPropNameInRow="level" msprop:Generator_ColumnPropNameInTable="levelColumn" msprop:Generator_UserColumnName="level" type="xs:string" minOccurs="0" />
+              <xs:element name="QtyOnHand" msprop:Generator_ColumnVarNameInTable="columnQtyOnHand" msprop:Generator_ColumnPropNameInRow="QtyOnHand" msprop:Generator_ColumnPropNameInTable="QtyOnHandColumn" msprop:Generator_UserColumnName="QtyOnHand" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ExpiryDate" msprop:Generator_ColumnVarNameInTable="columnExpiryDate" msprop:Generator_ColumnPropNameInRow="ExpiryDate" msprop:Generator_ColumnPropNameInTable="ExpiryDateColumn" msprop:Generator_UserColumnName="ExpiryDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
