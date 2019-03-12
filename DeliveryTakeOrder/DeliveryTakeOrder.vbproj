@@ -74,6 +74,7 @@
     <Reference Include="DevExpress.Data.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.DataAccess.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -101,6 +102,8 @@
     <Reference Include="DevExpress.Utils.v17.2.UI, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Xpo.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v17.2.Wizard, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -183,6 +186,63 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\CustomerAging\aging-callcard.class.detail.vb" />
+    <Compile Include="App\CustomerAging\aging-callcard.class.ramark.vb" />
+    <Compile Include="App\CustomerAging\aging-callcard.form.filter.designer.vb">
+      <DependentUpon>aging-callcard.form.filter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\aging-callcard.form.filter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\aging-callcard.report.all-detail.designer.vb">
+      <DependentUpon>aging-callcard.report.all-detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\aging-callcard.report.all-detail.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\aging-callcard.report.audit.designer.vb">
+      <DependentUpon>aging-callcard.report.audit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\aging-callcard.report.audit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging-invoice-detail.report.detail.designer.vb">
+      <DependentUpon>ar-aging-invoice-detail.report.detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging-invoice-detail.report.detail.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.class.detail.vb" />
+    <Compile Include="App\CustomerAging\ar-aging.class.vb" />
+    <Compile Include="App\CustomerAging\ar-aging.form.bank-guarantee.designer.vb">
+      <DependentUpon>ar-aging.form.bank-guarantee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.form.bank-guarantee.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.init.designer.vb">
+      <DependentUpon>ar-aging.init.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.init.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.report.designer.vb">
+      <DependentUpon>ar-aging.report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.report.detail.designer.vb">
+      <DependentUpon>ar-aging.report.detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.report.detail.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\ar-aging.report.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App\CustomerAging\general-controller.class.vb" />
+    <Compile Include="App\CustomerAging\invoice-detail.class.vb" />
     <Compile Include="Dataset\ArrivalTransaction.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -206,7 +266,27 @@
     <Compile Include="Dataset\PODutchmill.vb">
       <DependentUpon>PODutchmill.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Declares\AppSetting.vb" />
+    <Compile Include="Declares\Company.vb" />
+    <Compile Include="Declares\GeneralModule.vb" />
     <Compile Include="Declares\Initialized.vb" />
+    <Compile Include="Declares\RMDB.vb" />
+    <Compile Include="Declares\RMGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Declares\SortableBindingList.vb" />
+    <Compile Include="Dev\PreviewControl.designer.vb">
+      <DependentUpon>PreviewControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\PreviewControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dev\PreviewForm.designer.vb">
+      <DependentUpon>PreviewForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\PreviewForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Dev\sExpiryDate.Designer.vb">
       <DependentUpon>sExpiryDate.vb</DependentUpon>
     </Compile>
@@ -455,6 +535,39 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="App\CustomerAging\aging-callcard.form.filter.resx">
+      <DependentUpon>aging-callcard.form.filter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\aging-callcard.report.all-detail.resx">
+      <DependentUpon>aging-callcard.report.all-detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\aging-callcard.report.audit.resx">
+      <DependentUpon>aging-callcard.report.audit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging-invoice-detail.report.detail.resx">
+      <DependentUpon>ar-aging-invoice-detail.report.detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging.form.bank-guarantee.resx">
+      <DependentUpon>ar-aging.form.bank-guarantee.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging.form.resx">
+      <DependentUpon>ar-aging.form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging.init.resx">
+      <DependentUpon>ar-aging.init.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging.report.detail.resx">
+      <DependentUpon>ar-aging.report.detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\CustomerAging\ar-aging.report.resx">
+      <DependentUpon>ar-aging.report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dev\PreviewControl.resx">
+      <DependentUpon>PreviewControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dev\PreviewForm.resx">
+      <DependentUpon>PreviewForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dev\sExpiryDate.resx">
       <DependentUpon>sExpiryDate.vb</DependentUpon>
     </EmbeddedResource>
@@ -641,6 +754,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logo UNT.ico" />
+    <None Include="Resources\list.png" />
+    <None Include="Resources\house.png" />
+    <None Include="Resources\clipboard.png" />
     <None Include="packages.config" />
     <None Include="Resources\advanced.png" />
     <None Include="Resources\Add-User.png" />

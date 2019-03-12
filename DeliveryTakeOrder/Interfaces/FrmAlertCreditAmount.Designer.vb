@@ -28,6 +28,7 @@ Partial Class FrmAlertCreditAmount
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAlertCreditAmount))
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.LblMsg = New System.Windows.Forms.Label()
+        Me.lblbankgarantee = New System.Windows.Forms.Label()
         Me.PicAlert = New System.Windows.Forms.PictureBox()
         Me.DgvShow = New System.Windows.Forms.DataGridView()
         Me.InvNumber = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -41,8 +42,8 @@ Partial Class FrmAlertCreditAmount
         Me.BtnOK = New System.Windows.Forms.Button()
         Me.BtnNo = New System.Windows.Forms.Button()
         Me.BtnYes = New System.Windows.Forms.Button()
-        Me.lblbankgarantee = New System.Windows.Forms.Label()
         Me.loading = New System.Windows.Forms.Timer(Me.components)
+        Me.btnPreviewAging = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.PicAlert, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvShow, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,6 +69,16 @@ Partial Class FrmAlertCreditAmount
         Me.LblMsg.Name = "LblMsg"
         Me.LblMsg.Size = New System.Drawing.Size(533, 62)
         Me.LblMsg.TabIndex = 0
+        '
+        'lblbankgarantee
+        '
+        Me.lblbankgarantee.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.lblbankgarantee.ForeColor = System.Drawing.Color.Blue
+        Me.lblbankgarantee.Location = New System.Drawing.Point(38, 62)
+        Me.lblbankgarantee.Name = "lblbankgarantee"
+        Me.lblbankgarantee.Size = New System.Drawing.Size(533, 25)
+        Me.lblbankgarantee.TabIndex = 2
+        Me.lblbankgarantee.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'PicAlert
         '
@@ -152,6 +163,7 @@ Partial Class FrmAlertCreditAmount
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnPreviewAging)
         Me.Panel2.Controls.Add(Me.BtnOK)
         Me.Panel2.Controls.Add(Me.BtnNo)
         Me.Panel2.Controls.Add(Me.BtnYes)
@@ -207,19 +219,23 @@ Partial Class FrmAlertCreditAmount
         Me.BtnYes.UseVisualStyleBackColor = True
         Me.BtnYes.Visible = False
         '
-        'lblbankgarantee
-        '
-        Me.lblbankgarantee.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.lblbankgarantee.ForeColor = System.Drawing.Color.Blue
-        Me.lblbankgarantee.Location = New System.Drawing.Point(38, 62)
-        Me.lblbankgarantee.Name = "lblbankgarantee"
-        Me.lblbankgarantee.Size = New System.Drawing.Size(533, 25)
-        Me.lblbankgarantee.TabIndex = 2
-        Me.lblbankgarantee.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'loading
         '
         Me.loading.Interval = 5
+        '
+        'btnPreviewAging
+        '
+        Me.btnPreviewAging.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPreviewAging.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnPreviewAging.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.btnPreviewAging.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnPreviewAging.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnPreviewAging.Location = New System.Drawing.Point(453, 2)
+        Me.btnPreviewAging.Name = "btnPreviewAging"
+        Me.btnPreviewAging.Size = New System.Drawing.Size(115, 32)
+        Me.btnPreviewAging.TabIndex = 116
+        Me.btnPreviewAging.Text = "&Preview Aging"
+        Me.btnPreviewAging.UseVisualStyleBackColor = True
         '
         'FrmAlertCreditAmount
         '
@@ -262,4 +278,5 @@ Partial Class FrmAlertCreditAmount
     Friend WithEvents GrandTotal As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents lblbankgarantee As Label
     Friend WithEvents loading As Timer
+    Friend WithEvents btnPreviewAging As Button
 End Class

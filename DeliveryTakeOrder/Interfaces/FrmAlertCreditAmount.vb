@@ -61,5 +61,31 @@ Public Class FrmAlertCreditAmount
         End If
         lblbankgarantee.Text = String.Format("Bank Garantee = {0:C2}", BankGarantee)
         Me.Cursor = Cursors.Default
+
+
+
+    End Sub
+
+    Private Sub btnPreviewAging_Click(sender As Object, e As EventArgs) Handles btnPreviewAging.Click
+        Cursor.Current = Cursors.WaitCursor
+        Dim frm As New ARAgingForm
+        With frm
+            '.MdiParent = Me
+            '.DrCustomer = frmInit.DrCustomer
+            '.DueDate = frmInit.DueDate
+            '.SupNum = frmInit.SupNum
+            '.DrSupplier = frmInit.DrSupplier
+            '.IsAll = frmInit.IsAll
+            '.IsA = frmInit.IsA
+            '.IsB = frmInit.IsB
+            '.IsC = frmInit.IsC
+            '.IsD = frmInit.IsD
+            '.IsE = frmInit.IsE
+            '.IsExcludeZero = frmInit.IsExcludeZero
+            '.IsTeam = frmInit.IsTeam
+            '.DrTeam = frmInit.DrTeam
+            .CusNum = oCusNum
+            .Show()
+        End With
     End Sub
 End Class

@@ -13,6 +13,7 @@ Public Class MDI
     Private Sub LoadingInitialized()
         Initialized.LoadingInitialized(Data, App)
         DatabaseName = String.Format("{0}{1}", Data.PrefixDatabase, Data.DatabaseName)
+        AppSetting.InitialCompany()
     End Sub
 
     Private Sub MnuExit_Click(sender As Object, e As EventArgs) Handles MnuExit.Click
