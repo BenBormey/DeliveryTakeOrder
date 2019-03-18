@@ -243,6 +243,12 @@
     </Compile>
     <Compile Include="App\CustomerAging\general-controller.class.vb" />
     <Compile Include="App\CustomerAging\invoice-detail.class.vb" />
+    <Compile Include="App\SendMailDCSKU\MailDCSKUReport.Designer.vb">
+      <DependentUpon>MailDCSKUReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="App\SendMailDCSKU\MailDCSKUReport.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Dataset\ArrivalTransaction.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -561,6 +567,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App\CustomerAging\ar-aging.report.resx">
       <DependentUpon>ar-aging.report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\SendMailDCSKU\MailDCSKUReport.resx">
+      <DependentUpon>MailDCSKUReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dev\PreviewControl.resx">
       <DependentUpon>PreviewControl.vb</DependentUpon>

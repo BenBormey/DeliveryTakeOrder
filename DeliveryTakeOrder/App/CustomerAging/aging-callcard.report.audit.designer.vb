@@ -113,7 +113,7 @@ Partial Public Class AgingCallcardAuditReport
         'XrTable2
         '
         Me.XrTable2.AnchorVertical = CType((DevExpress.XtraReports.UI.VerticalAnchorStyles.Top Or DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom), DevExpress.XtraReports.UI.VerticalAnchorStyles)
-        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(28.49973!, 0.0!)
+        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(28.49973!, 0!)
         Me.XrTable2.Name = "XrTable2"
         Me.XrTable2.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow4})
         Me.XrTable2.SizeF = New System.Drawing.SizeF(650.0002!, 23.0!)
@@ -433,19 +433,18 @@ Partial Public Class AgingCallcardAuditReport
         'XrPageInfo1
         '
         Me.XrPageInfo1.Font = New System.Drawing.Font("Segoe UI", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrPageInfo1.Format = "{0:ddd, yyyy-MM-dd hh:mm:ss tt}"
-        Me.XrPageInfo1.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 6.00001!)
+        Me.XrPageInfo1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 6.00001!)
         Me.XrPageInfo1.Name = "XrPageInfo1"
         Me.XrPageInfo1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrPageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime
         Me.XrPageInfo1.SizeF = New System.Drawing.SizeF(313.0!, 23.0!)
         Me.XrPageInfo1.StyleName = "PageInfo"
         Me.XrPageInfo1.StylePriority.UseFont = False
+        Me.XrPageInfo1.TextFormatString = "{0:ddd, yyyy-MM-dd hh:mm:ss tt}"
         '
         'XrPageInfo2
         '
         Me.XrPageInfo2.Font = New System.Drawing.Font("Segoe UI", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrPageInfo2.Format = "Page {0} of {1}"
         Me.XrPageInfo2.LocationFloat = New DevExpress.Utils.PointFloat(369.9999!, 6.00001!)
         Me.XrPageInfo2.Name = "XrPageInfo2"
         Me.XrPageInfo2.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
@@ -453,6 +452,7 @@ Partial Public Class AgingCallcardAuditReport
         Me.XrPageInfo2.StyleName = "PageInfo"
         Me.XrPageInfo2.StylePriority.UseFont = False
         Me.XrPageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight
+        Me.XrPageInfo2.TextFormatString = "Page {0} of {1}"
         '
         'ReportHeaderBand1
         '
@@ -645,7 +645,7 @@ Partial Public Class AgingCallcardAuditReport
             Or DevExpress.XtraPrinting.BorderSide.Right), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel7.CanGrow = False
         Me.XrLabel7.Font = New System.Drawing.Font("Khmer OS System", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel7.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 124.8334!)
+        Me.XrLabel7.LocationFloat = New DevExpress.Utils.PointFloat(0!, 124.8334!)
         Me.XrLabel7.Name = "XrLabel7"
         Me.XrLabel7.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 4, 0, 0, 100.0!)
         Me.XrLabel7.SizeF = New System.Drawing.SizeF(185.0!, 24.0!)
@@ -662,7 +662,7 @@ Partial Public Class AgingCallcardAuditReport
             Or DevExpress.XtraPrinting.BorderSide.Right), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel5.CanGrow = False
         Me.XrLabel5.Font = New System.Drawing.Font("Khmer OS System", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel5.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 148.8334!)
+        Me.XrLabel5.LocationFloat = New DevExpress.Utils.PointFloat(0!, 148.8334!)
         Me.XrLabel5.Name = "XrLabel5"
         Me.XrLabel5.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 4, 0, 0, 100.0!)
         Me.XrLabel5.SizeF = New System.Drawing.SizeF(185.0!, 24.0!)
@@ -679,7 +679,7 @@ Partial Public Class AgingCallcardAuditReport
             Or DevExpress.XtraPrinting.BorderSide.Right), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel1.CanGrow = False
         Me.XrLabel1.Font = New System.Drawing.Font("Khmer OS System", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel1.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 172.8334!)
+        Me.XrLabel1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 172.8334!)
         Me.XrLabel1.Name = "XrLabel1"
         Me.XrLabel1.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 4, 0, 0, 100.0!)
         Me.XrLabel1.SizeF = New System.Drawing.SizeF(185.0!, 24.0!)
@@ -746,7 +746,7 @@ Partial Public Class AgingCallcardAuditReport
             Or DevExpress.XtraPrinting.BorderSide.Right), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel15.CanGrow = False
         Me.XrLabel15.Font = New System.Drawing.Font("Khmer OS System", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel15.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 196.8334!)
+        Me.XrLabel15.LocationFloat = New DevExpress.Utils.PointFloat(0!, 196.8334!)
         Me.XrLabel15.Name = "XrLabel15"
         Me.XrLabel15.Padding = New DevExpress.XtraPrinting.PaddingInfo(4, 4, 0, 0, 100.0!)
         Me.XrLabel15.SizeF = New System.Drawing.SizeF(185.0!, 24.0!)
@@ -827,7 +827,7 @@ Partial Public Class AgingCallcardAuditReport
         'XrLabel21
         '
         Me.XrLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel21.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 63.00001!)
+        Me.XrLabel21.LocationFloat = New DevExpress.Utils.PointFloat(0!, 63.00001!)
         Me.XrLabel21.Name = "XrLabel21"
         Me.XrLabel21.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel21.SizeF = New System.Drawing.SizeF(200.1252!, 18.0!)
@@ -851,7 +851,7 @@ Partial Public Class AgingCallcardAuditReport
         '
         Me.XrLabel22.CanGrow = False
         Me.XrLabel22.Font = New System.Drawing.Font("Khmer OS Muol Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel22.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 96.83339!)
+        Me.XrLabel22.LocationFloat = New DevExpress.Utils.PointFloat(0!, 96.83339!)
         Me.XrLabel22.Name = "XrLabel22"
         Me.XrLabel22.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel22.SizeF = New System.Drawing.SizeF(351.4583!, 28.00001!)
@@ -863,7 +863,7 @@ Partial Public Class AgingCallcardAuditReport
         'XrLabel23
         '
         Me.XrLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel23.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 45.00001!)
+        Me.XrLabel23.LocationFloat = New DevExpress.Utils.PointFloat(0!, 45.00001!)
         Me.XrLabel23.Name = "XrLabel23"
         Me.XrLabel23.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel23.SizeF = New System.Drawing.SizeF(469.9168!, 18.0!)
@@ -873,7 +873,7 @@ Partial Public Class AgingCallcardAuditReport
         'XrLabel24
         '
         Me.XrLabel24.Font = New System.Drawing.Font("Khmer OS System", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel24.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 21.99999!)
+        Me.XrLabel24.LocationFloat = New DevExpress.Utils.PointFloat(0!, 21.99999!)
         Me.XrLabel24.Multiline = True
         Me.XrLabel24.Name = "XrLabel24"
         Me.XrLabel24.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
@@ -884,7 +884,7 @@ Partial Public Class AgingCallcardAuditReport
         'XrLabel25
         '
         Me.XrLabel25.Font = New System.Drawing.Font("Times New Roman", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel25.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 0.0!)
+        Me.XrLabel25.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
         Me.XrLabel25.Multiline = True
         Me.XrLabel25.Name = "XrLabel25"
         Me.XrLabel25.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
@@ -953,7 +953,7 @@ Partial Public Class AgingCallcardAuditReport
         Me.XrLabel16.StylePriority.UseFont = False
         Me.XrLabel16.StylePriority.UsePadding = False
         Me.XrLabel16.StylePriority.UseTextAlignment = False
-        Me.XrLabel16.Text = "សវនកម្មដោយ" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Audit By" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Name:............................." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Date:......./...." & _
+        Me.XrLabel16.Text = "សវនកម្មដោយ" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Audit By" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Name:............................." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Date:......./...." &
     "....../............" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.XrLabel16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
         '
@@ -971,19 +971,19 @@ Partial Public Class AgingCallcardAuditReport
         Me.XrLabel9.StylePriority.UseFont = False
         Me.XrLabel9.StylePriority.UsePadding = False
         Me.XrLabel9.StylePriority.UseTextAlignment = False
-        Me.XrLabel9.Text = "ហត្ថលេខាអតិថិជន" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Customer Signature" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Name:............................." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Da" & _
+        Me.XrLabel9.Text = "ហត្ថលេខាអតិថិជន" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Customer Signature" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Name:............................." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Da" &
     "te:......./........../............" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.XrLabel9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
         '
         'XrLine3
         '
-        Me.XrLine3.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 103.6667!)
+        Me.XrLine3.LocationFloat = New DevExpress.Utils.PointFloat(0!, 103.6667!)
         Me.XrLine3.Name = "XrLine3"
         Me.XrLine3.SizeF = New System.Drawing.SizeF(706.9997!, 23.0!)
         '
         'XrLine2
         '
-        Me.XrLine2.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 77.85419!)
+        Me.XrLine2.LocationFloat = New DevExpress.Utils.PointFloat(0!, 77.85419!)
         Me.XrLine2.Name = "XrLine2"
         Me.XrLine2.SizeF = New System.Drawing.SizeF(706.9997!, 23.0!)
         '
@@ -991,7 +991,7 @@ Partial Public Class AgingCallcardAuditReport
         '
         Me.XrLabel4.CanGrow = False
         Me.XrLabel4.Font = New System.Drawing.Font("Khmer OS Muol Light", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 24.04169!)
+        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(0!, 24.04169!)
         Me.XrLabel4.Name = "XrLabel4"
         Me.XrLabel4.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel4.SizeF = New System.Drawing.SizeF(515.0001!, 28.0!)
@@ -1002,7 +1002,7 @@ Partial Public Class AgingCallcardAuditReport
         '
         'XrLine1
         '
-        Me.XrLine1.LocationFloat = New DevExpress.Utils.PointFloat(0.0!, 52.04169!)
+        Me.XrLine1.LocationFloat = New DevExpress.Utils.PointFloat(0!, 52.04169!)
         Me.XrLine1.Name = "XrLine1"
         Me.XrLine1.SizeF = New System.Drawing.SizeF(706.9997!, 23.0!)
         '
@@ -1015,7 +1015,7 @@ Partial Public Class AgingCallcardAuditReport
         Me.XrLabel2.CanGrow = False
         Me.XrLabel2.Font = New System.Drawing.Font("Khmer OS System", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.XrLabel2.ForeColor = System.Drawing.Color.Black
-        Me.XrLabel2.LocationFloat = New DevExpress.Utils.PointFloat(318.4998!, 0.0!)
+        Me.XrLabel2.LocationFloat = New DevExpress.Utils.PointFloat(318.4998!, 0!)
         Me.XrLabel2.Multiline = True
         Me.XrLabel2.Name = "XrLabel2"
         Me.XrLabel2.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
@@ -1041,7 +1041,7 @@ Partial Public Class AgingCallcardAuditReport
         Me.XrLabel6.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "GrandTotal")})
         Me.XrLabel6.Font = New System.Drawing.Font("Segoe UI Semibold", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.XrLabel6.ForeColor = System.Drawing.Color.Black
-        Me.XrLabel6.LocationFloat = New DevExpress.Utils.PointFloat(538.4998!, 0.0!)
+        Me.XrLabel6.LocationFloat = New DevExpress.Utils.PointFloat(538.4998!, 0!)
         Me.XrLabel6.Name = "XrLabel6"
         Me.XrLabel6.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel6.SizeF = New System.Drawing.SizeF(140.0001!, 23.0!)
@@ -1087,7 +1087,7 @@ Partial Public Class AgingCallcardAuditReport
         Me.Parameters.AddRange(New DevExpress.XtraReports.Parameters.Parameter() {Me.paramAsOfDate})
         Me.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
         Me.StyleSheet.AddRange(New DevExpress.XtraReports.UI.XRControlStyle() {Me.Title, Me.FieldCaption, Me.PageInfo, Me.DataField})
-        Me.Version = "15.1"
+        Me.Version = "17.2"
         CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.XrTable1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ObjectDataSource1, System.ComponentModel.ISupportInitialize).EndInit()

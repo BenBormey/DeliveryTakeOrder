@@ -8,25 +8,51 @@
 
     Public Shared ReadOnly Property AppNameSpace As String
         Get
-            Return "AccountAging"
+            Return "untwholesale"
         End Get
     End Property
 
     Public Shared ReadOnly Property AppNumber As Integer
         Get
-            Return 7
+            Return -1
         End Get
     End Property
 
     Public Shared ReadOnly Property ApplicationVersion As String
         Get
-            Return "2018.07.27"
+            Return "2019.02.11"
         End Get
     End Property
 
-    Public Shared ReadOnly Property SignalRClientServer As String
+    Private Shared _signalrserver As String = "192.168.1.99"
+    Public Shared Property SignalRClientServer As String
         Get
-            Return "192.168.1.99"
+            Return _signalrserver
+        End Get
+        Set(value As String)
+            _signalrserver = value
+        End Set
+    End Property
+
+    Private Shared _db As RMDB
+    Public Shared ReadOnly Property DBMain As RMDB
+        Get
+            If _db Is Nothing Then _db = New RMDB(ConnectionString)
+            Return _db
+        End Get
+    End Property
+
+    Private Shared _db_local As RMDB
+    Public Shared ReadOnly Property DBLOCAL As RMDB
+        Get
+            If _db_local Is Nothing Then
+                Dim conBuilder As New SqlClient.SqlConnectionStringBuilder With {.DataSource = "192.168.1.58",
+                                                                         .InitialCatalog = "DBUNTWHOLESALECOLTD",
+                                                                         .UserID = "UserConnection",
+                                                                         .Password = "123"}
+                _db_local = New RMDB(conBuilder.ConnectionString)
+            End If
+            Return _db_local
         End Get
     End Property
 

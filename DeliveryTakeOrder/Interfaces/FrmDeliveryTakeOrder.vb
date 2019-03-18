@@ -4,6 +4,7 @@ Imports Microsoft.Reporting.WinForms
 Imports DeliveryTakeOrder.DatabaseFrameworks
 Imports DeliveryTakeOrder.ApplicationFrameworks
 Imports Microsoft.Office.Interop
+Imports System.Net.Mail
 
 Public Class FrmDeliveryTakeOrder
     Private Data As New DatabaseFramework
@@ -22,8 +23,11 @@ Public Class FrmDeliveryTakeOrder
     Private Const InvoiceName As String = ""
     Public Property ProgramName As String
     Public Property IsDutchmill As Boolean
+    Dim db As RMDB
 
     Private Sub LoadingInitialized()
+        db = AppSetting.DBMain
+
         Initialized.LoadingInitialized(Data, App)
         DatabaseName = String.Format("{0}{1}", Data.PrefixDatabase, Data.DatabaseName)
         If IsDutchmill = True Then
@@ -792,9 +796,23 @@ Public Class FrmDeliveryTakeOrder
         Return IsNewCode
     End Function
 
-    Private Function CheckDeactivatedItem() As Boolean
+    Private Function QueryCCEmail() As DataTable
         Dim IsDeactivated As Boolean = False
-        query = _
+        query =
+        <SQL>
+            <![CDATA[
+SELECT Email
+FROM dbo.TblEmailCCProductDC;
+            ]]>
+        </SQL>
+        lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+
+        Return lists
+    End Function
+
+    Private Function CheckDeactivatedItem() As DataTable
+        Dim IsDeactivated As Boolean = False
+        query =
         <SQL>
             <![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = '{1}';
@@ -805,10 +823,24 @@ Public Class FrmDeliveryTakeOrder
         </SQL>
         query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
-        If Not (lists Is Nothing) Then
-            If lists.Rows.Count > 0 Then IsDeactivated = True
-        End If
-        Return IsDeactivated
+
+        Return lists
+    End Function
+
+    Private Function CheckCustomerEmail() As DataTable
+        Dim IsDeactivated As Boolean = False
+        query =
+        <SQL>
+            <![CDATA[
+                SELECT ISNULL(CusEmail, '') AS Email
+                FROM Stock.dbo.TPRCustomer
+                WHERE CusNum = '{0}';
+            ]]>
+        </SQL>
+        query = String.Format(query, CmbBillTo.SelectedValue)
+        lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+
+        Return lists
     End Function
 
     Private Function CheckOldItem() As Boolean
@@ -1795,8 +1827,47 @@ Msg_Check:
         End If
 
         'Deactivated Item
-        If CheckDeactivatedItem() = True Then
-            MessageBox.Show("This Barcode is in Product Deactivated!", "Confirm Deactivated Item", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Dim dtDC As DataTable = CheckDeactivatedItem()
+        If dtDC.Rows.Count > 0 Then
+            If MessageBox.Show("This Barcode is in Product Deactivated! Do you want to send email to customer?", "Confirm Deactivated Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return
+
+            Dim email As String = CheckCustomerEmail().Rows(0)(0)
+            If email.Equals(String.Empty) Then
+                MessageBox.Show("This customer does not have email address.")
+                Cursor = Cursors.Default
+                Return
+            End If
+
+            Dim dcReport As New MailDCSKUReport
+            Dim dr As DataRow = dtDC.Rows(0)
+            With dcReport
+                .paramDear.Value = String.Format("Dear {0},", CmbBillTo.Text)
+                .paramPO.Value = TxtPONo.Text
+                .paramBarcode.Value = dr("ProNumY")
+                .paramName.Value = dr("ProName")
+                .paramSize.Value = dr("ProPacksize")
+
+                .CreateDocument(True)
+                Try
+                    Using client As New SmtpClient("mail.untwholesale.com", 26)
+                        Using message As MailMessage = .ExportToMail("sales@untwholesale.com", email, "Product Discontinued")
+                            Dim cc As New MailAddressCollection
+                            For Each drEmail As DataRow In QueryCCEmail.Rows
+                                message.CC.Add(drEmail(0))
+                            Next
+
+                            client.Credentials = New System.Net.NetworkCredential("sales@untwholesale.com", "UNT@@!@#12345678")
+                            client.EnableSsl = True
+                            client.Send(message)
+                            MessageBox.Show("Your email has been sent successfully.")
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    MessageBox.Show("Send email failed.")
+                End Try
+
+
+            End With
         End If
 
         'Old Code
