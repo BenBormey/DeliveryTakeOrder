@@ -34,13 +34,14 @@ Partial Class FrmDutchmillTakeOrder
         Me.LblCompanyName = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PanelHeader = New System.Windows.Forms.Panel()
-        Me.Label10 = New System.Windows.Forms.Label()
         Me.Panel20 = New System.Windows.Forms.Panel()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.CmbPlanningOrder = New System.Windows.Forms.ComboBox()
+        Me.picplanningorder = New System.Windows.Forms.PictureBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.PicLogo = New System.Windows.Forms.PictureBox()
         Me.Panel4 = New System.Windows.Forms.Panel()
@@ -136,6 +137,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.PanelHeader.SuspendLayout()
         Me.Panel20.SuspendLayout()
         Me.Panel5.SuspendLayout()
+        CType(Me.picplanningorder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PicLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel6.SuspendLayout()
         Me.Panel7.SuspendLayout()
@@ -211,26 +213,15 @@ Partial Class FrmDutchmillTakeOrder
         '
         'PanelHeader
         '
-        Me.PanelHeader.Controls.Add(Me.Label10)
         Me.PanelHeader.Controls.Add(Me.Panel20)
+        Me.PanelHeader.Controls.Add(Me.Label10)
         Me.PanelHeader.Controls.Add(Me.Panel5)
         Me.PanelHeader.Dock = System.Windows.Forms.DockStyle.Right
-        Me.PanelHeader.Location = New System.Drawing.Point(543, 0)
+        Me.PanelHeader.Location = New System.Drawing.Point(490, 0)
         Me.PanelHeader.Name = "PanelHeader"
-        Me.PanelHeader.Padding = New System.Windows.Forms.Padding(0, 0, 0, 5)
-        Me.PanelHeader.Size = New System.Drawing.Size(281, 101)
+        Me.PanelHeader.Padding = New System.Windows.Forms.Padding(2)
+        Me.PanelHeader.Size = New System.Drawing.Size(334, 101)
         Me.PanelHeader.TabIndex = 8
-        '
-        'Label10
-        '
-        Me.Label10.Dock = System.Windows.Forms.DockStyle.Left
-        Me.Label10.ForeColor = System.Drawing.Color.Maroon
-        Me.Label10.Location = New System.Drawing.Point(0, 0)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(111, 66)
-        Me.Label10.TabIndex = 131
-        Me.Label10.Text = "Note"
-        Me.Label10.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Panel20
         '
@@ -238,11 +229,11 @@ Partial Class FrmDutchmillTakeOrder
         Me.Panel20.Controls.Add(Me.Label5)
         Me.Panel20.Controls.Add(Me.Label3)
         Me.Panel20.Controls.Add(Me.Label2)
-        Me.Panel20.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Panel20.Location = New System.Drawing.Point(111, 0)
+        Me.Panel20.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel20.Location = New System.Drawing.Point(107, 2)
         Me.Panel20.Name = "Panel20"
         Me.Panel20.Padding = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Panel20.Size = New System.Drawing.Size(170, 66)
+        Me.Panel20.Size = New System.Drawing.Size(225, 67)
         Me.Panel20.TabIndex = 130
         '
         'Label5
@@ -251,7 +242,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.Label5.ForeColor = System.Drawing.Color.Blue
         Me.Label5.Location = New System.Drawing.Point(2, 44)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(164, 20)
+        Me.Label5.Size = New System.Drawing.Size(219, 21)
         Me.Label5.TabIndex = 16
         Me.Label5.Text = "→ C = Change Quantity"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -262,7 +253,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.Label3.ForeColor = System.Drawing.Color.Blue
         Me.Label3.Location = New System.Drawing.Point(2, 18)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(164, 26)
+        Me.Label3.Size = New System.Drawing.Size(219, 26)
         Me.Label3.TabIndex = 15
         Me.Label3.Text = "→ N = Not Accept"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -273,20 +264,32 @@ Partial Class FrmDutchmillTakeOrder
         Me.Label2.ForeColor = System.Drawing.Color.Blue
         Me.Label2.Location = New System.Drawing.Point(2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(164, 18)
+        Me.Label2.Size = New System.Drawing.Size(219, 18)
         Me.Label2.TabIndex = 14
         Me.Label2.Text = "→ R = Renew"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'Label10
+        '
+        Me.Label10.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Label10.ForeColor = System.Drawing.Color.Maroon
+        Me.Label10.Location = New System.Drawing.Point(2, 2)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(105, 67)
+        Me.Label10.TabIndex = 131
+        Me.Label10.Text = "Note"
+        Me.Label10.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'Panel5
         '
         Me.Panel5.Controls.Add(Me.CmbPlanningOrder)
+        Me.Panel5.Controls.Add(Me.picplanningorder)
         Me.Panel5.Controls.Add(Me.Label4)
         Me.Panel5.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel5.Location = New System.Drawing.Point(0, 66)
+        Me.Panel5.Location = New System.Drawing.Point(2, 69)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Padding = New System.Windows.Forms.Padding(0, 2, 0, 2)
-        Me.Panel5.Size = New System.Drawing.Size(281, 30)
+        Me.Panel5.Size = New System.Drawing.Size(330, 30)
         Me.Panel5.TabIndex = 1
         '
         'CmbPlanningOrder
@@ -295,17 +298,29 @@ Partial Class FrmDutchmillTakeOrder
         Me.CmbPlanningOrder.Dock = System.Windows.Forms.DockStyle.Fill
         Me.CmbPlanningOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbPlanningOrder.FormattingEnabled = True
-        Me.CmbPlanningOrder.Location = New System.Drawing.Point(111, 2)
+        Me.CmbPlanningOrder.Location = New System.Drawing.Point(105, 2)
         Me.CmbPlanningOrder.Name = "CmbPlanningOrder"
-        Me.CmbPlanningOrder.Size = New System.Drawing.Size(170, 27)
+        Me.CmbPlanningOrder.Size = New System.Drawing.Size(196, 27)
         Me.CmbPlanningOrder.TabIndex = 3
+        '
+        'picplanningorder
+        '
+        Me.picplanningorder.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.picplanningorder.Dock = System.Windows.Forms.DockStyle.Right
+        Me.picplanningorder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.add16
+        Me.picplanningorder.Location = New System.Drawing.Point(301, 2)
+        Me.picplanningorder.Name = "picplanningorder"
+        Me.picplanningorder.Size = New System.Drawing.Size(29, 26)
+        Me.picplanningorder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.picplanningorder.TabIndex = 4
+        Me.picplanningorder.TabStop = False
         '
         'Label4
         '
         Me.Label4.Dock = System.Windows.Forms.DockStyle.Left
         Me.Label4.Location = New System.Drawing.Point(0, 2)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(111, 26)
+        Me.Label4.Size = New System.Drawing.Size(105, 26)
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Planning Order"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1216,6 +1231,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.PanelHeader.ResumeLayout(False)
         Me.Panel20.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)
+        CType(Me.picplanningorder, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PicLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel6.ResumeLayout(False)
         Me.Panel7.ResumeLayout(False)
@@ -1353,4 +1369,5 @@ Partial Class FrmDutchmillTakeOrder
     Friend WithEvents BtnViewCredit As System.Windows.Forms.Button
     Friend WithEvents PCustomerRemark As Panel
     Friend WithEvents TxtCustomerRemark As TextBox
+    Friend WithEvents picplanningorder As PictureBox
 End Class

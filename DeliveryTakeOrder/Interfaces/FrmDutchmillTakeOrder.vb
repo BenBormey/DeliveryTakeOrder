@@ -103,15 +103,16 @@ Public Class FrmDutchmillTakeOrder
     Private Sub BillToLoading_Tick(sender As Object, e As EventArgs) Handles BillToLoading.Tick
         Me.Cursor = Cursors.WaitCursor
         BillToLoading.Enabled = False
-        query = <SQL>
-                    <![CDATA[
-                        SELECT [CusNum],[CusName]
-                        FROM [Stock].[dbo].[TPRCustomer]
-                        WHERE [Status] = N'Activate'
-                        GROUP BY [CusNum],[CusName]
-                        ORDER BY [CusName];
-                    ]]>
-                </SQL>
+        query = _
+        <SQL>
+            <![CDATA[
+                SELECT [CusNum],[CusName]
+                FROM [Stock].[dbo].[TPRCustomer]
+                WHERE [Status] = N'Activate'
+                GROUP BY [CusNum],[CusName]
+                ORDER BY [CusName];
+            ]]>
+        </SQL>
         query = String.Format(query, DatabaseName)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DataSources(CmbBillTo, lists, "CusName", "CusNum")
@@ -253,42 +254,25 @@ Public Class FrmDutchmillTakeOrder
         DisplayLoading.Enabled = True
     End Sub
 
-    Private vPlanning As DataTable
     Private Sub PlanningOrderLoading_Tick(sender As Object, e As EventArgs) Handles PlanningOrderLoading.Tick
         Me.Cursor = Cursors.WaitCursor
-        PlanningOrderLoading.Enabled = False
-        If Not (vPlanning Is Nothing) Then vPlanning = Nothing
-        vPlanning = New DataTable
-        With vPlanning.Columns
-            .Add("Display", GetType(String))
-            .Add("Value", GetType(String))
-        End With
-        Dim vRow As DataRow = Nothing
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "First Order"
-        vRow("Value") = "First Order"
-        vPlanning.Rows.Add(vRow)
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "Second Order"
-        vRow("Value") = "Second Order"
-        vPlanning.Rows.Add(vRow)
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "Third Order"
-        vRow("Value") = "Third Order"
-        vPlanning.Rows.Add(vRow)
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "Four Order"
-        vRow("Value") = "Four Order"
-        vPlanning.Rows.Add(vRow)
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "Five Order"
-        vRow("Value") = "Five Order"
-        vPlanning.Rows.Add(vRow)
-        vRow = vPlanning.NewRow()
-        vRow("Display") = "2Weeks 1Time"
-        vRow("Value") = "2Weeks 1Time"
-        vPlanning.Rows.Add(vRow)
-        DataSources(CmbPlanningOrder, vPlanning, "Display", "Value")
+        Me.PlanningOrderLoading.Enabled = False
+        Me.query = <SQL>
+                       <![CDATA[
+                        WITH v AS (
+	                        SELECT [PlanningOrder]
+	                        FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
+	                        GROUP BY [PlanningOrder]
+                        )
+                        SELECT v.[PlanningOrder]
+                        FROM v
+                        GROUP BY v.[PlanningOrder]
+                        ORDER BY v.[PlanningOrder];           
+                    ]]>
+                   </SQL>
+        query = String.Format(query, DatabaseName)
+        Dim oLists As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+        DataSources(CmbPlanningOrder, oLists, "PlanningOrder", "PlanningOrder")
         Me.Cursor = Cursors.Default
     End Sub
 
@@ -382,9 +366,8 @@ Public Class FrmDutchmillTakeOrder
                 vBarcode = CmbProducts.SelectedValue
             End If
         End If
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                 DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -399,7 +382,8 @@ Public Class FrmDutchmillTakeOrder
                     WHERE ([Department] = @vDepartment)
                     AND ([CusNum] = @vCusNum OR N'' = @vCusNum) 
                     AND ([DeltoId] = @vDeltoId OR 0 = @vDeltoId)
-                    AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
+                    AND ([PlanningOrder] = @vPlanningOrder)
+                    --AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
                     --AND ([Barcode] LIKE @vBarcode + '%' OR N'' = @vBarcode)
                     ORDER BY [CusName],[Delto],[Size],[ProName];
                 END
@@ -410,12 +394,13 @@ Public Class FrmDutchmillTakeOrder
                     WHERE ([Department] = @vDepartment)
                     AND ([CusNum] = @vCusNum OR N'' = @vCusNum) 
                     AND ([DeltoId] = @vDeltoId OR 0 = @vDeltoId)
-                    AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
+                    AND ([PlanningOrder] = @vPlanningOrder)
+                    --AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
                     --AND ([Barcode] LIKE @vBarcode + '%' OR N'' = @vBarcode)
                     ORDER BY [NotAccept],[Renew],[ChangeQty],[CusName],[Delto],[Size],[ProName];
                 END
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, IIf(vFilterNotRenew = True, 1, 0))
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         vDisplayList.Rows.Clear()
@@ -767,63 +752,62 @@ Check_Item:
                 End If
             End If
 
-            query =
-            <SQL>
-                <![CDATA[
-                    DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
-                    DECLARE @vCusName AS NVARCHAR(100) = N'';
-                    DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
-                    DECLARE @vDelto AS NVARCHAR(100) = N'';
-                    DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
-                    DECLARE @vDepartment AS NVARCHAR(50) = N'{4}';
-                    DECLARE @vBarcode AS NVARCHAR(MAX) = N'{5}';
-                    DECLARE @vMachineName AS NVARCHAR(100) = N'{6}';
-                    DECLARE @vIPAddress AS NVARCHAR(25) = N'{7}';
-                    DECLARE @vPcsOrder AS DECIMAL(18,0) = {8};
-                    DECLARE @vCTNOrder AS DECIMAL(18,0) = {9};
-                    DECLARE @vTotalPcsOrder AS DECIMAL(18,0) = 0;
-                    DECLARE @vUnitNumber AS NVARCHAR(MAX) = N'';
-                    DECLARE @vProName AS NVARCHAR(100) = N'';
-                    DECLARE @vSize AS NVARCHAR(10) = N'';
-                    DECLARE @vQtyPerCase AS INT = 1;
-                    DECLARE @vSupNum AS NVARCHAR(8) = N'';
-                    DECLARE @vSupName AS NVARCHAR(100) = N'';
-                    DECLARE @vRenew AS BIT = 0;
-                    DECLARE @vNotAccept AS BIT = 0;
-                    DECLARE @vChangeQty AS BIT = 0;
+            query = <SQL>
+                        <![CDATA[
+                        DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
+                        DECLARE @vCusName AS NVARCHAR(100) = N'';
+                        DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
+                        DECLARE @vDelto AS NVARCHAR(100) = N'';
+                        DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
+                        DECLARE @vDepartment AS NVARCHAR(50) = N'{4}';
+                        DECLARE @vBarcode AS NVARCHAR(MAX) = N'{5}';
+                        DECLARE @vMachineName AS NVARCHAR(100) = N'{6}';
+                        DECLARE @vIPAddress AS NVARCHAR(25) = N'{7}';
+                        DECLARE @vPcsOrder AS DECIMAL(18,0) = {8};
+                        DECLARE @vCTNOrder AS DECIMAL(18,0) = {9};
+                        DECLARE @vTotalPcsOrder AS DECIMAL(18,0) = 0;
+                        DECLARE @vUnitNumber AS NVARCHAR(MAX) = N'';
+                        DECLARE @vProName AS NVARCHAR(100) = N'';
+                        DECLARE @vSize AS NVARCHAR(10) = N'';
+                        DECLARE @vQtyPerCase AS INT = 1;
+                        DECLARE @vSupNum AS NVARCHAR(8) = N'';
+                        DECLARE @vSupName AS NVARCHAR(100) = N'';
+                        DECLARE @vRenew AS BIT = 0;
+                        DECLARE @vNotAccept AS BIT = 0;
+                        DECLARE @vChangeQty AS BIT = 0;
 
-                    SELECT @vCusName = v.CusName FROM [Stock].[dbo].[TPRCustomer] AS v WHERE v.CusNum = @vCusNum;
-                    SELECT @vDelto = v.DelTo FROM [Stock].[dbo].[TPRDelto] AS v WHERE v.DefId = @vDeltoId;
-                    WITH vItems AS (
-                    SELECT [ProNumY] AS [UnitNumber],[ProName],[ProPacksize] AS [Size],[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT([Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING([Sup1],9,LEN([Sup1])))) AS [SupName]
-                    FROM [Stock].[dbo].[TPRProducts]
-                    WHERE (ISNULL([ProNumY],N'') = @vBarcode OR ISNULL([ProNumYP],N'') = @vBarcode OR ISNULL([ProNumYC],N'') = @vBarcode)
-                    UNION ALL
-                    SELECT [ProNumY] AS [UnitNumber],[ProName],[ProPacksize] AS [Size],[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT([Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING([Sup1],9,LEN([Sup1])))) AS [SupName]
-                    FROM [Stock].[dbo].[TPRProductsDeactivated]
-                    WHERE (ISNULL([ProNumY],N'') = @vBarcode OR ISNULL([ProNumYP],N'') = @vBarcode OR ISNULL([ProNumYC],N'') = @vBarcode)
-                    UNION ALL
-                    SELECT x.[OldProNumy] AS [UnitNumber],v.[ProName],v.[ProPacksize] AS [Size],v.[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT(v.[Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING(v.[Sup1],9,LEN(v.[Sup1])))) AS [SupName]
-                    FROM [Stock].[dbo].[TPRProducts] AS v INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS x ON x.ProId = v.ProID
-                    WHERE x.[OldProNumy] = @vBarcode
-                    UNION ALL
-                    SELECT x.[OldProNumy] AS [UnitNumber],v.[ProName],v.[ProPacksize] AS [Size],v.[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT(v.[Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING(v.[Sup1],9,LEN(v.[Sup1])))) AS [SupName]
-                    FROM [Stock].[dbo].[TPRProductsDeactivated] AS v INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS x ON x.ProId = v.ProID
-                    WHERE x.[OldProNumy] = @vBarcode)
-                    SELECT @vUnitNumber = vItems.UnitNumber,
-                    @vProName = vItems.ProName,
-                    @vSize = vItems.Size,
-                    @vQtyPerCase = vItems.QtyPerCase,
-                    @vSupNum = vItems.SupNum,
-                    @vSupName = vItems.SupName
-                    FROM vItems
-                    GROUP BY vItems.UnitNumber,vItems.ProName,vItems.Size,vItems.QtyPerCase,vItems.SupNum,vItems.SupName;
-                    IF (@vQtyPerCase IS NULL) SET @vQtyPerCase = 1;
-                    SET @vTotalPcsOrder = (@vPcsOrder) + (@vCTNOrder * @vQtyPerCase);
-                    INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]([CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate])
-                    VALUES(@vCusNum,@vCusName,@vDeltoId,@vDelto,@vUnitNumber,@vBarcode,@vProName,@vSize,@vQtyPerCase,@vPcsOrder,@vCTNOrder,@vTotalPcsOrder,@vSupNum,@vSupName,@vRenew,@vNotAccept,@vChangeQty,@vDepartment,@vPlanningOrder,@vMachineName,@vIPAddress,GETDATE(),GETDATE());
-                ]]>
-            </SQL>
+                        SELECT @vCusName = v.CusName FROM [Stock].[dbo].[TPRCustomer] AS v WHERE v.CusNum = @vCusNum;
+                        SELECT @vDelto = v.DelTo FROM [Stock].[dbo].[TPRDelto] AS v WHERE v.DefId = @vDeltoId;
+                        WITH vItems AS (
+                        SELECT [ProNumY] AS [UnitNumber],[ProName],[ProPacksize] AS [Size],[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT([Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING([Sup1],9,LEN([Sup1])))) AS [SupName]
+                        FROM [Stock].[dbo].[TPRProducts]
+                        WHERE (ISNULL([ProNumY],N'') = @vBarcode OR ISNULL([ProNumYP],N'') = @vBarcode OR ISNULL([ProNumYC],N'') = @vBarcode)
+                        UNION ALL
+                        SELECT [ProNumY] AS [UnitNumber],[ProName],[ProPacksize] AS [Size],[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT([Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING([Sup1],9,LEN([Sup1])))) AS [SupName]
+                        FROM [Stock].[dbo].[TPRProductsDeactivated]
+                        WHERE (ISNULL([ProNumY],N'') = @vBarcode OR ISNULL([ProNumYP],N'') = @vBarcode OR ISNULL([ProNumYC],N'') = @vBarcode)
+                        UNION ALL
+                        SELECT x.[OldProNumy] AS [UnitNumber],v.[ProName],v.[ProPacksize] AS [Size],v.[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT(v.[Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING(v.[Sup1],9,LEN(v.[Sup1])))) AS [SupName]
+                        FROM [Stock].[dbo].[TPRProducts] AS v INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS x ON x.ProId = v.ProID
+                        WHERE x.[OldProNumy] = @vBarcode
+                        UNION ALL
+                        SELECT x.[OldProNumy] AS [UnitNumber],v.[ProName],v.[ProPacksize] AS [Size],v.[ProQtyPCase] AS [QtyPerCase],RTRIM(LTRIM(LEFT(v.[Sup1],8))) AS [SupNum],RTRIM(LTRIM(SUBSTRING(v.[Sup1],9,LEN(v.[Sup1])))) AS [SupName]
+                        FROM [Stock].[dbo].[TPRProductsDeactivated] AS v INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS x ON x.ProId = v.ProID
+                        WHERE x.[OldProNumy] = @vBarcode)
+                        SELECT @vUnitNumber = vItems.UnitNumber,
+                        @vProName = vItems.ProName,
+                        @vSize = vItems.Size,
+                        @vQtyPerCase = vItems.QtyPerCase,
+                        @vSupNum = vItems.SupNum,
+                        @vSupName = vItems.SupName
+                        FROM vItems
+                        GROUP BY vItems.UnitNumber,vItems.ProName,vItems.Size,vItems.QtyPerCase,vItems.SupNum,vItems.SupName;
+                        IF (@vQtyPerCase IS NULL) SET @vQtyPerCase = 1;
+                        SET @vTotalPcsOrder = (@vPcsOrder) + (@vCTNOrder * @vQtyPerCase);
+                        INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]([CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate])
+                        VALUES(@vCusNum,@vCusName,@vDeltoId,@vDelto,@vUnitNumber,@vBarcode,@vProName,@vSize,@vQtyPerCase,@vPcsOrder,@vCTNOrder,@vTotalPcsOrder,@vSupNum,@vSupName,@vRenew,@vNotAccept,@vChangeQty,@vDepartment,@vPlanningOrder,@vMachineName,@vIPAddress,GETDATE(),GETDATE());
+                    ]]>
+                    </SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, Environment.MachineName, vIPAddress, vPcsOrder, vCTNOrder)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -906,7 +890,7 @@ Check_Item:
             vQtyPerCase = CInt(IIf(IsDBNull(.Cells("QtyPerCase").Value) = True, 1, .Cells("QtyPerCase").Value))
             vPcsOrder = CDec(IIf(IsDBNull(.Cells("PcsOrder").Value) = True, 0, .Cells("PcsOrder").Value))
             vCTNOrder = CDec(IIf(IsDBNull(.Cells("CTNOrder").Value) = True, 0, .Cells("CTNOrder").Value))
-            If e.ColumnIndex = 0 Then
+            If DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualRenew") = True Then
                 If CBool(.Cells("ManualNotAccept").Value) = True Then
                     MessageBox.Show("The Item is not accept." & vbCrLf & "So, Cannot renew this item.", "Not Accept", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
@@ -916,35 +900,33 @@ Check_Item:
                 Else
                     vReNew = 1
                 End If
-                vQuery = _
-                <SQL>
-                    <![CDATA[
-                        DECLARE @vId AS DECIMAL(18,0) = {1};
-                        DECLARE @vReNew AS BIT = {2};
-                        UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
-                        SET [Renew] = @vReNew,[NotAccept] = 0,[ChangeQty] = 0,[VerifyDate] = GETDATE(),[RequiredDate] = NULL
-                        WHERE [Id] = @vId;
-                    ]]>
-                </SQL>
+                vQuery = <SQL>
+                             <![CDATA[
+                                DECLARE @vId AS DECIMAL(18,0) = {1};
+                                DECLARE @vReNew AS BIT = {2};
+                                UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
+                                SET [Renew] = @vReNew,[NotAccept] = 0,[ChangeQty] = 0,[VerifyDate] = GETDATE(),[RequiredDate] = NULL
+                                WHERE [Id] = @vId;
+                            ]]>
+                         </SQL>
                 vQuery = String.Format(vQuery, DatabaseName, vId, vReNew)
-            ElseIf e.ColumnIndex = 1 Then
+            ElseIf DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualNotAccept") = True Then
                 If CBool(.Cells("ManualNotAccept").Value) = True Then
                     vNotAccept = 0
                 Else
                     vNotAccept = 1
                 End If
-                vQuery = _
-                <SQL>
-                    <![CDATA[
-                        DECLARE @vId AS DECIMAL(18,0) = {1};
-                        DECLARE @vNotAccept AS BIT = {2};
-                        UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
-                        SET [NotAccept] = @vNotAccept,[Renew] = 0,[ChangeQty] = 0,[VerifyDate] = GETDATE()
-                        WHERE [Id] = @vId;
-                    ]]>
-                </SQL>
+                vQuery = <SQL>
+                             <![CDATA[
+                                DECLARE @vId AS DECIMAL(18,0) = {1};
+                                DECLARE @vNotAccept AS BIT = {2};
+                                UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
+                                SET [NotAccept] = @vNotAccept,[Renew] = 0,[ChangeQty] = 0,[VerifyDate] = GETDATE()
+                                WHERE [Id] = @vId;
+                            ]]>
+                         </SQL>
                 vQuery = String.Format(vQuery, DatabaseName, vId, vNotAccept)
-            ElseIf e.ColumnIndex = 2 Then
+            ElseIf DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualChangeQty") = True Then
                 If CBool(.Cells("ManualChangeQty").Value) = True Then
                     vChangeQty = 0
                 Else
@@ -952,27 +934,26 @@ Check_Item:
                     If vFrm.ShowDialog(MDI) = Windows.Forms.DialogResult.Cancel Then Exit Sub
                     vChangeQty = 1
                 End If
-                vQuery = _
-                <SQL>
-                    <![CDATA[
-                        DECLARE @vId AS DECIMAL(18,0) = {1};
-                        DECLARE @vChangeQty AS BIT = {2};
-                        UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
-                        SET [Renew] = 0,[NotAccept] = 0,[ChangeQty] = @vChangeQty,[VerifyDate] = GETDATE(),[RequiredDate] = NULL
-                        WHERE [Id] = @vId;
-                    ]]>
-                </SQL>
+                vQuery = <SQL>
+                             <![CDATA[
+                                DECLARE @vId AS DECIMAL(18,0) = {1};
+                                DECLARE @vChangeQty AS BIT = {2};
+                                UPDATE [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
+                                SET [Renew] = 0,[NotAccept] = 0,[ChangeQty] = @vChangeQty,[VerifyDate] = GETDATE(),[RequiredDate] = NULL
+                                WHERE [Id] = @vId;
+                            ]]>
+                         </SQL>
                 vQuery = String.Format(vQuery, DatabaseName, vId, vChangeQty)
             End If
-            If e.ColumnIndex = 0 Then
+            If DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualRenew") = True Then
                 vDisplayList.Rows(e.RowIndex).Item("Renew") = Not vDisplayList.Rows(e.RowIndex).Item("Renew")
                 vDisplayList.Rows(e.RowIndex).Item("NotAccept") = False
                 vDisplayList.Rows(e.RowIndex).Item("ChangeQty") = False
-            ElseIf e.ColumnIndex = 1 Then
+            ElseIf DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualNotAccept") = True Then
                 vDisplayList.Rows(e.RowIndex).Item("Renew") = False
                 vDisplayList.Rows(e.RowIndex).Item("NotAccept") = Not vDisplayList.Rows(e.RowIndex).Item("NotAccept")
                 vDisplayList.Rows(e.RowIndex).Item("ChangeQty") = False
-            ElseIf e.ColumnIndex = 2 Then
+            ElseIf DgvShow.Columns(e.ColumnIndex).Name.Equals("ManualChangeQty") = True Then
                 vDisplayList.Rows(e.RowIndex).Item("Renew") = False
                 vDisplayList.Rows(e.RowIndex).Item("NotAccept") = False
                 vDisplayList.Rows(e.RowIndex).Item("ChangeQty") = Not vDisplayList.Rows(e.RowIndex).Item("ChangeQty")
@@ -1491,9 +1472,8 @@ CreditAllows:
                     vPlanning = CmbPlanningOrder.SelectedValue
                 End If
             End If
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @vPlanning AS NVARCHAR(50) = N'{1}';
                     DECLARE @vDepartment AS NVARCHAR(50) = N'{2}';
                     SELECT [Id],[CusNum],[CusName],[Remark],[AlertDate],[BlockDate],[CreatedDate],
@@ -1503,7 +1483,7 @@ CreditAllows:
                     AND (([Status] = N'Both') OR ([Status] = N'Dutchmill'))
                     AND (CONVERT(DATE,[AlertDate]) <= CONVERT(DATE,GETDATE())); 
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vPlanning, vDepartment)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -1515,9 +1495,8 @@ CreditAllows:
                     If vResult = DialogResult.Cancel Then
                         Exit Sub
                     ElseIf vResult = DialogResult.No Then
-                        query =
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL>
+                                    <![CDATA[
                             DECLARE @vPlanning AS NVARCHAR(50) = N'{1}';
                             DECLARE @vDepartment AS NVARCHAR(50) = N'{2}';
                             WITH v AS (
@@ -1534,13 +1513,12 @@ CreditAllows:
                             WHERE (o.[Department] = @vDepartment) AND (o.[PlanningOrder] = @vPlanning) AND (o.[NotAccept] = 0)
                             AND o.[CusNum] IN (SELECT v.[CusNum] FROM v);
                         ]]>
-                        </SQL>
+                                </SQL>
                         query = String.Format(query, DatabaseName, vPlanning, vDepartment)
                         Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                     ElseIf vResult = DialogResult.Yes Then
-                        query =
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL>
+                                    <![CDATA[
                             DECLARE @vPlanning AS NVARCHAR(50) = N'{1}';
                             DECLARE @vDepartment AS NVARCHAR(50) = N'{2}';
                             WITH v AS (
@@ -1557,7 +1535,7 @@ CreditAllows:
                             WHERE (o.[Department] = @vDepartment) AND (o.[PlanningOrder] = @vPlanning) AND (o.[NotAccept] = 0)
                             AND o.[CusNum] IN (SELECT v.[CusNum] FROM v WHERE (v.[Status] = N'Block'));
                         ]]>
-                        </SQL>
+                                </SQL>
                         query = String.Format(query, DatabaseName, vPlanning, vDepartment)
                         Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                     End If
@@ -1596,9 +1574,8 @@ CreditAllows:
                 End If
             End If
             Dim vMessage As String = ""
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                     DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -1615,7 +1592,7 @@ CreditAllows:
                     AND (ISNULL([ChangeQty],0) = 0)
                     ORDER BY [CusName],[Size],[ProName];
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -1676,9 +1653,8 @@ Err_Insert:
             vInvNo += 1
             vTakeOrderNumber = vInvNo
 
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                     DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -1718,7 +1694,7 @@ Err_Insert:
                     AND (ISNULL([NotAccept],0) = 0)
                     AND (v.[PlanningOrder] = @vPlanningOrder);
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vTakeOrderNumber, vDateOrder, vRequiredDate, vPONumber)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -1808,9 +1784,8 @@ Err_Insert:
                     vDeltoId = CmbDelto.SelectedValue
                 End If
             End If
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                     DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -1829,7 +1804,7 @@ Err_Insert:
                     GROUP BY [PONumber] + ' ( ' + CONVERT(NVARCHAR,[DateRequired]) + ' ) ', [DateRequired]
                     ORDER BY [DateRequired] DESC;
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             Todate = Data.Get_CURRENT_DATE(Initialized.GetConnectionType(Data, App))
@@ -1837,9 +1812,8 @@ Err_Insert:
             Dim vFrm As New FrmDutchmillTakeOrderRetrieve With {.vDateRequired = vDateRequired, .vList = lists, .vCusNum = vCusNum, .vDeltoId = vDeltoId, .vPlanning = vPlanning, .vDepartment = vDepartment}
             If vFrm.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
             vDateRequired = vFrm.vDateRequired
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                     DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -1891,7 +1865,7 @@ Err_Insert:
                     --AND ([DelToId] = @vDeltoId) 
                     AND (DATEDIFF(DAY,[DateRequired],@vDateRequired) = 0);
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vDateRequired)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -2018,5 +1992,12 @@ Err_Insert:
         End If
         Dim vFrm As New FrmDutchmillTakeOrderViewSummaryCredit With {.vPlanning = vPlanning, .vDepartment = vDepartment}
         If vFrm.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+    End Sub
+
+    Private Sub picplanningorder_Click(sender As Object, e As EventArgs) Handles picplanningorder.Click
+        Dim oFrm As New FrmPlanningOrder With {.WindowState = FormWindowState.Normal, .vDepartment = vDepartment}
+        oFrm.ShowDialog()
+        Me.CmbPlanningOrder.SelectedIndex = -1
+        Me.PlanningOrderLoading.Enabled = True
     End Sub
 End Class

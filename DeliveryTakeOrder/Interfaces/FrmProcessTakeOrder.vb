@@ -569,9 +569,10 @@ Err_Insert:
     Private Sub BtnExportToExcel_Click(sender As Object, e As EventArgs) Handles BtnExportToExcel.Click
         Dim Frm As New FrmPODutchmillDate
         If Frm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        Dim iPlanningOrder As String = Frm.iPlanningOrder
+        Dim RequiredDate As Date = Frm.iRequiredDate
         Me.Cursor = Cursors.WaitCursor
         Application.DoEvents()
-        Dim RequiredDate As Date = Frm.RequiredDate
         '    query =
         '    <SQL>
         '        <![CDATA[
@@ -700,10 +701,11 @@ Err_Insert:
 				ORDER BY v.[Division];
 
                 SET @oQuery = N'
-                DECLARE @DateRequired AS DATE = N''{1:yyyy-MM-dd}'';
+                DECLARE @oPlanningOrder AS NVARCHAR(100) = N''{1}'';
+                DECLARE @DateRequired AS DATE = N''{2:yyyy-MM-dd}'';
                 DECLARE @oPayment AS  TABLE 
                 (
-	                [PONumber] [NVARCHAR](15) NULL,
+	                [PONumber] [NVARCHAR](100) NULL,
 	                [InvNumber] [DECIMAL](18, 0) NULL,
 	                [ShipDate] [DATETIME] NULL,
 	                [CusNum] [NVARCHAR](15) NULL,
@@ -735,7 +737,7 @@ Err_Insert:
                 SELECT [CusNum],[CusName]
                 INTO #oDutchmill
                 FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                WHERE (CONVERT(DATE,[DateRequired]) = @DateRequired)
+                WHERE (ISNULL([PromotionMachanic],N'''') = @oPlanningOrder) AND (CONVERT(DATE,[DateRequired]) = @DateRequired)
                 GROUP BY [CusNum],[CusName]
                 ORDER BY [CusName];
 
@@ -814,7 +816,7 @@ Err_Insert:
                 EXEC (@oQuery);            
             ]]>
                 </SQL>
-        query = String.Format(query, DatabaseName, RequiredDate)
+        query = String.Format(query, DatabaseName, iPlanningOrder, RequiredDate)
         Dim oPaymentlists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         Dim vreport As DeliveryTakeOrder.xOverCreditNOverTerm
         Dim vadapter As OleDbDataAdapter
@@ -847,7 +849,8 @@ Err_Insert:
 
         query = <SQL>
                     <![CDATA[
-                DECLARE @DateRequired AS DATE = N'{1:yyyy-MM-dd}';
+                DECLARE @oPlanningOrder AS NVARCHAR(100) = N'{1}';
+                DECLARE @DateRequired AS DATE = N'{2:yyyy-MM-dd}';
                 WITH o AS (
 	                SELECT v.ProID,v.ProNumY,v.ProNumYP,v.ProNumYC,v.ProName,v.ProPacksize,v.ProQtyPCase,v.ProQtyPPack,v.ProCat
 	                FROM [Stock].[dbo].[TPRProducts] v
@@ -895,12 +898,12 @@ Err_Insert:
                 WITH v as (
                     SELECT [Barcode],[ProName],[Category] AS [Remark],[Size],[QtyPCase],ISNULL([DelTo],'') AS [CusName],SUM(ISNULL([TotalPcsOrder],0)) AS [TotalPcsOrder],[DateRequired],[DelToId]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                    WHERE DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
+                    WHERE (ISNULL([PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
                     GROUP BY [Barcode],[ProName],[Category],[Size],[QtyPCase],ISNULL([DelTo],''),[DateRequired],[DelToId]
                     UNION ALL
                     SELECT x.[Barcode],x.[ProName],x.[Category] AS [Remark],x.[Size],x.[QtyPCase],ISNULL(x.[DelTo],'') AS [CusName],NULL AS [TotalPcsOrder],[DateRequired],x.[DelToId]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill] as x
-                    WHERE DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
+                    WHERE (ISNULL(x.[PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
                 ),
 
 				w AS (
@@ -948,7 +951,7 @@ Err_Insert:
 				DROP TABLE #v;
             ]]>
                 </SQL>
-        query = String.Format(query, DatabaseName, RequiredDate)
+        query = String.Format(query, DatabaseName, iPlanningOrder, RequiredDate)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
         'Dim Report As New ReportViewer
@@ -961,15 +964,22 @@ Err_Insert:
 
         '    End Try
         'Next
-
+        Dim oTodate As Date = Data.Get_CURRENT_DATE(Initialized.GetConnectionType(Data, App))
         Dim vAdapter1 As New OleDbDataAdapter
         Dim vReport1 As New XtraPODutchmills
+        Dim vTool1 As ReportPrintTool = New ReportPrintTool(vReport1)
+        vReport1.Parameters("companyname").Value = String.Format("{0}{1}{2}", Initialized.R_CompanyKhmerName, vbCrLf, Initialized.R_CompanyName)
+        vReport1.Parameters("companyaddress").Value = String.Format("{0}{1}{2}{1}Tel:{3}", Initialized.R_CompanyKhmAddress.Replace(vbCrLf, "").Trim(), vbCrLf, Initialized.R_CompanyAddress.Replace(vbCrLf, "").Trim(), Initialized.R_CompanyTelephone)
+        vReport1.Parameters("planningorder").Value = iPlanningOrder.Substring(3, iPlanningOrder.Length() - 3).Trim().ToUpper()
+        vReport1.Parameters("planningdate").Value = oTodate
+        vReport1.Parameters("shipmentdate").Value = RequiredDate
         vReport1.DataSource = lists
         vReport1.DataAdapter = vAdapter1
         vReport1.DataMember = "XrPODutchmill"
-        Dim vTool1 As ReportPrintTool = New ReportPrintTool(vReport1)
-        vReport1.CreateDocument()
-        vReport1.ShowPreview()
+        vReport1.RequestParameters = False
+        vTool1.AutoShowParametersPanel = False
+        vTool1.PrinterSettings.Copies = 1
+        vTool1.ShowRibbonPreviewDialog()
         Me.Cursor = Cursors.Default
     End Sub
 
@@ -1154,7 +1164,7 @@ Err_Insert:
 
     Private Sub RequiredDateLoading_Tick(sender As Object, e As EventArgs) Handles RequiredDateLoading.Tick
         Me.Cursor = Cursors.WaitCursor
-        RequiredDateLoading.Enabled = False
+        Me.RequiredDateLoading.Enabled = False
         Dim CusNum As String = ""
         If TypeOf CmbCustomer.SelectedValue Is DataRowView Or CmbCustomer.SelectedValue Is Nothing Then
             CusNum = ""
@@ -1290,7 +1300,7 @@ Err_Skip_SpecialInvoice:
         vF1.BtnExportToExcel.Text = "&Preview"
         vF1.BtnExportToExcel.Image = My.Resources.Search16
         If vF1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        Dim vRequiredDate As Date = vF1.RequiredDate
+        Dim vRequiredDate As Date = vF1.iRequiredDate
         Dim vF2 As New FrmProcessTakeOrderPreviewNEdit With {.WindowState = FormWindowState.Maximized, .vRequiredDate = vRequiredDate}
         vf2.ShowDialog(MDI)
     End Sub

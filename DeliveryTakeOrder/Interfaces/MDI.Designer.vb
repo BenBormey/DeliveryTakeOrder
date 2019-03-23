@@ -27,25 +27,25 @@ Partial Class MDI
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MDI))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuDeliveryTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuUnlockPrinterTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuSetPiecesPerTray = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MnuDutchmillOrder = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuDeliveryTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuTakeOrderForDutchmill = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuDownloadTakeOrderFromSaleTeam = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuProcessTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuDeltoListForDutchmillPO = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuTakeOrderProcessing = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.MnuViewProcessingTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuChangePassword = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.Loading = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MnuViewProcessingTakeOrder = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuDeliveryTakeOrders = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -60,17 +60,10 @@ Partial Class MDI
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuDeliveryTakeOrder, Me.MnuUnlockPrinterTakeOrder, Me.ToolStripMenuItem2, Me.ToolStripSeparator2, Me.MnuViewProcessingTakeOrder, Me.ToolStripMenuItem1, Me.MnuChangePassword, Me.ToolStripMenuItem3, Me.MnuExit})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuDeliveryTakeOrders, Me.MnuUnlockPrinterTakeOrder, Me.ToolStripMenuItem2, Me.ToolStripSeparator2, Me.MnuViewProcessingTakeOrder, Me.ToolStripMenuItem1, Me.MnuChangePassword, Me.ToolStripMenuItem3, Me.MnuExit})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.FileToolStripMenuItem.Text = "&File     "
-        '
-        'MnuDeliveryTakeOrder
-        '
-        Me.MnuDeliveryTakeOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.po
-        Me.MnuDeliveryTakeOrder.Name = "MnuDeliveryTakeOrder"
-        Me.MnuDeliveryTakeOrder.Size = New System.Drawing.Size(214, 22)
-        Me.MnuDeliveryTakeOrder.Text = "&Delivery Take Order"
         '
         'MnuUnlockPrinterTakeOrder
         '
@@ -81,7 +74,7 @@ Partial Class MDI
         '
         'ToolStripMenuItem2
         '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuSetPiecesPerTray, Me.ToolStripSeparator1, Me.MnuDutchmillOrder, Me.MnuTakeOrderForDutchmill, Me.MnuDownloadTakeOrderFromSaleTeam, Me.MnuProcessTakeOrder, Me.ToolStripMenuItem4, Me.MnuDeltoListForDutchmillPO, Me.MnuTakeOrderProcessing})
+        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuSetPiecesPerTray, Me.ToolStripSeparator1, Me.MnuDeliveryTakeOrder, Me.MnuTakeOrderForDutchmill, Me.MnuDownloadTakeOrderFromSaleTeam, Me.MnuProcessTakeOrder, Me.ToolStripMenuItem4, Me.MnuDeltoListForDutchmillPO, Me.MnuTakeOrderProcessing})
         Me.ToolStripMenuItem2.Image = Global.DeliveryTakeOrder.My.Resources.Resources._to
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(214, 22)
@@ -99,12 +92,12 @@ Partial Class MDI
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(272, 6)
         '
-        'MnuDutchmillOrder
+        'MnuDeliveryTakeOrder
         '
-        Me.MnuDutchmillOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.Check_Arrival
-        Me.MnuDutchmillOrder.Name = "MnuDutchmillOrder"
-        Me.MnuDutchmillOrder.Size = New System.Drawing.Size(275, 22)
-        Me.MnuDutchmillOrder.Text = "Dutchmill &Order"
+        Me.MnuDeliveryTakeOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.Check_Arrival
+        Me.MnuDeliveryTakeOrder.Name = "MnuDeliveryTakeOrder"
+        Me.MnuDeliveryTakeOrder.Size = New System.Drawing.Size(275, 22)
+        Me.MnuDeliveryTakeOrder.Text = "Dutchmill &Order"
         '
         'MnuTakeOrderForDutchmill
         '
@@ -150,6 +143,18 @@ Partial Class MDI
         Me.MnuTakeOrderProcessing.Size = New System.Drawing.Size(275, 22)
         Me.MnuTakeOrderProcessing.Text = "&Take Order Processing"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(211, 6)
+        '
+        'MnuViewProcessingTakeOrder
+        '
+        Me.MnuViewProcessingTakeOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.Search16
+        Me.MnuViewProcessingTakeOrder.Name = "MnuViewProcessingTakeOrder"
+        Me.MnuViewProcessingTakeOrder.Size = New System.Drawing.Size(214, 22)
+        Me.MnuViewProcessingTakeOrder.Text = "&View Processing Takeorder"
+        '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
@@ -178,17 +183,12 @@ Partial Class MDI
         '
         Me.Loading.Interval = 5
         '
-        'ToolStripSeparator2
+        'MnuDeliveryTakeOrders
         '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(211, 6)
-        '
-        'MnuViewProcessingTakeOrder
-        '
-        Me.MnuViewProcessingTakeOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.Search16
-        Me.MnuViewProcessingTakeOrder.Name = "MnuViewProcessingTakeOrder"
-        Me.MnuViewProcessingTakeOrder.Size = New System.Drawing.Size(214, 22)
-        Me.MnuViewProcessingTakeOrder.Text = "&View Processing Takeorder"
+        Me.MnuDeliveryTakeOrders.Image = Global.DeliveryTakeOrder.My.Resources.Resources.checklist16
+        Me.MnuDeliveryTakeOrders.Name = "MnuDeliveryTakeOrders"
+        Me.MnuDeliveryTakeOrders.Size = New System.Drawing.Size(214, 22)
+        Me.MnuDeliveryTakeOrders.Text = "&Delivery Take Order"
         '
         'MDI
         '
@@ -215,7 +215,6 @@ Partial Class MDI
     Friend WithEvents MnuExit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MnuChangePassword As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents MnuDeliveryTakeOrder As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MnuTakeOrderForDutchmill As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MnuProcessTakeOrder As System.Windows.Forms.ToolStripMenuItem
@@ -224,10 +223,11 @@ Partial Class MDI
     Friend WithEvents MnuSetPiecesPerTray As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents MnuDownloadTakeOrderFromSaleTeam As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MnuDutchmillOrder As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MnuUnlockPrinterTakeOrder As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MnuTakeOrderProcessing As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Loading As Timer
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents MnuViewProcessingTakeOrder As ToolStripMenuItem
+    Friend WithEvents MnuDeliveryTakeOrder As ToolStripMenuItem
+    Friend WithEvents MnuDeliveryTakeOrders As ToolStripMenuItem
 End Class

@@ -44,7 +44,7 @@ Public Class MDI
         Me.Text = "Delivery Take Order (" & Replace(Initialized.R_DatabaseName, "&&", "&") & ")"
     End Sub
 
-    Private Sub MnuDeliveryTakeOrder_Click(sender As Object, e As EventArgs) Handles MnuDeliveryTakeOrder.Click
+    Private Sub MnuDeliveryTakeOrder_Click(sender As Object, e As EventArgs) Handles MnuDeliveryTakeOrders.Click
         Dim Frm As New FrmDeliveryTakeOrder With {.MdiParent = Me, .WindowState = FormWindowState.Maximized, .IsDutchmill = False, .ProgramName = ProgramName}
         Frm.Show()
     End Sub
@@ -74,7 +74,7 @@ Public Class MDI
         Frm.Show()
     End Sub
 
-    Private Sub MnuDutchmillOrder_Click(sender As Object, e As EventArgs) Handles MnuDutchmillOrder.Click
+    Private Sub MnuDutchmillOrder_Click(sender As Object, e As EventArgs) Handles MnuDeliveryTakeOrder.Click
         Dim Frm As New FrmDutchmillTakeOrder With {.MdiParent = Me, .WindowState = FormWindowState.Maximized, .vDepartment = "Admin Team"}
         Frm.Show()
     End Sub

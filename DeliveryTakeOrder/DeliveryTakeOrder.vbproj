@@ -320,6 +320,12 @@
     <Compile Include="Interfaces\FrmOverCreditAmountOrCreditTerm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interfaces\FrmPlanningOrder.Designer.vb">
+      <DependentUpon>FrmPlanningOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPlanningOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Interfaces\FrmUnlockPrinterTakeOrder.Designer.vb">
       <DependentUpon>FrmUnlockPrinterTakeOrder.vb</DependentUpon>
     </Compile>
@@ -588,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmOverCreditAmountOrCreditTerm.resx">
       <DependentUpon>FrmOverCreditAmountOrCreditTerm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPlanningOrder.resx">
+      <DependentUpon>FrmPlanningOrder.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmUnlockPrinterTakeOrder.resx">
       <DependentUpon>FrmUnlockPrinterTakeOrder.vb</DependentUpon>

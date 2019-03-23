@@ -274,7 +274,7 @@ Public Class FrmDownloadSaleTeam
     Private Sub BtnExportToExcel_Click(sender As Object, e As EventArgs) Handles BtnExportToExcel.Click
         Dim Frm As New FrmPODutchmillDate
         If Frm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        Dim RequiredDate As Date = Frm.RequiredDate
+        Dim RequiredDate As Date = Frm.iRequiredDate
         query = _
         <SQL>
             <![CDATA[

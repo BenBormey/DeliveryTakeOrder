@@ -21,11 +21,17 @@ Partial Public Class sExpiryDate
     Private Sub InitializeComponent()
         Me.Detail = New DevExpress.XtraReports.UI.DetailBand()
         Me.XrPanel5 = New DevExpress.XtraReports.UI.XRPanel()
+        Me.XrLabel36 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel31 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel29 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel33 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel26 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel28 = New DevExpress.XtraReports.UI.XRLabel()
         Me.TopMargin = New DevExpress.XtraReports.UI.TopMarginBand()
         Me.XrPanel4 = New DevExpress.XtraReports.UI.XRPanel()
+        Me.XrLabel34 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel30 = New DevExpress.XtraReports.UI.XRLabel()
+        Me.XrLabel27 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel32 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel35 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrLabel37 = New DevExpress.XtraReports.UI.XRLabel()
@@ -70,12 +76,6 @@ Partial Public Class sExpiryDate
         Me.XrCrossBandBox1 = New DevExpress.XtraReports.UI.XRCrossBandBox()
         Me.XrCrossBandLine3 = New DevExpress.XtraReports.UI.XRCrossBandLine()
         Me.XrCrossBandLine4 = New DevExpress.XtraReports.UI.XRCrossBandLine()
-        Me.XrLabel27 = New DevExpress.XtraReports.UI.XRLabel()
-        Me.XrLabel29 = New DevExpress.XtraReports.UI.XRLabel()
-        Me.XrLabel30 = New DevExpress.XtraReports.UI.XRLabel()
-        Me.XrLabel31 = New DevExpress.XtraReports.UI.XRLabel()
-        Me.XrLabel34 = New DevExpress.XtraReports.UI.XRLabel()
-        Me.XrLabel36 = New DevExpress.XtraReports.UI.XRLabel()
         Me.XrCrossBandLine1 = New DevExpress.XtraReports.UI.XRCrossBandLine()
         Me.XrCrossBandLine2 = New DevExpress.XtraReports.UI.XRCrossBandLine()
         Me.XrCrossBandLine5 = New DevExpress.XtraReports.UI.XRCrossBandLine()
@@ -101,11 +101,59 @@ Partial Public Class sExpiryDate
         Me.XrPanel5.SizeF = New System.Drawing.SizeF(766.9999!, 26.04166!)
         Me.XrPanel5.StylePriority.UseBorders = False
         '
+        'XrLabel36
+        '
+        Me.XrLabel36.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel36.CanGrow = False
+        Me.XrLabel36.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[level]")})
+        Me.XrLabel36.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel36.LocationFloat = New DevExpress.Utils.PointFloat(277.7495!, 0.02072652!)
+        Me.XrLabel36.Name = "XrLabel36"
+        Me.XrLabel36.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel36.SizeF = New System.Drawing.SizeF(130.542!, 26.00012!)
+        Me.XrLabel36.StylePriority.UseBorders = False
+        Me.XrLabel36.StylePriority.UseFont = False
+        Me.XrLabel36.StylePriority.UseTextAlignment = False
+        Me.XrLabel36.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel36.WordWrap = False
+        '
+        'XrLabel31
+        '
+        Me.XrLabel31.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel31.CanGrow = False
+        Me.XrLabel31.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[locationname]")})
+        Me.XrLabel31.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel31.LocationFloat = New DevExpress.Utils.PointFloat(138.8747!, 0.02077007!)
+        Me.XrLabel31.Name = "XrLabel31"
+        Me.XrLabel31.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel31.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
+        Me.XrLabel31.StylePriority.UseBorders = False
+        Me.XrLabel31.StylePriority.UseFont = False
+        Me.XrLabel31.StylePriority.UseTextAlignment = False
+        Me.XrLabel31.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel31.WordWrap = False
+        '
+        'XrLabel29
+        '
+        Me.XrLabel29.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel29.CanGrow = False
+        Me.XrLabel29.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[location]")})
+        Me.XrLabel29.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel29.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0.02077007!)
+        Me.XrLabel29.Name = "XrLabel29"
+        Me.XrLabel29.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel29.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
+        Me.XrLabel29.StylePriority.UseBorders = False
+        Me.XrLabel29.StylePriority.UseFont = False
+        Me.XrLabel29.StylePriority.UseTextAlignment = False
+        Me.XrLabel29.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel29.WordWrap = False
+        '
         'XrLabel33
         '
         Me.XrLabel33.Borders = DevExpress.XtraPrinting.BorderSide.None
         Me.XrLabel33.CanGrow = False
-        Me.XrLabel33.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.Status")})
+        Me.XrLabel33.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Status]")})
         Me.XrLabel33.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel33.LocationFloat = New DevExpress.Utils.PointFloat(668.6656!, 0.02072652!)
         Me.XrLabel33.Name = "XrLabel33"
@@ -121,7 +169,7 @@ Partial Public Class sExpiryDate
         '
         Me.XrLabel26.Borders = DevExpress.XtraPrinting.BorderSide.None
         Me.XrLabel26.CanGrow = False
-        Me.XrLabel26.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.ExpiryDate", "{0:dd-MMM-yyyy}")})
+        Me.XrLabel26.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ExpiryDate]")})
         Me.XrLabel26.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel26.LocationFloat = New DevExpress.Utils.PointFloat(547.166!, 0!)
         Me.XrLabel26.Name = "XrLabel26"
@@ -131,13 +179,14 @@ Partial Public Class sExpiryDate
         Me.XrLabel26.StylePriority.UseFont = False
         Me.XrLabel26.StylePriority.UseTextAlignment = False
         Me.XrLabel26.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel26.TextFormatString = "{0:dd-MMM-yyyy}"
         Me.XrLabel26.WordWrap = False
         '
         'XrLabel28
         '
         Me.XrLabel28.Borders = DevExpress.XtraPrinting.BorderSide.None
         Me.XrLabel28.CanGrow = False
-        Me.XrLabel28.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.QtyOnHand", "{0:n0}")})
+        Me.XrLabel28.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[QtyOnHand]")})
         Me.XrLabel28.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel28.LocationFloat = New DevExpress.Utils.PointFloat(408.2914!, 0!)
         Me.XrLabel28.Name = "XrLabel28"
@@ -147,6 +196,7 @@ Partial Public Class sExpiryDate
         Me.XrLabel28.StylePriority.UseFont = False
         Me.XrLabel28.StylePriority.UseTextAlignment = False
         Me.XrLabel28.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel28.TextFormatString = "{0:n0}"
         Me.XrLabel28.WordWrap = False
         '
         'TopMargin
@@ -167,6 +217,54 @@ Partial Public Class sExpiryDate
         Me.XrPanel4.Name = "XrPanel4"
         Me.XrPanel4.SizeF = New System.Drawing.SizeF(766.9999!, 26.04166!)
         Me.XrPanel4.StylePriority.UseBorders = False
+        '
+        'XrLabel34
+        '
+        Me.XrLabel34.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel34.CanGrow = False
+        Me.XrLabel34.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel34.LocationFloat = New DevExpress.Utils.PointFloat(277.7494!, 0.02072652!)
+        Me.XrLabel34.Name = "XrLabel34"
+        Me.XrLabel34.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel34.SizeF = New System.Drawing.SizeF(130.542!, 26.00012!)
+        Me.XrLabel34.StylePriority.UseBorders = False
+        Me.XrLabel34.StylePriority.UseFont = False
+        Me.XrLabel34.StylePriority.UseTextAlignment = False
+        Me.XrLabel34.Text = "Level"
+        Me.XrLabel34.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel34.WordWrap = False
+        '
+        'XrLabel30
+        '
+        Me.XrLabel30.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel30.CanGrow = False
+        Me.XrLabel30.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel30.LocationFloat = New DevExpress.Utils.PointFloat(138.8747!, 0.02077007!)
+        Me.XrLabel30.Name = "XrLabel30"
+        Me.XrLabel30.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel30.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
+        Me.XrLabel30.StylePriority.UseBorders = False
+        Me.XrLabel30.StylePriority.UseFont = False
+        Me.XrLabel30.StylePriority.UseTextAlignment = False
+        Me.XrLabel30.Text = "Location"
+        Me.XrLabel30.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel30.WordWrap = False
+        '
+        'XrLabel27
+        '
+        Me.XrLabel27.Borders = DevExpress.XtraPrinting.BorderSide.None
+        Me.XrLabel27.CanGrow = False
+        Me.XrLabel27.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
+        Me.XrLabel27.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0.02077007!)
+        Me.XrLabel27.Name = "XrLabel27"
+        Me.XrLabel27.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
+        Me.XrLabel27.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
+        Me.XrLabel27.StylePriority.UseBorders = False
+        Me.XrLabel27.StylePriority.UseFont = False
+        Me.XrLabel27.StylePriority.UseTextAlignment = False
+        Me.XrLabel27.Text = "Building"
+        Me.XrLabel27.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel27.WordWrap = False
         '
         'XrLabel32
         '
@@ -264,7 +362,7 @@ Partial Public Class sExpiryDate
         Me.XrLabel24.Borders = CType(((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel24.CanGrow = False
-        Me.XrLabel24.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.KhmerName")})
+        Me.XrLabel24.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[KhmerName]")})
         Me.XrLabel24.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel24.LocationFloat = New DevExpress.Utils.PointFloat(313.4995!, 52.00012!)
         Me.XrLabel24.Name = "XrLabel24"
@@ -282,7 +380,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel17.CanGrow = False
-        Me.XrLabel17.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.StockIn", "{0:n0}")})
+        Me.XrLabel17.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[StockIn]")})
         Me.XrLabel17.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel17.LocationFloat = New DevExpress.Utils.PointFloat(668.6656!, 26.00009!)
         Me.XrLabel17.Name = "XrLabel17"
@@ -292,6 +390,7 @@ Partial Public Class sExpiryDate
         Me.XrLabel17.StylePriority.UseFont = False
         Me.XrLabel17.StylePriority.UseTextAlignment = False
         Me.XrLabel17.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel17.TextFormatString = "{0:n0}"
         Me.XrLabel17.WordWrap = False
         '
         'XrLabel18
@@ -300,7 +399,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel18.CanGrow = False
-        Me.XrLabel18.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.QtyPerCase")})
+        Me.XrLabel18.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[QtyPerCase]")})
         Me.XrLabel18.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel18.LocationFloat = New DevExpress.Utils.PointFloat(607.9158!, 26.00009!)
         Me.XrLabel18.Name = "XrLabel18"
@@ -318,7 +417,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel19.CanGrow = False
-        Me.XrLabel19.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.Size")})
+        Me.XrLabel19.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Size]")})
         Me.XrLabel19.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel19.LocationFloat = New DevExpress.Utils.PointFloat(547.166!, 26.00009!)
         Me.XrLabel19.Name = "XrLabel19"
@@ -335,7 +434,7 @@ Partial Public Class sExpiryDate
         Me.XrLabel20.Borders = CType(((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Top) _
             Or DevExpress.XtraPrinting.BorderSide.Right), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel20.CanGrow = False
-        Me.XrLabel20.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.ProName")})
+        Me.XrLabel20.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ProName]")})
         Me.XrLabel20.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel20.LocationFloat = New DevExpress.Utils.PointFloat(313.4995!, 26.00006!)
         Me.XrLabel20.Name = "XrLabel20"
@@ -353,7 +452,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel21.CanGrow = False
-        Me.XrLabel21.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.CaseNumber")})
+        Me.XrLabel21.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CaseNumber]")})
         Me.XrLabel21.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel21.LocationFloat = New DevExpress.Utils.PointFloat(208.9997!, 26.00009!)
         Me.XrLabel21.Name = "XrLabel21"
@@ -371,7 +470,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel22.CanGrow = False
-        Me.XrLabel22.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.PackNumber")})
+        Me.XrLabel22.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[PackNumber]")})
         Me.XrLabel22.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel22.LocationFloat = New DevExpress.Utils.PointFloat(104.4999!, 26.00009!)
         Me.XrLabel22.Name = "XrLabel22"
@@ -389,7 +488,7 @@ Partial Public Class sExpiryDate
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
         Me.XrLabel23.CanGrow = False
-        Me.XrLabel23.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.UnitNumber")})
+        Me.XrLabel23.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[UnitNumber]")})
         Me.XrLabel23.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel23.LocationFloat = New DevExpress.Utils.PointFloat(0.00006357829!, 26.00009!)
         Me.XrLabel23.Name = "XrLabel23"
@@ -542,7 +641,7 @@ Partial Public Class sExpiryDate
         '
         Me.XrLabel8.Borders = DevExpress.XtraPrinting.BorderSide.None
         Me.XrLabel8.CanGrow = False
-        Me.XrLabel8.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding(Me.cusname, "Text", "")})
+        Me.XrLabel8.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.cusname]")})
         Me.XrLabel8.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel8.LocationFloat = New DevExpress.Utils.PointFloat(104.4998!, 50.00013!)
         Me.XrLabel8.Name = "XrLabel8"
@@ -578,7 +677,7 @@ Partial Public Class sExpiryDate
         '
         Me.XrLabel7.Borders = DevExpress.XtraPrinting.BorderSide.None
         Me.XrLabel7.CanGrow = False
-        Me.XrLabel7.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding(Me.cusnum, "Text", "")})
+        Me.XrLabel7.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.cusnum]")})
         Me.XrLabel7.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel7.LocationFloat = New DevExpress.Utils.PointFloat(104.4998!, 25.00006!)
         Me.XrLabel7.Name = "XrLabel7"
@@ -629,7 +728,7 @@ Partial Public Class sExpiryDate
         'XrLabel4
         '
         Me.XrLabel4.CanGrow = False
-        Me.XrLabel4.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding(Me.currentdate, "Text", "Export Date : {0:dd-MMM-yyyy hh:mm:ss tt}")})
+        Me.XrLabel4.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.currentdate]")})
         Me.XrLabel4.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(2.000061!, 197.6459!)
         Me.XrLabel4.Name = "XrLabel4"
@@ -638,6 +737,7 @@ Partial Public Class sExpiryDate
         Me.XrLabel4.StylePriority.UseFont = False
         Me.XrLabel4.StylePriority.UseTextAlignment = False
         Me.XrLabel4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
+        Me.XrLabel4.TextFormatString = "Export Date : {0:dd-MMM-yyyy hh:mm:ss tt}"
         Me.XrLabel4.WordWrap = False
         '
         'currentdate
@@ -674,7 +774,7 @@ Partial Public Class sExpiryDate
         '
         'XrLabel1
         '
-        Me.XrLabel1.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding(Me.companyaddress, "Text", "")})
+        Me.XrLabel1.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.companyaddress]")})
         Me.XrLabel1.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
         Me.XrLabel1.LocationFloat = New DevExpress.Utils.PointFloat(0.0001033147!, 69.79166!)
         Me.XrLabel1.Multiline = True
@@ -691,7 +791,7 @@ Partial Public Class sExpiryDate
         '
         'XrLabel2
         '
-        Me.XrLabel2.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding(Me.companyname, "Text", "")})
+        Me.XrLabel2.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.companyname]")})
         Me.XrLabel2.Font = New System.Drawing.Font("Khmer OS Muol", 12.0!)
         Me.XrLabel2.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0!)
         Me.XrLabel2.Multiline = True
@@ -719,7 +819,6 @@ Partial Public Class sExpiryDate
         'XrPageInfo1
         '
         Me.XrPageInfo1.Font = New System.Drawing.Font("Khmer OS Battambang", 7.0!)
-        Me.XrPageInfo1.Format = "Page {0:n0} of {1:n0}"
         Me.XrPageInfo1.LocationFloat = New DevExpress.Utils.PointFloat(297.875!, 9.999974!)
         Me.XrPageInfo1.Name = "XrPageInfo1"
         Me.XrPageInfo1.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
@@ -727,6 +826,7 @@ Partial Public Class sExpiryDate
         Me.XrPageInfo1.StylePriority.UseFont = False
         Me.XrPageInfo1.StylePriority.UseTextAlignment = False
         Me.XrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter
+        Me.XrPageInfo1.TextFormatString = "Page {0:n0} of {1:n0}"
         '
         'ExpiryDate1
         '
@@ -763,102 +863,6 @@ Partial Public Class sExpiryDate
         Me.XrCrossBandLine4.StartBand = Me.TopMargin
         Me.XrCrossBandLine4.StartPointFloat = New DevExpress.Utils.PointFloat(669.624!, 460.5625!)
         Me.XrCrossBandLine4.WidthF = 1.041687!
-        '
-        'XrLabel27
-        '
-        Me.XrLabel27.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel27.CanGrow = False
-        Me.XrLabel27.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel27.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0.02077007!)
-        Me.XrLabel27.Name = "XrLabel27"
-        Me.XrLabel27.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel27.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
-        Me.XrLabel27.StylePriority.UseBorders = False
-        Me.XrLabel27.StylePriority.UseFont = False
-        Me.XrLabel27.StylePriority.UseTextAlignment = False
-        Me.XrLabel27.Text = "Building"
-        Me.XrLabel27.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel27.WordWrap = False
-        '
-        'XrLabel29
-        '
-        Me.XrLabel29.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel29.CanGrow = False
-        Me.XrLabel29.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.location")})
-        Me.XrLabel29.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel29.LocationFloat = New DevExpress.Utils.PointFloat(0!, 0.02077007!)
-        Me.XrLabel29.Name = "XrLabel29"
-        Me.XrLabel29.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel29.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
-        Me.XrLabel29.StylePriority.UseBorders = False
-        Me.XrLabel29.StylePriority.UseFont = False
-        Me.XrLabel29.StylePriority.UseTextAlignment = False
-        Me.XrLabel29.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel29.WordWrap = False
-        '
-        'XrLabel30
-        '
-        Me.XrLabel30.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel30.CanGrow = False
-        Me.XrLabel30.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel30.LocationFloat = New DevExpress.Utils.PointFloat(138.8747!, 0.02077007!)
-        Me.XrLabel30.Name = "XrLabel30"
-        Me.XrLabel30.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel30.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
-        Me.XrLabel30.StylePriority.UseBorders = False
-        Me.XrLabel30.StylePriority.UseFont = False
-        Me.XrLabel30.StylePriority.UseTextAlignment = False
-        Me.XrLabel30.Text = "Location"
-        Me.XrLabel30.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel30.WordWrap = False
-        '
-        'XrLabel31
-        '
-        Me.XrLabel31.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel31.CanGrow = False
-        Me.XrLabel31.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.locationname")})
-        Me.XrLabel31.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel31.LocationFloat = New DevExpress.Utils.PointFloat(138.8747!, 0.02077007!)
-        Me.XrLabel31.Name = "XrLabel31"
-        Me.XrLabel31.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel31.SizeF = New System.Drawing.SizeF(138.8747!, 26.00012!)
-        Me.XrLabel31.StylePriority.UseBorders = False
-        Me.XrLabel31.StylePriority.UseFont = False
-        Me.XrLabel31.StylePriority.UseTextAlignment = False
-        Me.XrLabel31.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel31.WordWrap = False
-        '
-        'XrLabel34
-        '
-        Me.XrLabel34.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel34.CanGrow = False
-        Me.XrLabel34.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel34.LocationFloat = New DevExpress.Utils.PointFloat(277.7494!, 0.02072652!)
-        Me.XrLabel34.Name = "XrLabel34"
-        Me.XrLabel34.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel34.SizeF = New System.Drawing.SizeF(130.542!, 26.00012!)
-        Me.XrLabel34.StylePriority.UseBorders = False
-        Me.XrLabel34.StylePriority.UseFont = False
-        Me.XrLabel34.StylePriority.UseTextAlignment = False
-        Me.XrLabel34.Text = "Level"
-        Me.XrLabel34.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel34.WordWrap = False
-        '
-        'XrLabel36
-        '
-        Me.XrLabel36.Borders = DevExpress.XtraPrinting.BorderSide.None
-        Me.XrLabel36.CanGrow = False
-        Me.XrLabel36.DataBindings.AddRange(New DevExpress.XtraReports.UI.XRBinding() {New DevExpress.XtraReports.UI.XRBinding("Text", Nothing, "dtExpiryDate.level")})
-        Me.XrLabel36.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel36.LocationFloat = New DevExpress.Utils.PointFloat(277.7495!, 0.02072652!)
-        Me.XrLabel36.Name = "XrLabel36"
-        Me.XrLabel36.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
-        Me.XrLabel36.SizeF = New System.Drawing.SizeF(130.542!, 26.00012!)
-        Me.XrLabel36.StylePriority.UseBorders = False
-        Me.XrLabel36.StylePriority.UseFont = False
-        Me.XrLabel36.StylePriority.UseTextAlignment = False
-        Me.XrLabel36.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter
-        Me.XrLabel36.WordWrap = False
         '
         'XrCrossBandLine1
         '
@@ -902,7 +906,7 @@ Partial Public Class sExpiryDate
         Me.PaperKind = System.Drawing.Printing.PaperKind.A4
         Me.Parameters.AddRange(New DevExpress.XtraReports.Parameters.Parameter() {Me.companyname, Me.companyaddress, Me.cusnum, Me.cusname, Me.currentdate})
         Me.ScriptLanguage = DevExpress.XtraReports.ScriptLanguage.VisualBasic
-        Me.Version = "17.1"
+        Me.Version = "17.2"
         CType(Me.ExpiryDate1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
 
