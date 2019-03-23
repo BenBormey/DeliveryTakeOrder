@@ -770,6 +770,10 @@ Public Class FrmDeliveryTakeOrder
         App.SetReadOnlyController(False, TxtPackOrder)
     End Sub
     Private Sub CmbProducts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbProducts.SelectedIndexChanged
+        If CmbProducts.Focused Then
+            DeactivatedProduct()
+        End If
+
         ClearProductItems()
         If CmbProducts.Text.Trim() = "" Then Exit Sub
         If TypeOf CmbProducts.SelectedValue Is DataRowView Or CmbProducts.SelectedValue Is Nothing Then Exit Sub
@@ -821,7 +825,11 @@ FROM dbo.TblEmailCCProductDC;
                 WHERE (ISNULL([ProNumY],'') = @Barcode OR ISNULL([ProNumYP],'') = @Barcode OR ISNULL([ProNumYC],'') = @Barcode);
             ]]>
         </SQL>
-        query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
+
+        Dim str As String() = CmbProducts.Text.Trim.Split(" ")
+        Dim x As String = "-1"
+        If Not str(0).Trim.Equals(String.Empty) Then x = str(0)
+        query = String.Format(query, DatabaseName, x)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
         Return lists
@@ -1827,48 +1835,7 @@ Msg_Check:
         End If
 
         'Deactivated Item
-        Dim dtDC As DataTable = CheckDeactivatedItem()
-        If dtDC.Rows.Count > 0 Then
-            If MessageBox.Show("This Barcode is in Product Deactivated! Do you want to send email to customer?", "Confirm Deactivated Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return
-
-            Dim email As String = CheckCustomerEmail().Rows(0)(0)
-            If email.Equals(String.Empty) Then
-                MessageBox.Show("This customer does not have email address.")
-                Cursor = Cursors.Default
-                Return
-            End If
-
-            Dim dcReport As New MailDCSKUReport
-            Dim dr As DataRow = dtDC.Rows(0)
-            With dcReport
-                .paramDear.Value = String.Format("Dear {0},", CmbBillTo.Text)
-                .paramPO.Value = TxtPONo.Text
-                .paramBarcode.Value = dr("ProNumY")
-                .paramName.Value = dr("ProName")
-                .paramSize.Value = dr("ProPacksize")
-
-                .CreateDocument(True)
-                Try
-                    Using client As New SmtpClient("mail.untwholesale.com", 26)
-                        Using message As MailMessage = .ExportToMail("sales@untwholesale.com", email, "Product Discontinued")
-                            Dim cc As New MailAddressCollection
-                            For Each drEmail As DataRow In QueryCCEmail.Rows
-                                message.CC.Add(drEmail(0))
-                            Next
-
-                            client.Credentials = New System.Net.NetworkCredential("sales@untwholesale.com", "UNT@@!@#12345678")
-                            client.EnableSsl = True
-                            client.Send(message)
-                            MessageBox.Show("Your email has been sent successfully.")
-                        End Using
-                    End Using
-                Catch ex As Exception
-                    MessageBox.Show("Send email failed.")
-                End Try
-
-
-            End With
-        End If
+        
 
         'Old Code
         If CheckOldItem() = True Then Exit Sub
@@ -4202,4 +4169,58 @@ Err_CheckStorecode:
         vFrm.ShowDialog()
     End Sub
 
+    Private Sub CmbProducts_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbProducts.KeyDown
+        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Down Then
+            DeactivatedProduct()
+        End If
+    End Sub
+
+    Private Sub DeactivatedProduct()
+        If CmbProducts.Items.Count = 0 Then Return
+
+        Dim dtDC As DataTable = CheckDeactivatedItem()
+        If dtDC.Rows.Count > 0 Then
+            If MessageBox.Show("This Barcode is in Product Deactivated! Do you want to send email to customer?", "Confirm Deactivated Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return
+
+            Dim email As String = CheckCustomerEmail().Rows(0)(0)
+            If email.Equals(String.Empty) Then
+                MessageBox.Show("This customer does not have email address.")
+                Cursor = Cursors.Default
+                Return
+            End If
+
+            Dim dcReport As New MailDCSKUReport
+            Dim dr As DataRow = dtDC.Rows(0)
+            With dcReport
+                .paramDear.Value = String.Format("Dear {0},", CmbBillTo.Text)
+                .paramPO.Value = TxtPONo.Text
+                .paramBarcode.Value = dr("ProNumY")
+                .paramName.Value = dr("ProName")
+                .paramSize.Value = dr("ProPacksize")
+
+                .CreateDocument(True)
+                Try
+                    Using client As New SmtpClient("mail.untwholesale.com", 26)
+                        Using message As MailMessage = .ExportToMail("sales@untwholesale.com", email, "Product Discontinued")
+                            Dim cc As New MailAddressCollection
+                            For Each drEmail As DataRow In QueryCCEmail.Rows
+                                message.CC.Add(drEmail(0))
+                            Next
+
+                            client.Credentials = New System.Net.NetworkCredential("sales@untwholesale.com", "UNT@@!@#12345678")
+                            client.EnableSsl = True
+                            client.Send(message)
+                            MessageBox.Show("Your email has been sent successfully.")
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    MessageBox.Show("Send email failed.")
+                End Try
+            End With
+        End If
+    End Sub
+
+    Private Sub CmbProducts_DropDown(sender As Object, e As EventArgs) Handles CmbProducts.DropDown
+        DeactivatedProduct()
+    End Sub
 End Class
