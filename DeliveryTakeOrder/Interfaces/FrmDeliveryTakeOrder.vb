@@ -4170,7 +4170,7 @@ Err_CheckStorecode:
     End Sub
 
     Private Sub CmbProducts_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbProducts.KeyDown
-        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Down Then
+        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Down Or e.KeyCode = Keys.Up Then
             DeactivatedProduct()
         End If
     End Sub
@@ -4220,7 +4220,7 @@ Err_CheckStorecode:
         End If
     End Sub
 
-    Private Sub CmbProducts_DropDown(sender As Object, e As EventArgs) Handles CmbProducts.DropDown
-        DeactivatedProduct()
-    End Sub
+    'Private Sub CmbProducts_DropDown(sender As Object, e As EventArgs) Handles CmbProducts.DropDown
+    '    DeactivatedProduct()
+    'End Sub
 End Class
