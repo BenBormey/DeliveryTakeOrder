@@ -5,7 +5,7 @@ Imports DeliveryTakeOrder.DatabaseFrameworks
 Imports DeliveryTakeOrder.ApplicationFrameworks
 Imports Microsoft.Office.Interop
 
-Public Class FrmPODutchmillDate
+Public Class FrmPODutchmillDate_
     Private Data As New DatabaseFramework
     Private App As New ApplicationFramework
     Private MyData As New DatabaseFramework_MySQL
@@ -21,6 +21,7 @@ Public Class FrmPODutchmillDate
     Private query As String
     Private lists As DataTable
     Public Property iRequiredDate As Date
+    Public Property iPlanningOrder As String
 
     Private Sub LoadingInitialized()
         Initialized.LoadingInitialized(Data, App)
@@ -39,7 +40,7 @@ Public Class FrmPODutchmillDate
     End Sub
 
     Private Sub FrmPODutchmillDate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadingInitialized()
+        Me.LoadingInitialized()
         Me.requireddateloading.Enabled = True
     End Sub
 
@@ -54,16 +55,29 @@ Public Class FrmPODutchmillDate
             CmbRequiredDate.Focus()
             Exit Sub
         Else
+            Dim oplanningorder As String = ""
+            If TypeOf CmbPlanningOrder.SelectedValue Is DataRowView Or CmbPlanningOrder.SelectedValue Is Nothing Then
+                oplanningorder = ""
+            Else
+                If CmbPlanningOrder.Text.Trim().Equals("") = True Then
+                    oplanningorder = ""
+                Else
+                    oplanningorder = CmbPlanningOrder.SelectedValue
+                End If
+            End If
             If ChkLock.Checked = True Then
-                query = <SQL><![CDATA[
-                                DECLARE @vDateRequired AS DATE = N'{1:yyyy-MM-dd}';
+                query = <SQL>
+                            <![CDATA[
+                                DECLARE @oPlanningOrder AS NVARCHAR(100) = N'{1}';
+                                DECLARE @vDateRequired AS DATE = N'{2:yyyy-MM-dd}';
                                 INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder_Locked]([DateRequired],[Department],[PlanningOrder],[CreatedDate])
                                 SELECT [DateRequired],[Remark],[PromotionMachanic],GETDATE()
                                 FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                                WHERE (DATEDIFF(DAY,[DateRequired],@vDateRequired) = 0)
+                                WHERE (ISNULL([PlanningOrder],N'') = @oPlanningOrder) AND (DATEDIFF(DAY,[DateRequired],@vDateRequired) = 0)
                                 GROUP BY [DateRequired],[Remark],[PromotionMachanic];
-                            ]]></SQL>
-                query = String.Format(query, DatabaseName, CmbRequiredDate.SelectedValue)
+                            ]]>
+                        </SQL>
+                query = String.Format(query, DatabaseName, oplanningorder, CmbRequiredDate.SelectedValue)
                 RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
                 RCon.Open()
                 RTran = RCon.BeginTransaction()
@@ -88,24 +102,69 @@ Public Class FrmPODutchmillDate
                     Exit Sub
                 End Try
             End If
+            Me.iPlanningOrder = oplanningorder.Trim()
             Me.iRequiredDate = CmbRequiredDate.SelectedValue
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         End If
     End Sub
 
+    Private Sub planningloading_Tick(sender As Object, e As EventArgs) Handles planningloading.Tick
+        Me.Cursor = Cursors.WaitCursor
+        Me.planningloading.Enabled = False
+        Dim oToDate As DateTime = Data.Get_CURRENT_DATE(Initialized.GetConnectionType(Data, App))
+        Dim oRequiredDate As Date = oToDate
+        If TypeOf CmbRequiredDate.SelectedValue Is DataRowView Or CmbRequiredDate.SelectedValue Is Nothing Then
+            oRequiredDate = oToDate
+        Else
+            If CmbRequiredDate.Text.Trim().Equals("") = True Then
+                oRequiredDate = oToDate
+            Else
+                oRequiredDate = CmbRequiredDate.SelectedValue
+            End If
+        End If
+        query = <SQL><![CDATA[
+                        DECLARE @oRequiredDate AS DATE = '{1:yyyy-MM-dd}';
+                        SELECT [PromotionMachanic] [PlanningOrder]
+                        FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
+                        WHERE ( CONVERT(DATE,[DateRequired]) = @oRequiredDate )
+                        GROUP BY [PromotionMachanic]
+                        ORDER BY [PromotionMachanic];
+                    ]]></SQL>
+        query = String.Format(query, DatabaseName, oRequiredDate)
+        lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+        DataSources(CmbPlanningOrder, lists, "PlanningOrder", "PlanningOrder")
+        Me.Cursor = Cursors.Default
+    End Sub
+
     Private Sub requireddateloading_Tick(sender As Object, e As EventArgs) Handles requireddateloading.Tick
         Me.Cursor = Cursors.WaitCursor
         Me.requireddateloading.Enabled = False
+        Dim oplanningorder As String = ""
+        If TypeOf CmbPlanningOrder.SelectedValue Is DataRowView Or CmbPlanningOrder.SelectedValue Is Nothing Then
+            oplanningorder = ""
+        Else
+            If CmbPlanningOrder.Text.Trim().Equals("") = True Then
+                oplanningorder = ""
+            Else
+                oplanningorder = CmbPlanningOrder.SelectedValue
+            End If
+        End If
         query = <SQL><![CDATA[
+                        DECLARE @oPlanningOrder AS NVARCHAR(100) = N'{1}';
                         SELECT [DateRequired]
                         FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
+                        --WHERE (ISNULL([PromotionMachanic],N'') = @oPlanningOrder)
                         GROUP BY [DateRequired]
                         ORDER BY [DateRequired];
                     ]]></SQL>
-        query = String.Format(query, DatabaseName)
+        query = String.Format(query, DatabaseName, oplanningorder)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DataSources(CmbRequiredDate, lists, "DateRequired", "DateRequired")
         Me.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub CmbRequiredDate_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbRequiredDate.SelectedIndexChanged
+        Me.planningloading.Enabled = True
     End Sub
 End Class

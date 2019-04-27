@@ -41,10 +41,15 @@ Partial Class FrmPlanningOrder
         Me.LblCountRow = New System.Windows.Forms.Label()
         Me.BtnClose = New System.Windows.Forms.Button()
         Me.DgvShow = New System.Windows.Forms.DataGridView()
+        Me.DisplayLoading = New System.Windows.Forms.Timer(Me.components)
         Me.Id = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PlanningOrder = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DayOfWeek = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CreatedDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DisplayLoading = New System.Windows.Forms.Timer(Me.components)
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.CmbDayOfWeek = New System.Windows.Forms.ComboBox()
+        Me.dayofweekloading = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.PicLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,6 +59,7 @@ Partial Class FrmPlanningOrder
         Me.Panel15.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DgvShow, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel5.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -134,6 +140,7 @@ Partial Class FrmPlanningOrder
         'Panel7
         '
         Me.Panel7.Controls.Add(Me.Panel8)
+        Me.Panel7.Controls.Add(Me.Panel5)
         Me.Panel7.Controls.Add(Me.Panel15)
         Me.Panel7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel7.Location = New System.Drawing.Point(0, 0)
@@ -150,7 +157,7 @@ Partial Class FrmPlanningOrder
         Me.Panel8.Location = New System.Drawing.Point(0, 0)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Padding = New System.Windows.Forms.Padding(2)
-        Me.Panel8.Size = New System.Drawing.Size(467, 50)
+        Me.Panel8.Size = New System.Drawing.Size(271, 50)
         Me.Panel8.TabIndex = 2
         '
         'TxtPlanningOrder
@@ -158,7 +165,7 @@ Partial Class FrmPlanningOrder
         Me.TxtPlanningOrder.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxtPlanningOrder.Location = New System.Drawing.Point(2, 21)
         Me.TxtPlanningOrder.Name = "TxtPlanningOrder"
-        Me.TxtPlanningOrder.Size = New System.Drawing.Size(463, 28)
+        Me.TxtPlanningOrder.Size = New System.Drawing.Size(267, 28)
         Me.TxtPlanningOrder.TabIndex = 3
         '
         'Label8
@@ -239,7 +246,7 @@ Partial Class FrmPlanningOrder
         Me.DgvShow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DgvShow.BackgroundColor = System.Drawing.Color.GhostWhite
         Me.DgvShow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Id, Me.PlanningOrder, Me.CreatedDate})
+        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Id, Me.PlanningOrder, Me.DayOfWeek, Me.CreatedDate})
         Me.DgvShow.Cursor = System.Windows.Forms.Cursors.Hand
         Me.DgvShow.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DgvShow.Location = New System.Drawing.Point(5, 158)
@@ -249,6 +256,10 @@ Partial Class FrmPlanningOrder
         Me.DgvShow.Size = New System.Drawing.Size(574, 264)
         Me.DgvShow.TabIndex = 130
         '
+        'DisplayLoading
+        '
+        Me.DisplayLoading.Interval = 5
+        '
         'Id
         '
         Me.Id.DataPropertyName = "Id"
@@ -256,6 +267,7 @@ Partial Class FrmPlanningOrder
         Me.Id.Name = "Id"
         Me.Id.ReadOnly = True
         Me.Id.Visible = False
+        Me.Id.Width = 44
         '
         'PlanningOrder
         '
@@ -265,6 +277,14 @@ Partial Class FrmPlanningOrder
         Me.PlanningOrder.ReadOnly = True
         Me.PlanningOrder.Width = 102
         '
+        'DayOfWeek
+        '
+        Me.DayOfWeek.DataPropertyName = "DayOfWeek"
+        Me.DayOfWeek.HeaderText = "Day Of Week"
+        Me.DayOfWeek.Name = "DayOfWeek"
+        Me.DayOfWeek.ReadOnly = True
+        Me.DayOfWeek.Width = 98
+        '
         'CreatedDate
         '
         Me.CreatedDate.DataPropertyName = "CreatedDate"
@@ -272,10 +292,44 @@ Partial Class FrmPlanningOrder
         Me.CreatedDate.Name = "CreatedDate"
         Me.CreatedDate.ReadOnly = True
         Me.CreatedDate.Visible = False
+        Me.CreatedDate.Width = 94
         '
-        'DisplayLoading
+        'Panel5
         '
-        Me.DisplayLoading.Interval = 5
+        Me.Panel5.Controls.Add(Me.CmbDayOfWeek)
+        Me.Panel5.Controls.Add(Me.Label2)
+        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Panel5.Location = New System.Drawing.Point(271, 0)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Padding = New System.Windows.Forms.Padding(2)
+        Me.Panel5.Size = New System.Drawing.Size(196, 50)
+        Me.Panel5.TabIndex = 129
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Label2.Location = New System.Drawing.Point(2, 2)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(73, 19)
+        Me.Label2.TabIndex = 1
+        Me.Label2.Text = "Day Of Week"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'CmbDayOfWeek
+        '
+        Me.CmbDayOfWeek.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CmbDayOfWeek.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CmbDayOfWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbDayOfWeek.FormattingEnabled = True
+        Me.CmbDayOfWeek.Location = New System.Drawing.Point(2, 21)
+        Me.CmbDayOfWeek.Name = "CmbDayOfWeek"
+        Me.CmbDayOfWeek.Size = New System.Drawing.Size(192, 27)
+        Me.CmbDayOfWeek.TabIndex = 4
+        '
+        'dayofweekloading
+        '
+        Me.dayofweekloading.Interval = 5
         '
         'FrmPlanningOrder
         '
@@ -305,6 +359,8 @@ Partial Class FrmPlanningOrder
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         CType(Me.DgvShow, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel5.ResumeLayout(False)
+        Me.Panel5.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -326,8 +382,13 @@ Partial Class FrmPlanningOrder
     Friend WithEvents BtnClose As Button
     Friend WithEvents LblCountRow As Label
     Friend WithEvents DgvShow As DataGridView
+    Friend WithEvents DisplayLoading As Timer
+    Friend WithEvents Panel5 As Panel
+    Friend WithEvents Label2 As Label
     Friend WithEvents Id As DataGridViewTextBoxColumn
     Friend WithEvents PlanningOrder As DataGridViewTextBoxColumn
+    Friend WithEvents DayOfWeek As DataGridViewTextBoxColumn
     Friend WithEvents CreatedDate As DataGridViewTextBoxColumn
-    Friend WithEvents DisplayLoading As Timer
+    Friend WithEvents CmbDayOfWeek As ComboBox
+    Friend WithEvents dayofweekloading As Timer
 End Class

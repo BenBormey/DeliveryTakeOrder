@@ -237,24 +237,93 @@ Public Class FrmProcessTakeOrder
                 TakeOrderNo = CmbTakeOrderNo.SelectedValue
             End If
         End If
-        query = <SQL>
-                    <![CDATA[
-                DECLARE @vRequiredDate AS DATE = N'{1:yyyy-MM-dd}';
-                DECLARE @vCusNum AS NVARCHAR(8) = N'{2}';
-                DECLARE @vDeltoId AS DECIMAL(18,0) = {3};
-                DECLARE @TakeOrderNo AS DECIMAL(18,0) = {4};
-                SELECT v.[Id],v.[TakeOrderNumber],v.[PONumber],v.[CusNum],v.[CusName],v.[DelToId],v.[DelTo],v.[DateOrd],v.[DateRequired],v.[UnitNumber],v.[Barcode],v.[ProName],v.[Size],v.[QtyPCase],v.[QtyPPack],v.[Category],v.[PcsFree],v.[PcsOrder],v.[PackOrder],v.[CTNOrder],v.[TotalPcsOrder],v.[LogInName],v.[PromotionMachanic],v.[ItemDiscount],v.[Remark],v.[Saleman],v.[CreatedDate]
-                FROM (
-	                SELECT [Id],[CusNum],[CusName],[DelToId],[DelTo],[DateOrd],[DateRequired],[UnitNumber],[Barcode],[ProName],[Size],[QtyPCase],[QtyPPack],[Category],[PcsFree],[PcsOrder],[PackOrder],[CTNOrder],[TotalPcsOrder],[PONumber],[LogInName],[TakeOrderNumber],[PromotionMachanic],[ItemDiscount],[Remark],[Saleman],[CreatedDate]
-	                FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-	                WHERE (CONVERT(DATE,[DateRequired]) = @vRequiredDate)
-                    AND ([CusNum] = @vCusNum OR N'' = @vCusNum) 
-                    AND ([DelToId] = @vDeltoId OR 0 = @vDeltoId)
-                    AND (([TakeOrderNumber] = @TakeOrderNo) OR (0 = @TakeOrderNo))
-                ) v
-                ORDER BY [CusName],[TakeOrderNumber];
-            ]]>
-                </SQL>
+        query = <SQL><![CDATA[
+DECLARE @vRequiredDate AS DATE = N'{1:yyyy-MM-dd}';
+DECLARE @vCusNum AS NVARCHAR(8) = N'{2}';
+DECLARE @vDeltoId AS DECIMAL(18, 0) = {3};
+DECLARE @TakeOrderNo AS DECIMAL(18, 0) = {4};
+WITH    v AS ( SELECT   [Id] ,
+                        [CusNum] ,
+                        [CusName] ,
+                        [DelToId] ,
+                        [DelTo] ,
+                        [DateOrd] ,
+                        [DateRequired] ,
+                        [UnitNumber] ,
+                        [Barcode] ,
+                        CONVERT(NVARCHAR, N'') [CusCode] ,
+                        [ProName] ,
+                        [Size] ,
+                        [QtyPCase] ,
+                        [QtyPPack] ,
+                        [Category] ,
+                        [PcsFree] ,
+                        [PcsOrder] ,
+                        [PackOrder] ,
+                        [CTNOrder] ,
+                        [TotalPcsOrder] ,
+                        [PONumber] ,
+                        [LogInName] ,
+                        [TakeOrderNumber] ,
+                        [PromotionMachanic] ,
+                        [ItemDiscount] ,
+                        [Remark] ,
+                        [Saleman] ,
+                        [CreatedDate]
+               FROM     [DBUNTWHOLESALECOLTD].[dbo].[TblDeliveryTakeOrders_Dutchmill]
+               WHERE    ( CONVERT(DATE, [DateRequired]) = @vRequiredDate )
+                        AND ( [CusNum] = @vCusNum
+                              OR N'' = @vCusNum
+                            )
+                        AND ( [DelToId] = @vDeltoId
+                              OR 0 = @vDeltoId
+                            )
+                        AND ( ( [TakeOrderNumber] = @TakeOrderNo )
+                              OR ( 0 = @TakeOrderNo )
+                            )
+             )
+    SELECT  v.*
+    INTO    #DeliveryTakeorders
+    FROM    v;
+
+UPDATE  i
+SET     i.[CusCode] = x.[CusCode]
+FROM    #DeliveryTakeorders i
+        INNER JOIN [DBUNTWHOLESALECOLTD].[dbo].[TblCustomerCodes] x ON ( x.CusNum = i.CusNum )
+                                                              AND ( x.[Barcode] = i.[Barcode] );
+
+SELECT  v.[Id] ,
+        v.[TakeOrderNumber] ,
+        v.[PONumber] ,
+        v.[CusNum] ,
+        v.[CusName] ,
+        v.[DelToId] ,
+        v.[DelTo] ,
+        v.[DateOrd] ,
+        v.[DateRequired] ,
+        v.[UnitNumber] ,
+        v.[Barcode] ,
+        v.[CusCode] ,
+        v.[ProName] ,
+        v.[Size] ,
+        v.[QtyPCase] ,
+        v.[QtyPPack] ,
+        v.[Category] ,
+        v.[PcsFree] ,
+        v.[PcsOrder] ,
+        v.[PackOrder] ,
+        v.[CTNOrder] ,
+        v.[TotalPcsOrder] ,
+        v.[LogInName] ,
+        v.[PromotionMachanic] ,
+        v.[ItemDiscount] ,
+        v.[Remark] ,
+        v.[Saleman] ,
+        v.[CreatedDate]
+FROM    #DeliveryTakeorders v
+ORDER BY [CusName] ,
+        [TakeOrderNumber];
+            ]]></SQL>
         query = String.Format(query, DatabaseName, vRequiredDate, CusNum, vDeltoId, TakeOrderNo, IIf(Initialized.R_AllUnpaid = True, 0, 1), Initialized.R_DateFrom, Initialized.R_DateTo)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DgvShow.DataSource = lists
@@ -569,7 +638,6 @@ Err_Insert:
     Private Sub BtnExportToExcel_Click(sender As Object, e As EventArgs) Handles BtnExportToExcel.Click
         Dim Frm As New FrmPODutchmillDate
         If Frm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        Dim iPlanningOrder As String = Frm.iPlanningOrder
         Dim RequiredDate As Date = Frm.iRequiredDate
         Me.Cursor = Cursors.WaitCursor
         Application.DoEvents()
@@ -701,8 +769,7 @@ Err_Insert:
 				ORDER BY v.[Division];
 
                 SET @oQuery = N'
-                DECLARE @oPlanningOrder AS NVARCHAR(100) = N''{1}'';
-                DECLARE @DateRequired AS DATE = N''{2:yyyy-MM-dd}'';
+                DECLARE @DateRequired AS DATE = N''{1:yyyy-MM-dd}'';
                 DECLARE @oPayment AS  TABLE 
                 (
 	                [PONumber] [NVARCHAR](100) NULL,
@@ -737,7 +804,7 @@ Err_Insert:
                 SELECT [CusNum],[CusName]
                 INTO #oDutchmill
                 FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                WHERE (ISNULL([PromotionMachanic],N'''') = @oPlanningOrder) AND (CONVERT(DATE,[DateRequired]) = @DateRequired)
+                WHERE (CONVERT(DATE,[DateRequired]) = @DateRequired)
                 GROUP BY [CusNum],[CusName]
                 ORDER BY [CusName];
 
@@ -816,7 +883,7 @@ Err_Insert:
                 EXEC (@oQuery);            
             ]]>
                 </SQL>
-        query = String.Format(query, DatabaseName, iPlanningOrder, RequiredDate)
+        query = String.Format(query, DatabaseName, RequiredDate)
         Dim oPaymentlists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         Dim vreport As DeliveryTakeOrder.xOverCreditNOverTerm
         Dim vadapter As OleDbDataAdapter
@@ -847,10 +914,8 @@ Err_Insert:
             End If
         End If
 
-        query = <SQL>
-                    <![CDATA[
-                DECLARE @oPlanningOrder AS NVARCHAR(100) = N'{1}';
-                DECLARE @DateRequired AS DATE = N'{2:yyyy-MM-dd}';
+        query = <SQL><![CDATA[
+                DECLARE @DateRequired AS DATE = N'{1:yyyy-MM-dd}';
                 WITH o AS (
 	                SELECT v.ProID,v.ProNumY,v.ProNumYP,v.ProNumYC,v.ProName,v.ProPacksize,v.ProQtyPCase,v.ProQtyPPack,v.ProCat
 	                FROM [Stock].[dbo].[TPRProducts] v
@@ -896,14 +961,14 @@ Err_Insert:
                 DROP TABLE #vList;
 
                 WITH v as (
-                    SELECT [Barcode],[ProName],[Category] AS [Remark],[Size],[QtyPCase],ISNULL([DelTo],'') AS [CusName],SUM(ISNULL([TotalPcsOrder],0)) AS [TotalPcsOrder],[DateRequired],[DelToId]
+                    SELECT [Barcode],[ProName],[Category] AS [Remark],[Size],[QtyPCase],ISNULL([DelTo],'') AS [CusName],SUM(ISNULL([TotalPcsOrder],0)) AS [TotalPcsOrder],[DateRequired],[DelToId],[PromotionMachanic]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                    WHERE (ISNULL([PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
-                    GROUP BY [Barcode],[ProName],[Category],[Size],[QtyPCase],ISNULL([DelTo],''),[DateRequired],[DelToId]
+                    WHERE DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
+                    GROUP BY [Barcode],[ProName],[Category],[Size],[QtyPCase],ISNULL([DelTo],''),[DateRequired],[DelToId],[PromotionMachanic]
                     UNION ALL
-                    SELECT x.[Barcode],x.[ProName],x.[Category] AS [Remark],x.[Size],x.[QtyPCase],ISNULL(x.[DelTo],'') AS [CusName],NULL AS [TotalPcsOrder],[DateRequired],x.[DelToId]
+                    SELECT x.[Barcode],x.[ProName],x.[Category] AS [Remark],x.[Size],x.[QtyPCase],ISNULL(x.[DelTo],'') AS [CusName],NULL AS [TotalPcsOrder],[DateRequired],x.[DelToId],x.[PromotionMachanic]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill] as x
-                    WHERE (ISNULL(x.[PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
+                    WHERE DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
                 ),
 
 				w AS (
@@ -915,7 +980,8 @@ Err_Insert:
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Friday' AND x.[Friday] = 1 AND v.[DelToId] = x.[DelToId])
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Saturday' AND x.[Saturday] = 1 AND v.[DelToId] = x.[DelToId])
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Sunday' AND x.[Sunday] = 1 AND v.[DelToId] = x.[DelToId]))
-                THEN 1 ELSE 0 END AS [Missing],v.[DelToId]
+                THEN 1 ELSE 0 END AS [Missing],v.[DelToId],
+                REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(v.[PromotionMachanic],N'1,',N''),N'1 ,',N''),N'1.',N''),N'1 .',N''),N'2,',N''),N'2 ,',N''),N'2.',N''),N'2 .',N''),N'3,',N''),N'3 ,',N''),N'3.',N''),N'3 .',N''),N'4,',N''),N'4 ,',N''),N'4.',N''),N'4 .',N''),N'5,',N''),N'5 ,',N''),N'5.',N''),N'5 .',N''),N'6,',N''),N'6 ,',N''),N'6.',N''),N'6 .',N''),N'7,',N''),N'7 ,',N''),N'7.',N''),N'7 .',N''),N'8,',N''),N'8 ,',N''),N'8.',N''),N'8 .',N''),N'9,',N''),N'9 ,',N''),N'9.',N''),N'9 .',N''),N'0,',N''),N'0 ,',N''),N'0.',N''),N'0 .',N'') [PromotionMachanic]
                 FROM v
                 LEFT OUTER JOIN [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill_DeltoSetting] AS x ON v.[DelToId] = x.[DelToId]
                 GROUP BY v.[Barcode],v.[ProName],v.[Remark],v.[Size],v.[QtyPCase],v.[CusName]
@@ -926,22 +992,23 @@ Err_Insert:
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Friday' AND x.[Friday] = 1 AND v.[DelToId] = x.[DelToId])
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Saturday' AND x.[Saturday] = 1 AND v.[DelToId] = x.[DelToId])
                 OR (DATENAME(WEEKDAY,v.[DateRequired]) = N'Sunday' AND x.[Sunday] = 1 AND v.[DelToId] = x.[DelToId]))
-                THEN 1 ELSE 0 END,v.[DelToId])
+                THEN 1 ELSE 0 END,v.[DelToId],
+                REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(v.[PromotionMachanic],N'1,',N''),N'1 ,',N''),N'1.',N''),N'1 .',N''),N'2,',N''),N'2 ,',N''),N'2.',N''),N'2 .',N''),N'3,',N''),N'3 ,',N''),N'3.',N''),N'3 .',N''),N'4,',N''),N'4 ,',N''),N'4.',N''),N'4 .',N''),N'5,',N''),N'5 ,',N''),N'5.',N''),N'5 .',N''),N'6,',N''),N'6 ,',N''),N'6.',N''),N'6 .',N''),N'7,',N''),N'7 ,',N''),N'7.',N''),N'7 .',N''),N'8,',N''),N'8 ,',N''),N'8.',N''),N'8 .',N''),N'9,',N''),N'9 ,',N''),N'9.',N''),N'9 .',N''),N'0,',N''),N'0 ,',N''),N'0.',N''),N'0 .',N''))
 
 				SELECT w.[Barcode],w.[ProName],w.[Remark],REPLACE(w.[Size],' ','') AS [Size],w.[QtyPCase],w.[CusName],case when isnull(w.[TotalPcsOrder],0) = 0 then null else w.[TotalPcsOrder] end as [TotalPcsOrder],
                 CASE WHEN (w.[Missing] = 1 AND ISNULL(w.[TotalPcsOrder],0) <> 0) OR ISNULL(w.[DelToId],0) = 0 THEN 1 ELSE 0 END AS [Missing],
-                ISNULL(v.[PiecesPerTray],1) AS [PiecesPerTray],w.[DeltoId]
+                ISNULL(v.[PiecesPerTray],1) AS [PiecesPerTray],w.[DeltoId],w.[PromotionMachanic]
 				INTO #vLists
 				FROM w
                 LEFT OUTER JOIN [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill_TraySetting] AS v ON v.Barcode = w.Barcode
                 GROUP BY w.[Barcode],w.[ProName],w.[Remark],REPLACE(w.[Size],' ',''),w.[QtyPCase],w.[CusName],case when isnull(w.[TotalPcsOrder],0) = 0 then null else w.[TotalPcsOrder] end,
                 CASE WHEN (w.[Missing] = 1 AND ISNULL(w.[TotalPcsOrder],0) <> 0) OR ISNULL(w.[DelToId],0) = 0 THEN 1 ELSE 0 END,
-                ISNULL(v.[PiecesPerTray],1),w.[DeltoId]
+                ISNULL(v.[PiecesPerTray],1),w.[DeltoId],w.[PromotionMachanic]
                 ORDER BY w.[Remark],w.[ProName];
-				SELECT v.Barcode,v.ProName,v.Remark,v.Size,v.QtyPCase,v.PiecesPerTray,SUM(v.TotalPcsOrder) AS [TotalOrder],((CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) - SUM(v.TotalPcsOrder)) AS [TotalExtraLeft],(CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) AS [TotalOrderToThailand],ROUND(((CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) / ISNULL(v.PiecesPerTray,1)),2) AS [TotalTray]
+				SELECT v.Barcode,v.ProName,v.Remark,v.Size,v.QtyPCase,v.PiecesPerTray,SUM(v.TotalPcsOrder) AS [TotalOrder],((CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) - SUM(v.TotalPcsOrder)) AS [TotalExtraLeft],(CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) AS [TotalOrderToThailand],ROUND(((CEILING(SUM(v.TotalPcsOrder)/ISNULL(v.PiecesPerTray,1))*ISNULL(v.PiecesPerTray,1)) / ISNULL(v.PiecesPerTray,1)),2) AS [TotalTray],v.[PromotionMachanic]
 				INTO #v
 				FROM #vLists AS v
-				GROUP BY v.Barcode,v.ProName,v.Remark,v.Size,v.QtyPCase,v.PiecesPerTray
+				GROUP BY v.Barcode,v.ProName,v.Remark,v.Size,v.QtyPCase,v.PiecesPerTray,v.[PromotionMachanic]
 				ORDER BY v.Size,v.ProName;
 
 				SELECT v.*
@@ -949,9 +1016,8 @@ Err_Insert:
 				ORDER BY v.Remark,v.Size,v.Barcode,v.ProName;
 				DROP TABLE #vLists;
 				DROP TABLE #v;
-            ]]>
-                </SQL>
-        query = String.Format(query, DatabaseName, iPlanningOrder, RequiredDate)
+            ]]></SQL>
+        query = String.Format(query, DatabaseName, RequiredDate)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
         'Dim Report As New ReportViewer
@@ -970,7 +1036,7 @@ Err_Insert:
         Dim vTool1 As ReportPrintTool = New ReportPrintTool(vReport1)
         vReport1.Parameters("companyname").Value = String.Format("{0}{1}{2}", Initialized.R_CompanyKhmerName, vbCrLf, Initialized.R_CompanyName)
         vReport1.Parameters("companyaddress").Value = String.Format("{0}{1}{2}{1}Tel:{3}", Initialized.R_CompanyKhmAddress.Replace(vbCrLf, "").Trim(), vbCrLf, Initialized.R_CompanyAddress.Replace(vbCrLf, "").Trim(), Initialized.R_CompanyTelephone)
-        vReport1.Parameters("planningorder").Value = iPlanningOrder.Substring(3, iPlanningOrder.Length() - 3).Trim().ToUpper()
+        vReport1.Parameters("planningorder").Value = String.Format("DUTCHMILL ( {0:dddd} )", RequiredDate).ToUpper()
         vReport1.Parameters("planningdate").Value = oTodate
         vReport1.Parameters("shipmentdate").Value = RequiredDate
         vReport1.DataSource = lists
@@ -1295,13 +1361,14 @@ Err_Skip_SpecialInvoice:
     End Sub
 
     Private Sub BtnPreviewNEditTakeOrder_Click(sender As Object, e As EventArgs) Handles BtnPreviewNEditTakeOrder.Click
-        Dim vF1 As New FrmPODutchmillDate
+        Dim vF1 As New FrmPODutchmillDate_
         vF1.ChkLock.Visible = False
         vF1.BtnExportToExcel.Text = "&Preview"
         vF1.BtnExportToExcel.Image = My.Resources.Search16
         If vF1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        Dim iPlanningOrder As String = vF1.iPlanningOrder
         Dim vRequiredDate As Date = vF1.iRequiredDate
-        Dim vF2 As New FrmProcessTakeOrderPreviewNEdit With {.WindowState = FormWindowState.Maximized, .vRequiredDate = vRequiredDate}
-        vf2.ShowDialog(MDI)
+        Dim vF2 As New FrmProcessTakeOrderPreviewNEdit With {.WindowState = FormWindowState.Maximized, .vRequiredDate = vRequiredDate, .iPlanningOrder = iPlanningOrder}
+        vF2.ShowDialog(MDI)
     End Sub
 End Class

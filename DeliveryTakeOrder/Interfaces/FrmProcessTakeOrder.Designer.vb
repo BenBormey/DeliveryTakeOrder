@@ -61,6 +61,7 @@ Partial Class FrmProcessTakeOrder
         Me.DateRequired = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UnitNumber = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CusCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ProName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Size = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.QtyPCase = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -385,7 +386,7 @@ Partial Class FrmProcessTakeOrder
         Me.DgvShow.AllowUserToDeleteRows = False
         Me.DgvShow.BackgroundColor = System.Drawing.Color.GhostWhite
         Me.DgvShow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Tick, Me.Id, Me.TakeOrderNumber, Me.PONumber, Me.CusNum, Me.CusName, Me.DelToId, Me.DelTo, Me.DateOrd, Me.DateRequired, Me.UnitNumber, Me.Barcode, Me.ProName, Me.Size, Me.QtyPCase, Me.QtyPPack, Me.Category, Me.PcsFree, Me.PcsOrder, Me.PackOrder, Me.CTNOrder, Me.TotalPcsOrder, Me.LogInName, Me.PromotionMachanic, Me.ItemDiscount, Me.Remark, Me.Saleman, Me.CreatedDate})
+        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Tick, Me.Id, Me.TakeOrderNumber, Me.PONumber, Me.CusNum, Me.CusName, Me.DelToId, Me.DelTo, Me.DateOrd, Me.DateRequired, Me.UnitNumber, Me.Barcode, Me.CusCode, Me.ProName, Me.Size, Me.QtyPCase, Me.QtyPPack, Me.Category, Me.PcsFree, Me.PcsOrder, Me.PackOrder, Me.CTNOrder, Me.TotalPcsOrder, Me.LogInName, Me.PromotionMachanic, Me.ItemDiscount, Me.Remark, Me.Saleman, Me.CreatedDate})
         Me.DgvShow.Cursor = System.Windows.Forms.Cursors.Hand
         Me.DgvShow.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DgvShow.Location = New System.Drawing.Point(5, 108)
@@ -490,6 +491,13 @@ Partial Class FrmProcessTakeOrder
         Me.Barcode.Name = "Barcode"
         Me.Barcode.ReadOnly = True
         Me.Barcode.Width = 81
+        '
+        'CusCode
+        '
+        Me.CusCode.DataPropertyName = "CusCode"
+        Me.CusCode.HeaderText = "Items Code"
+        Me.CusCode.Name = "CusCode"
+        Me.CusCode.ReadOnly = True
         '
         'ProName
         '
@@ -757,34 +765,35 @@ Partial Class FrmProcessTakeOrder
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents DeltoLoading As System.Windows.Forms.Timer
     Friend WithEvents RequiredDateLoading As System.Windows.Forms.Timer
-    Friend WithEvents Tick As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents Id As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents TakeOrderNumber As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PONumber As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CusNum As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CusName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DelToId As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DelTo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DateOrd As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DateRequired As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents UnitNumber As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Barcode As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents ProName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Size As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents QtyPCase As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents QtyPPack As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Category As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PcsFree As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PcsOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PackOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CTNOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents TotalPcsOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents LogInName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PromotionMachanic As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents ItemDiscount As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Remark As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Saleman As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CreatedDate As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents LblSeletedRow As System.Windows.Forms.Label
     Friend WithEvents BtnPreviewNEditTakeOrder As System.Windows.Forms.Button
+    Friend WithEvents Tick As DataGridViewCheckBoxColumn
+    Friend WithEvents Id As DataGridViewTextBoxColumn
+    Friend WithEvents TakeOrderNumber As DataGridViewTextBoxColumn
+    Friend WithEvents PONumber As DataGridViewTextBoxColumn
+    Friend WithEvents CusNum As DataGridViewTextBoxColumn
+    Friend WithEvents CusName As DataGridViewTextBoxColumn
+    Friend WithEvents DelToId As DataGridViewTextBoxColumn
+    Friend WithEvents DelTo As DataGridViewTextBoxColumn
+    Friend WithEvents DateOrd As DataGridViewTextBoxColumn
+    Friend WithEvents DateRequired As DataGridViewTextBoxColumn
+    Friend WithEvents UnitNumber As DataGridViewTextBoxColumn
+    Friend WithEvents Barcode As DataGridViewTextBoxColumn
+    Friend WithEvents CusCode As DataGridViewTextBoxColumn
+    Friend WithEvents ProName As DataGridViewTextBoxColumn
+    Friend WithEvents Size As DataGridViewTextBoxColumn
+    Friend WithEvents QtyPCase As DataGridViewTextBoxColumn
+    Friend WithEvents QtyPPack As DataGridViewTextBoxColumn
+    Friend WithEvents Category As DataGridViewTextBoxColumn
+    Friend WithEvents PcsFree As DataGridViewTextBoxColumn
+    Friend WithEvents PcsOrder As DataGridViewTextBoxColumn
+    Friend WithEvents PackOrder As DataGridViewTextBoxColumn
+    Friend WithEvents CTNOrder As DataGridViewTextBoxColumn
+    Friend WithEvents TotalPcsOrder As DataGridViewTextBoxColumn
+    Friend WithEvents LogInName As DataGridViewTextBoxColumn
+    Friend WithEvents PromotionMachanic As DataGridViewTextBoxColumn
+    Friend WithEvents ItemDiscount As DataGridViewTextBoxColumn
+    Friend WithEvents Remark As DataGridViewTextBoxColumn
+    Friend WithEvents Saleman As DataGridViewTextBoxColumn
+    Friend WithEvents CreatedDate As DataGridViewTextBoxColumn
 End Class

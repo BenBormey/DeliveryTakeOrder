@@ -59,6 +59,7 @@ Partial Public Class XtraPODutchmills
         Me.planningorder = New DevExpress.XtraReports.Parameters.Parameter()
         Me.planningdate = New DevExpress.XtraReports.Parameters.Parameter()
         Me.shipmentdate = New DevExpress.XtraReports.Parameters.Parameter()
+        Me.GroupHeader1 = New DevExpress.XtraReports.UI.GroupHeaderBand()
         CType(Me.XrTable1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.XrTable2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PoDutchmill1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,8 +181,8 @@ Partial Public Class XtraPODutchmills
         '
         'TopMargin
         '
-        Me.TopMargin.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel3, Me.XrPanel1, Me.XrLine1, Me.lbltitle, Me.XrLabel4, Me.XrTable2})
-        Me.TopMargin.HeightF = 364.6668!
+        Me.TopMargin.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrPanel1, Me.XrLine1})
+        Me.TopMargin.HeightF = 155.2917!
         Me.TopMargin.Name = "TopMargin"
         Me.TopMargin.Padding = New DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100.0!)
         Me.TopMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft
@@ -191,7 +192,7 @@ Partial Public Class XtraPODutchmills
         Me.XrLabel3.CanGrow = False
         Me.XrLabel3.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[shipmentdate]")})
         Me.XrLabel3.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel3.LocationFloat = New DevExpress.Utils.PointFloat(0!, 205.2918!)
+        Me.XrLabel3.LocationFloat = New DevExpress.Utils.PointFloat(0.0001033147!, 50.00026!)
         Me.XrLabel3.Name = "XrLabel3"
         Me.XrLabel3.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel3.SizeF = New System.Drawing.SizeF(835.0001!, 25.00006!)
@@ -243,9 +244,9 @@ Partial Public Class XtraPODutchmills
         'lbltitle
         '
         Me.lbltitle.CanGrow = False
-        Me.lbltitle.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[planningorder]")})
+        Me.lbltitle.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[PromotionMachanic]")})
         Me.lbltitle.Font = New System.Drawing.Font("Khmer OS Battambang", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.lbltitle.LocationFloat = New DevExpress.Utils.PointFloat(0!, 155.2916!)
+        Me.lbltitle.LocationFloat = New DevExpress.Utils.PointFloat(0.0001033147!, 0!)
         Me.lbltitle.Name = "lbltitle"
         Me.lbltitle.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.lbltitle.SizeF = New System.Drawing.SizeF(835.0001!, 25.00006!)
@@ -259,7 +260,7 @@ Partial Public Class XtraPODutchmills
         Me.XrLabel4.CanGrow = False
         Me.XrLabel4.ExpressionBindings.AddRange(New DevExpress.XtraReports.UI.ExpressionBinding() {New DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[planningdate]")})
         Me.XrLabel4.Font = New System.Drawing.Font("Khmer OS Battambang", 8.0!)
-        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(0!, 180.2917!)
+        Me.XrLabel4.LocationFloat = New DevExpress.Utils.PointFloat(0.0001033147!, 25.00013!)
         Me.XrLabel4.Name = "XrLabel4"
         Me.XrLabel4.Padding = New DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100.0!)
         Me.XrLabel4.SizeF = New System.Drawing.SizeF(835.0001!, 25.00006!)
@@ -275,7 +276,7 @@ Partial Public Class XtraPODutchmills
         Me.XrTable2.Borders = CType((((DevExpress.XtraPrinting.BorderSide.Left Or DevExpress.XtraPrinting.BorderSide.Top) _
             Or DevExpress.XtraPrinting.BorderSide.Right) _
             Or DevExpress.XtraPrinting.BorderSide.Bottom), DevExpress.XtraPrinting.BorderSide)
-        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(0!, 230.2918!)
+        Me.XrTable2.LocationFloat = New DevExpress.Utils.PointFloat(0.0001033147!, 75.00025!)
         Me.XrTable2.Name = "XrTable2"
         Me.XrTable2.Rows.AddRange(New DevExpress.XtraReports.UI.XRTableRow() {Me.XrTableRow2})
         Me.XrTable2.SizeF = New System.Drawing.SizeF(835.0001!, 134.375!)
@@ -422,12 +423,20 @@ Partial Public Class XtraPODutchmills
         Me.shipmentdate.Name = "shipmentdate"
         Me.shipmentdate.Type = GetType(Date)
         '
+        'GroupHeader1
+        '
+        Me.GroupHeader1.Controls.AddRange(New DevExpress.XtraReports.UI.XRControl() {Me.XrLabel3, Me.XrTable2, Me.XrLabel4, Me.lbltitle})
+        Me.GroupHeader1.GroupFields.AddRange(New DevExpress.XtraReports.UI.GroupField() {New DevExpress.XtraReports.UI.GroupField("PromotionMachanic", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)})
+        Me.GroupHeader1.HeightF = 209.3752!
+        Me.GroupHeader1.Name = "GroupHeader1"
+        Me.GroupHeader1.PageBreak = DevExpress.XtraReports.UI.PageBreak.BeforeBand
+        '
         'XtraPODutchmills
         '
-        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.Detail, Me.TopMargin, Me.BottomMargin})
+        Me.Bands.AddRange(New DevExpress.XtraReports.UI.Band() {Me.Detail, Me.TopMargin, Me.BottomMargin, Me.GroupHeader1})
         Me.DataMember = "XrPODutchmill"
         Me.DataSource = Me.PoDutchmill1
-        Me.Margins = New System.Drawing.Printing.Margins(7, 8, 365, 0)
+        Me.Margins = New System.Drawing.Printing.Margins(7, 8, 155, 0)
         Me.Parameters.AddRange(New DevExpress.XtraReports.Parameters.Parameter() {Me.companyname, Me.companyaddress, Me.planningorder, Me.planningdate, Me.shipmentdate})
         Me.Version = "17.2"
         CType(Me.XrTable1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -476,4 +485,5 @@ Partial Public Class XtraPODutchmills
     Friend WithEvents XrLabel4 As DevExpress.XtraReports.UI.XRLabel
     Friend WithEvents XrLabel3 As DevExpress.XtraReports.UI.XRLabel
     Friend WithEvents shipmentdate As DevExpress.XtraReports.Parameters.Parameter
+    Friend WithEvents GroupHeader1 As DevExpress.XtraReports.UI.GroupHeaderBand
 End Class

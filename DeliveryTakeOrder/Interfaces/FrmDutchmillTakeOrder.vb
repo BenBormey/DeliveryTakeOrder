@@ -4,6 +4,11 @@ Imports Microsoft.Reporting.WinForms
 Imports DeliveryTakeOrder.DatabaseFrameworks
 Imports DeliveryTakeOrder.ApplicationFrameworks
 Imports Microsoft.Office.Interop
+Imports System.IO
+Imports System.Runtime.InteropServices
+Imports System.Data.OleDb
+Imports DevExpress.XtraReports.UI
+Imports DevExpress.XtraReports.Parameters
 
 Public Class FrmDutchmillTakeOrder
     Private Data As New DatabaseFramework
@@ -159,9 +164,7 @@ Public Class FrmDutchmillTakeOrder
                 vCusNum = CmbBillTo.SelectedValue
             End If
         End If
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [Barcode],[ProName],[Display]
                 FROM (
@@ -195,8 +198,7 @@ Public Class FrmDutchmillTakeOrder
                 ) Lists
                 GROUP BY [Barcode],[ProName],[Display]
                 ORDER BY [ProName];
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, vCusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DataSources(CmbProducts, lists, "Display", "Barcode")
@@ -219,16 +221,14 @@ Public Class FrmDutchmillTakeOrder
         REM Alert Customer Bad Payment
         PCustomerRemark.Visible = False
         Panel3.Enabled = True
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                         SELECT [Id],[CusNum],[CusName],[Remark],[AlertDate],[BlockDate],[CreatedDate]
                         FROM [{0}].[dbo].[TblCustomerRemarkSetting]
                         WHERE ([CusNum] = @vCusNum) 
                         AND (([Status] = N'Both') OR ([Status] = N'Dutchmill'))
                         AND (CONVERT(DATE,[AlertDate]) <= CONVERT(DATE,GETDATE()));                
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, CusNum)
         Dim oRemarkList As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (oRemarkList Is Nothing) Then
@@ -257,8 +257,8 @@ Public Class FrmDutchmillTakeOrder
     Private Sub PlanningOrderLoading_Tick(sender As Object, e As EventArgs) Handles PlanningOrderLoading.Tick
         Me.Cursor = Cursors.WaitCursor
         Me.PlanningOrderLoading.Enabled = False
-        Me.query = <SQL>
-                       <![CDATA[
+        Me.vDefaultIndex = -1
+        Me.query = <SQL><![CDATA[
                         WITH v AS (
 	                        SELECT [PlanningOrder]
 	                        FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
@@ -268,17 +268,17 @@ Public Class FrmDutchmillTakeOrder
                         FROM v
                         GROUP BY v.[PlanningOrder]
                         ORDER BY v.[PlanningOrder];           
-                    ]]>
-                   </SQL>
-        query = String.Format(query, DatabaseName)
+                    ]]></SQL>
+        Me.query = String.Format(query, DatabaseName)
         Dim oLists As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
-        DataSources(CmbPlanningOrder, oLists, "PlanningOrder", "PlanningOrder")
+        Me.DataSources(Me.CmbPlanningOrder, oLists, "PlanningOrder", "PlanningOrder")
         Me.Cursor = Cursors.Default
     End Sub
 
     Private Sub CmbPlanningOrder_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbPlanningOrder.SelectedIndexChanged
         If TypeOf CmbPlanningOrder.SelectedValue Is DataRowView Or CmbPlanningOrder.SelectedValue Is Nothing Then Exit Sub
         If CmbPlanningOrder.Text.Trim().Equals("") = True Then Exit Sub
+        vDefaultIndex = -1
         If Not (vDisplayList Is Nothing) Then vDisplayList = Nothing
         vDisplayList = New DataTable
         With vDisplayList.Columns
@@ -290,8 +290,10 @@ Public Class FrmDutchmillTakeOrder
             .Add("CusName", GetType(String))
             .Add("DeltoId", GetType(Decimal))
             .Add("Delto", GetType(String))
+            .Add("Zone", GetType(String))
             .Add("UnitNumber", GetType(String))
             .Add("Barcode", GetType(String))
+            .Add("CusCode", GetType(String))
             .Add("ProName", GetType(String))
             .Add("Size", GetType(String))
             .Add("QtyPerCase", GetType(Integer))
@@ -366,8 +368,7 @@ Public Class FrmDutchmillTakeOrder
                 vBarcode = CmbProducts.SelectedValue
             End If
         End If
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                 DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -375,32 +376,312 @@ Public Class FrmDutchmillTakeOrder
                 DECLARE @vBarcode AS NVARCHAR(MAX) = N'{5}';
                 DECLARE @vFilterNotRenew AS BIT = {6};
 
-                IF (@vFilterNotRenew = 0)
-                BEGIN
-                    SELECT [Renew],[NotAccept],[ChangeQty],[Id],[CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate],[RequiredDate]
-                    FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
-                    WHERE ([Department] = @vDepartment)
-                    AND ([CusNum] = @vCusNum OR N'' = @vCusNum) 
-                    AND ([DeltoId] = @vDeltoId OR 0 = @vDeltoId)
-                    AND ([PlanningOrder] = @vPlanningOrder)
-                    --AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
-                    --AND ([Barcode] LIKE @vBarcode + '%' OR N'' = @vBarcode)
-                    ORDER BY [CusName],[Delto],[Size],[ProName];
-                END
+                WITH    i AS ( SELECT   [Id] ,
+                                        [DefId] ,
+                                        [DelTo] ,
+                                        [KhmerUnicode] ,
+                                        [Address] ,
+                                        [KhmerAddress] ,
+                                        [Zone] ,
+                                        [Street] ,
+                                        [HouseNumber] ,
+                                        [Date] ,
+                                        [ContactName1] ,
+                                        [ContactName2] ,
+                                        [Tel1] ,
+                                        [Tel2] ,
+                                        [Fax1] ,
+                                        [Fax2] ,
+                                        [HP1] ,
+                                        [HP2] ,
+                                        [Class] ,
+                                        [Remark] ,
+                                        [SizeOfShop] ,
+                                        [DateLastInvoice] ,
+                                        [AirCondition] ,
+                                        [Freezer] ,
+                                        [AlternativeSnacks] ,
+                                        [AutomotiveProducts] ,
+                                        [Beer] ,
+                                        [Candy] ,
+                                        [Chocolate] ,
+                                        [EdibleGrocery] ,
+                                        [NonEdibleGrocery] ,
+                                        [FluidMilkProducts] ,
+                                        [FoodServiceSupply] ,
+                                        [Gum] ,
+                                        [HealthAndBeautyCare] ,
+                                        [Liquor] ,
+                                        [PackBeveragesNonAlcoholic] ,
+                                        [PackagedSweetSnacks] ,
+                                        [SaltySnacks] ,
+                                        [SuppliesAndServices] ,
+                                        [Tobacco] ,
+                                        [Wine] ,
+                                        [FreshDairy] ,
+                                        [FreshFluidMilkProducts] ,
+                                        [FreshFrozenFoods] ,
+                                        [PackagedIceCreamNovelties] ,
+                                        [PerishableGrocery] ,
+                                        [DelToInKhmer] ,
+                                        [City] ,
+                                        [Block] ,
+                                        [ShopNumber] ,
+                                        [SignatureImage] ,
+                                        [Latitude] ,
+                                        [Longitude] ,
+                                        [Status] ,
+                                        [CreatedDate]
+                               FROM     [Stock].[dbo].[TPRDelto]
+                               UNION ALL
+                               SELECT   [Id] ,
+                                        [DefId] ,
+                                        [DelTo] ,
+                                        [KhmerUnicode] ,
+                                        [Address] ,
+                                        [KhmerAddress] ,
+                                        [Zone] ,
+                                        [Street] ,
+                                        [HouseNumber] ,
+                                        [Date] ,
+                                        [ContactName1] ,
+                                        [ContactName2] ,
+                                        [Tel1] ,
+                                        [Tel2] ,
+                                        [Fax1] ,
+                                        [Fax2] ,
+                                        [HP1] ,
+                                        [HP2] ,
+                                        [Class] ,
+                                        [Remark] ,
+                                        [SizeOfShop] ,
+                                        [DateLastInvoice] ,
+                                        [AirCondition] ,
+                                        [Freezer] ,
+                                        [AlternativeSnacks] ,
+                                        [AutomotiveProducts] ,
+                                        [Beer] ,
+                                        [Candy] ,
+                                        [Chocolate] ,
+                                        [EdibleGrocery] ,
+                                        [NonEdibleGrocery] ,
+                                        [FluidMilkProducts] ,
+                                        [FoodServiceSupply] ,
+                                        [Gum] ,
+                                        [HealthAndBeautyCare] ,
+                                        [Liquor] ,
+                                        [PackBeveragesNonAlcoholic] ,
+                                        [PackagedSweetSnacks] ,
+                                        [SaltySnacks] ,
+                                        [SuppliesAndServices] ,
+                                        [Tobacco] ,
+                                        [Wine] ,
+                                        [FreshDairy] ,
+                                        [FreshFluidMilkProducts] ,
+                                        [FreshFrozenFoods] ,
+                                        [PackagedIceCreamNovelties] ,
+                                        [PerishableGrocery] ,
+                                        [DelToInKhmer] ,
+                                        [City] ,
+                                        [Block] ,
+                                        [ShopNumber] ,
+                                        [SignatureImage] ,
+                                        [Latitude] ,
+                                        [Longitude] ,
+                                        [Status] ,
+                                        [CreatedDate]
+                               FROM     [Stock].[dbo].[TPRDeltoDeactivate]
+                               UNION ALL
+                               SELECT   [Id] ,
+                                        [DefId] ,
+                                        [DelTo] ,
+                                        [KhmerUnicode] ,
+                                        [Address] ,
+                                        [KhmerAddress] ,
+                                        [Zone] ,
+                                        [Street] ,
+                                        [HouseNumber] ,
+                                        [Date] ,
+                                        [ContactName1] ,
+                                        [ContactName2] ,
+                                        [Tel1] ,
+                                        [Tel2] ,
+                                        [Fax1] ,
+                                        [Fax2] ,
+                                        [HP1] ,
+                                        [HP2] ,
+                                        [Class] ,
+                                        [Remark] ,
+                                        [SizeOfShop] ,
+                                        [DateLastInvoice] ,
+                                        [AirCondition] ,
+                                        [Freezer] ,
+                                        [AlternativeSnacks] ,
+                                        [AutomotiveProducts] ,
+                                        [Beer] ,
+                                        [Candy] ,
+                                        [Chocolate] ,
+                                        [EdibleGrocery] ,
+                                        [NonEdibleGrocery] ,
+                                        [FluidMilkProducts] ,
+                                        [FoodServiceSupply] ,
+                                        [Gum] ,
+                                        [HealthAndBeautyCare] ,
+                                        [Liquor] ,
+                                        [PackBeveragesNonAlcoholic] ,
+                                        [PackagedSweetSnacks] ,
+                                        [SaltySnacks] ,
+                                        [SuppliesAndServices] ,
+                                        [Tobacco] ,
+                                        [Wine] ,
+                                        [FreshDairy] ,
+                                        [FreshFluidMilkProducts] ,
+                                        [FreshFrozenFoods] ,
+                                        [PackagedIceCreamNovelties] ,
+                                        [PerishableGrocery] ,
+                                        [DelToInKhmer] ,
+                                        [City] ,
+                                        [Block] ,
+                                        [ShopNumber] ,
+                                        [SignatureImage] ,
+                                        [Latitude] ,
+                                        [Longitude] ,
+                                        [Status] ,
+                                        [CreatedDate]
+                               FROM     [Stock].[dbo].[TPRDelto.Deleted]
+                             )
+                    SELECT  i.*
+                    INTO    #oDelto
+                    FROM    i;
+
+                SELECT  i.[Renew] ,
+                        i.[NotAccept] ,
+                        i.[ChangeQty] ,
+                        i.[Id] ,
+                        i.[CusNum] ,
+                        i.[CusName] ,
+                        i.[DeltoId] ,
+                        i.[Delto] ,
+                        o.Zone ,
+                        i.[UnitNumber] ,
+                        i.[Barcode] ,
+                        CONVERT(NVARCHAR,N'') [CusCode] ,
+                        i.[ProName] ,
+                        i.[Size] ,
+                        i.[QtyPerCase] ,
+                        i.[PcsOrder] ,
+                        i.[CTNOrder] ,
+                        i.[TotalPcsOrder] ,
+                        i.[SupNum] ,
+                        i.[SupName] ,
+                        i.[Department] ,
+                        i.[PlanningOrder] ,
+                        i.[MachineName] ,
+                        i.[IPAddress] ,
+                        i.[CreatedDate] ,
+                        i.[VerifyDate] ,
+                        i.[RequiredDate]
+                INTO    #oDutchmillOrder
+                FROM    [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder] i
+                        INNER JOIN #oDelto o ON o.DefId = i.DeltoId
+                WHERE   ( i.[Department] = @vDepartment )
+                        AND ( i.[CusNum] = @vCusNum
+                              OR N'' = @vCusNum
+                            )
+                        AND ( i.[DeltoId] = @vDeltoId
+                              OR 0 = @vDeltoId
+                            )
+                        AND ( i.[PlanningOrder] = @vPlanningOrder )
+--AND (i.[PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
+--AND (i.[Barcode] LIKE @vBarcode + '%' OR N'' = @vBarcode)
+ORDER BY                i.[CusName] ,
+                        i.[Delto] ,
+                        i.[Size] ,
+                        i.[ProName];
+
+                UPDATE  i
+                SET     i.[CusCode] = x.[CusCode]
+                FROM    #oDutchmillOrder i
+                        INNER JOIN [{0}].[dbo].[TblCustomerCodes] x ON ( x.CusNum = i.CusNum ) and ( x.[Barcode] = i.[Barcode] );
+
+                IF ( @vFilterNotRenew = 0 )
+                    BEGIN
+                        SELECT  i.[Renew] ,
+                                i.[NotAccept] ,
+                                i.[ChangeQty] ,
+                                i.[Id] ,
+                                i.[CusNum] ,
+                                i.[CusName] ,
+                                i.[DeltoId] ,
+                                i.[Delto] ,
+                                i.Zone ,
+                                i.[UnitNumber] ,
+                                i.[Barcode] ,
+                                i.[CusCode] ,
+                                i.[ProName] ,
+                                i.[Size] ,
+                                i.[QtyPerCase] ,
+                                i.[PcsOrder] ,
+                                i.[CTNOrder] ,
+                                i.[TotalPcsOrder] ,
+                                i.[SupNum] ,
+                                i.[SupName] ,
+                                i.[Department] ,
+                                i.[PlanningOrder] ,
+                                i.[MachineName] ,
+                                i.[IPAddress] ,
+                                i.[CreatedDate] ,
+                                i.[VerifyDate] ,
+                                i.[RequiredDate]
+                        FROM    #oDutchmillOrder i
+                        ORDER BY i.[CusName] ,
+                                i.[Delto] ,
+                                i.[Size] ,
+                                i.[ProName];
+                    END;
                 ELSE
-                BEGIN
-                    SELECT [Renew],[NotAccept],[ChangeQty],[Id],[CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate],[RequiredDate]
-                    FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
-                    WHERE ([Department] = @vDepartment)
-                    AND ([CusNum] = @vCusNum OR N'' = @vCusNum) 
-                    AND ([DeltoId] = @vDeltoId OR 0 = @vDeltoId)
-                    AND ([PlanningOrder] = @vPlanningOrder)
-                    --AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder)
-                    --AND ([Barcode] LIKE @vBarcode + '%' OR N'' = @vBarcode)
-                    ORDER BY [NotAccept],[Renew],[ChangeQty],[CusName],[Delto],[Size],[ProName];
-                END
-            ]]>
-                </SQL>
+                    BEGIN
+                        SELECT  i.[Renew] ,
+                                i.[NotAccept] ,
+                                i.[ChangeQty] ,
+                                i.[Id] ,
+                                i.[CusNum] ,
+                                i.[CusName] ,
+                                i.[DeltoId] ,
+                                i.[Delto] ,
+                                i.Zone ,
+                                i.[UnitNumber] ,
+                                i.[Barcode] ,
+                                i.[CusCode] ,
+                                i.[ProName] ,
+                                i.[Size] ,
+                                i.[QtyPerCase] ,
+                                i.[PcsOrder] ,
+                                i.[CTNOrder] ,
+                                i.[TotalPcsOrder] ,
+                                i.[SupNum] ,
+                                i.[SupName] ,
+                                i.[Department] ,
+                                i.[PlanningOrder] ,
+                                i.[MachineName] ,
+                                i.[IPAddress] ,
+                                i.[CreatedDate] ,
+                                i.[VerifyDate] ,
+                                i.[RequiredDate]
+                        FROM    #oDutchmillOrder i
+                        ORDER BY i.[NotAccept] ,
+                                i.[Renew] ,
+                                i.[ChangeQty] ,
+                                i.[CusName] ,
+                                i.[Delto] ,
+                                i.[Size] ,
+                                i.[ProName];
+                    END;
+			
+
+                DROP TABLE #oDelto;
+                DROP TABLE #oDutchmillOrder;
+            ]]></SQL>
         query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, IIf(vFilterNotRenew = True, 1, 0))
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         vDisplayList.Rows.Clear()
@@ -415,8 +696,10 @@ Public Class FrmDutchmillTakeOrder
             vO("CusName") = Trim(IIf(IsDBNull(vR("CusName")) = True, "", vR("CusName")))
             vO("DeltoId") = CDec(IIf(IsDBNull(vR("DeltoId")) = True, 0, vR("DeltoId")))
             vO("Delto") = Trim(IIf(IsDBNull(vR("Delto")) = True, "", vR("Delto")))
+            vO("Zone") = Trim(IIf(IsDBNull(vR("Zone")) = True, "", vR("Zone")))
             vO("UnitNumber") = Trim(IIf(IsDBNull(vR("UnitNumber")) = True, "", vR("UnitNumber")))
             vO("Barcode") = Trim(IIf(IsDBNull(vR("Barcode")) = True, "", vR("Barcode")))
+            vO("CusCode") = Trim(IIf(IsDBNull(vR("CusCode")) = True, "", vR("CusCode")))
             vO("ProName") = Trim(IIf(IsDBNull(vR("ProName")) = True, "", vR("ProName")))
             vO("Size") = Trim(IIf(IsDBNull(vR("Size")) = True, "", vR("Size")))
             vO("QtyPerCase") = CInt(IIf(IsDBNull(vR("QtyPerCase")) = True, 1, vR("QtyPerCase")))
@@ -449,9 +732,7 @@ Public Class FrmDutchmillTakeOrder
         Dim vTotalCus As Decimal = 0
         Dim vTotalDelto As Decimal = 0
         Dim vTotalItems As Decimal = 0
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                 DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -463,8 +744,7 @@ Public Class FrmDutchmillTakeOrder
                 WHERE ([Department] = @vDepartment)
                 AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder);
                 
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, IIf(vFilterNotRenew = True, 1, 0))
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -606,9 +886,7 @@ Public Class FrmDutchmillTakeOrder
                 vBarcode = CmbProducts.SelectedValue
             End If
         End If
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{1}';
                 SELECT [ProNumY],[ProNumYP],[ProNumYC],[ProName],[ProPacksize],[ProQtyPCase],[ProQtyPPack],[ProTotQty],[ProCurr],[ProImpPri],[ProDis],[ProVAT],[ProFinBuyin],[Average],[ProUPrSE],[ProUPriSeH],[SupNum],[SupName]
                 FROM (
@@ -628,8 +906,7 @@ Public Class FrmDutchmillTakeOrder
 	                FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId]
 	                WHERE B.[OldProNumy] = @Barcode
                 ) LISTS;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, vBarcode)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -719,9 +996,7 @@ Check_Item:
             End If
             Dim vPcsOrder As Decimal = CDec(IIf(TxtPcsOrder.Text.Trim().Equals("") = True, 0, TxtPcsOrder.Text.Trim()))
             Dim vCTNOrder As Decimal = CDec(IIf(TxtCTNOrder.Text.Trim().Equals("") = True, 0, TxtCTNOrder.Text.Trim()))
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
                     DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
@@ -739,8 +1014,7 @@ Check_Item:
                     --AND ([PcsOrder] = @vPcsOrder)
                     --AND ([CTNOrder] = @vCTNOrder)
                     ORDER BY [CusName],[Size],[ProName];
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, vPcsOrder, vCTNOrder)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -752,8 +1026,7 @@ Check_Item:
                 End If
             End If
 
-            query = <SQL>
-                        <![CDATA[
+            query = <SQL><![CDATA[
                         DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                         DECLARE @vCusName AS NVARCHAR(100) = N'';
                         DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
@@ -806,8 +1079,7 @@ Check_Item:
                         SET @vTotalPcsOrder = (@vPcsOrder) + (@vCTNOrder * @vQtyPerCase);
                         INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]([CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate])
                         VALUES(@vCusNum,@vCusName,@vDeltoId,@vDelto,@vUnitNumber,@vBarcode,@vProName,@vSize,@vQtyPerCase,@vPcsOrder,@vCTNOrder,@vTotalPcsOrder,@vSupNum,@vSupName,@vRenew,@vNotAccept,@vChangeQty,@vDepartment,@vPlanningOrder,@vMachineName,@vIPAddress,GETDATE(),GETDATE());
-                    ]]>
-                    </SQL>
+                    ]]></SQL>
             query = String.Format(query, DatabaseName, vCusNum, vDeltoId, vPlanning, vDepartment, vBarcode, Environment.MachineName, vIPAddress, vPcsOrder, vCTNOrder)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -1012,9 +1284,8 @@ Check_Item:
         Dim ShipDate As Date = Nothing
         Dim GrandTotal As Double = 0
         Dim CreditAmount As Double = 0
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 DECLARE @NewLineChar AS CHAR(2) = CHAR(13) + CHAR(10);
                 DECLARE @query AS NVARCHAR(MAX) = '';
@@ -1079,7 +1350,7 @@ Check_Item:
                 FROM @CreditLists
                 ORDER BY [ShipDate] ASC;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         Dim CreditAmountList As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (CreditAmountList Is Nothing) Then
@@ -1090,9 +1361,8 @@ Check_Item:
             End If
         End If
 
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 DECLARE @NewLineChar AS CHAR(2) = CHAR(13) + CHAR(10);
                 DECLARE @query AS NVARCHAR(MAX) = '';
@@ -1154,7 +1424,7 @@ Check_Item:
                 SELECT SUM([GrandTotal]) AS [CreditAmountOwed]
                 FROM @CreditLists;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1168,15 +1438,14 @@ Check_Item:
         'Check Credit Amount Allow
         Dim AllowInv As Integer = 0
         Dim CreditAllow As Double = 0
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [Id],[CusNum],[CusName],[Allow],[MaxCredit],[CreatedDate] 
                 FROM [{0}].[dbo].[TblCustomerAllowCredits] 
                 WHERE DATEDIFF(DAY,GETDATE(),ISNULL([Expiry],GETDATE())) > 0 AND [CusNum] = @CusNum;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1305,15 +1574,14 @@ CreditAllows:
 
     Private Function CheckInfoCustomer(CusNum As String) As Boolean
         Dim IsExisted As Boolean = True
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [CusID],[CusNum],[CusName],[CusVat],[Terms],[Discount],[InvoiceDiscount],[CreditLimit],[CreditLimitAllow],[MaxMonthAllow],[ServiceRebate]
                 FROM [Stock].[dbo].[TPRCustomer]
                 WHERE [CusNum] = @CusNum;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1352,16 +1620,15 @@ CreditAllows:
         Dim IsAlertForm As Boolean = False
         Dim Msg As String = ""
         Dim Title As String = ""
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [CreditLimit],[Expiry],[AlertDate],GETDATE() AS [CurDate]
                 FROM [Stock].[dbo].[TPRCustomerBankGarantee]
                 WHERE [CusId] = @CusNum
                 ORDER BY [Expiry];
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1410,9 +1677,8 @@ CreditAllows:
                 vId = Trim(Mid(vId, 1, vId.Length - 1))
             End If
             vDefaultIndex = 0
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder_Deleting]([CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate],[DeletedDate])
                     SELECT [CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate],GETDATE()
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
@@ -1421,7 +1687,7 @@ CreditAllows:
                     DELETE FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
                     WHERE [Id] IN ({1});
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, vId)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -1999,5 +2265,123 @@ Err_Insert:
         oFrm.ShowDialog()
         Me.CmbPlanningOrder.SelectedIndex = -1
         Me.PlanningOrderLoading.Enabled = True
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        Dim vPlanning As String = ""
+        If TypeOf CmbPlanningOrder.SelectedValue Is DataRowView Or CmbPlanningOrder.SelectedValue Is Nothing Then
+            vPlanning = ""
+        Else
+            If CmbPlanningOrder.Text.Trim() = "" Then
+                vPlanning = ""
+            Else
+                vPlanning = CmbPlanningOrder.SelectedValue
+            End If
+        End If
+        vPlanning = vPlanning.Replace("0.", "").Replace("1.", "").Replace("2.", "").Replace("3.", "").Replace("4.", "").Replace("5.", "").Replace("6.", "").Replace("7.", "").Replace("8.", "").Replace("9.", "")
+        vPlanning = vPlanning.Replace("0 .", "").Replace("1 .", "").Replace("2 .", "").Replace("3 .", "").Replace("4 .", "").Replace("5 .", "").Replace("6 .", "").Replace("7 .", "").Replace("8 .", "").Replace("9 .", "")
+        vPlanning = vPlanning.Replace("0,", "").Replace("1,", "").Replace("2,", "").Replace("3,", "").Replace("4,", "").Replace("5,", "").Replace("6,", "").Replace("7,", "").Replace("8,", "").Replace("9,", "")
+        vPlanning = vPlanning.Replace("0 ,", "").Replace("1 ,", "").Replace("2 ,", "").Replace("3 ,", "").Replace("4 ,", "").Replace("5 ,", "").Replace("6 ,", "").Replace("7 ,", "").Replace("8 ,", "").Replace("9 ,", "")
+        vPlanning = String.Format("{0} ( {1} )", vPlanning.Trim().ToUpper(), LblTeam.Text.Trim())
+
+        Dim oTodate As Date = Data.Get_CURRENT_DATE(Initialized.GetConnectionType(Data, App))
+        Dim vAdapter1 As New OleDbDataAdapter
+        Dim vReport1 As New sExportPlanningOrder
+        Dim vTool1 As ReportPrintTool = New ReportPrintTool(vReport1)
+        vReport1.Parameters("companyname").Value = String.Format("{0}{1}{2}", Initialized.R_CompanyKhmerName, vbCrLf, Initialized.R_CompanyName)
+        vReport1.Parameters("companyaddress").Value = String.Format("{0}{1}{2}{1}Tel:{3}", Initialized.R_CompanyKhmAddress.Replace(vbCrLf, "").Trim(), vbCrLf, Initialized.R_CompanyAddress.Replace(vbCrLf, "").Trim(), Initialized.R_CompanyTelephone)
+        vReport1.Parameters("planningorder").Value = vPlanning
+        vReport1.Parameters("planningdate").Value = oTodate
+        vReport1.DataSource = vDisplayList.Copy()
+        vReport1.DataAdapter = vAdapter1
+        vReport1.DataMember = "dtExportPlanningOrder"
+        vReport1.RequestParameters = False
+        vTool1.AutoShowParametersPanel = False
+        vTool1.PrinterSettings.Copies = 1
+        vTool1.ShowRibbonPreviewDialog()
+    End Sub
+
+    Private Sub MnuChangePlanningOrder_Click(sender As Object, e As EventArgs) Handles MnuChangePlanningOrder.Click
+        Me.Popmain.Close()
+        If DgvShow.Rows.Count <= 0 Then Exit Sub
+        Dim vPlanning As String = ""
+        If TypeOf CmbPlanningOrder.SelectedValue Is DataRowView Or CmbPlanningOrder.SelectedValue Is Nothing Then
+            vPlanning = ""
+        Else
+            If CmbPlanningOrder.Text.Trim() = "" Then
+                vPlanning = ""
+            Else
+                vPlanning = CmbPlanningOrder.SelectedValue
+            End If
+        End If
+        vDefaultIndex = DgvShow.CurrentRow.Index
+        Dim vCusNum As String = Trim(IIf(IsDBNull(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("CusNum").Value) = True, "", DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("CusNum").Value))
+        Dim vCusName As String = Trim(IIf(IsDBNull(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("CusName").Value) = True, "", DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("CusName").Value))
+        Dim vDeltoId As Decimal = CDec(IIf(IsDBNull(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("DeltoId").Value) = True, 0, DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("DeltoId").Value))
+        Dim vDelto As String = Trim(IIf(IsDBNull(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Delto").Value) = True, "", DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Delto").Value))
+        Dim vId As Decimal = CDec(IIf(IsDBNull(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Id").Value) = True, 0, DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Id").Value))
+        Dim vFrm As New FrmDutchmillTakeOrderPlanningOrder With {.vCusNum = vCusNum, .vCusName = vCusName, .vDepartment = vDepartment, .vPlanning = vPlanning, .vDeltoId = vDeltoId, .vDelto = vDelto, .vId = vId}
+        If vFrm.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        DgvShow.Rows.RemoveAt(vDefaultIndex)
+
+
+        Dim vCusNum_ As String = ""
+        If TypeOf CmbBillTo.SelectedValue Is DataRowView Or CmbBillTo.SelectedValue Is Nothing Then
+            vCusNum_ = ""
+        Else
+            If CmbBillTo.Text.Trim() = "" Then
+                vCusNum_ = ""
+            Else
+                vCusNum_ = CmbBillTo.SelectedValue
+            End If
+        End If
+        Dim vDeltoId_ As Decimal = 0
+        If TypeOf CmbDelto.SelectedValue Is DataRowView Or CmbDelto.SelectedValue Is Nothing Then
+            vDeltoId_ = 0
+        Else
+            If CmbDelto.Text.Trim() = "" Then
+                vDeltoId_ = 0
+            Else
+                vDeltoId_ = CmbDelto.SelectedValue
+            End If
+        End If
+        Dim vBarcode As String = CmbProducts.Text.Trim()
+        If vBarcode.Length > 13 Then vBarcode = Trim(Mid(vBarcode, 1, 15))
+        If TypeOf CmbProducts.SelectedValue Is DataRowView Or CmbProducts.SelectedValue Is Nothing Then
+            vBarcode = vBarcode
+        Else
+            If CmbProducts.Text.Trim() = "" Then
+                vBarcode = vBarcode
+            Else
+                vBarcode = CmbProducts.SelectedValue
+            End If
+        End If
+        Dim vTotalCus As Decimal = 0
+        Dim vTotalDelto As Decimal = 0
+        Dim vTotalItems As Decimal = 0
+        query = <SQL><![CDATA[
+                DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
+                DECLARE @vDeltoId AS DECIMAL(18,0) = {2};
+                DECLARE @vPlanningOrder AS NVARCHAR(50) = N'{3}';
+                DECLARE @vDepartment AS NVARCHAR(50) = N'{4}';
+                DECLARE @vBarcode AS NVARCHAR(MAX) = N'{5}';
+                
+                SELECT COUNT(DISTINCT [CusNum]) AS [CusNum],COUNT(DISTINCT [DeltoId]) AS [DeltoId],COUNT(DISTINCT [UnitNumber]) AS [UnitNumber]
+                FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
+                WHERE ([Department] = @vDepartment)
+                AND ([PlanningOrder] = @vPlanningOrder OR N'' = @vPlanningOrder);
+                
+            ]]></SQL>
+        query = String.Format(query, DatabaseName, vCusNum_, vDeltoId_, vPlanning, vDepartment, vBarcode, IIf(vFilterNotRenew = True, 1, 0))
+        lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+        If Not (lists Is Nothing) Then
+            If lists.Rows.Count > 0 Then
+                vTotalCus = CDec(IIf(IsDBNull(lists.Rows(0).Item("CusNum")) = True, 0, lists.Rows(0).Item("CusNum")))
+                vTotalDelto = CDec(IIf(IsDBNull(lists.Rows(0).Item("DeltoId")) = True, 0, lists.Rows(0).Item("DeltoId")))
+                vTotalItems = CDec(IIf(IsDBNull(lists.Rows(0).Item("UnitNumber")) = True, 0, lists.Rows(0).Item("UnitNumber")))
+            End If
+        End If
+        LblTotalCustomer.Text = String.Format("♦ Total Customer = {0}", vTotalCus)
+        LblTotalDelto.Text = String.Format("♦ Total Delto = {0}", vTotalDelto)
     End Sub
 End Class

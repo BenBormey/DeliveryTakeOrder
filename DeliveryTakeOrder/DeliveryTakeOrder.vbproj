@@ -254,6 +254,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ArrivalTransaction.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Dataset\dsExportPlanningOrder.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsExportPlanningOrder.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Dataset\ExpiryDate.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -299,6 +304,12 @@
     <Compile Include="Dev\sExpiryDate.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Dev\sExportPlanningOrder.Designer.vb">
+      <DependentUpon>sExportPlanningOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\sExportPlanningOrder.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Frameworks\ApplicationFramework.vb" />
     <Compile Include="Frameworks\Configuration.vb" />
     <Compile Include="Frameworks\DatabaseFramework.vb" />
@@ -314,6 +325,12 @@
     <Compile Include="Interfaces\FrmCheckExpiryDate.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderPlanningOrder.Designer.vb">
+      <DependentUpon>FrmDutchmillTakeOrderPlanningOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmDutchmillTakeOrderPlanningOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Interfaces\FrmOverCreditAmountOrCreditTerm.Designer.vb">
       <DependentUpon>FrmOverCreditAmountOrCreditTerm.vb</DependentUpon>
     </Compile>
@@ -324,6 +341,12 @@
       <DependentUpon>FrmPlanningOrder.vb</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\FrmPlanningOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillDate_.Designer.vb">
+      <DependentUpon>FrmPODutchmillDate_.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\FrmPODutchmillDate_.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\FrmUnlockPrinterTakeOrder.Designer.vb">
@@ -586,17 +609,26 @@
     <EmbeddedResource Include="Dev\sExpiryDate.resx">
       <DependentUpon>sExpiryDate.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dev\sExportPlanningOrder.resx">
+      <DependentUpon>sExportPlanningOrder.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmAlertBadPayment.resx">
       <DependentUpon>FrmAlertBadPayment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmCheckExpiryDate.resx">
       <DependentUpon>FrmCheckExpiryDate.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmDutchmillTakeOrderPlanningOrder.resx">
+      <DependentUpon>FrmDutchmillTakeOrderPlanningOrder.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmOverCreditAmountOrCreditTerm.resx">
       <DependentUpon>FrmOverCreditAmountOrCreditTerm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmPlanningOrder.resx">
       <DependentUpon>FrmPlanningOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interfaces\FrmPODutchmillDate_.resx">
+      <DependentUpon>FrmPODutchmillDate_.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interfaces\FrmUnlockPrinterTakeOrder.resx">
       <DependentUpon>FrmUnlockPrinterTakeOrder.vb</DependentUpon>
@@ -727,6 +759,17 @@
       <DependentUpon>ArrivalTransaction.xsd</DependentUpon>
     </None>
     <Fakes Include="Fakes\MySql.Data.fakes" />
+    <None Include="Dataset\dsExportPlanningOrder.xsc">
+      <DependentUpon>dsExportPlanningOrder.xsd</DependentUpon>
+    </None>
+    <None Include="Dataset\dsExportPlanningOrder.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsExportPlanningOrder.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Dataset\dsExportPlanningOrder.xss">
+      <DependentUpon>dsExportPlanningOrder.xsd</DependentUpon>
+    </None>
     <None Include="Dataset\ExpiryDate.xsc">
       <DependentUpon>ExpiryDate.xsd</DependentUpon>
     </None>

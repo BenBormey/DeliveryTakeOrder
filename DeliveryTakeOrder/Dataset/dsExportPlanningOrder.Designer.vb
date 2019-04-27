@@ -20,14 +20,12 @@ Option Explicit On
  Global.System.ComponentModel.DesignerCategoryAttribute("code"),  _
  Global.System.ComponentModel.ToolboxItem(true),  _
  Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema"),  _
- Global.System.Xml.Serialization.XmlRootAttribute("PODutchmill"),  _
+ Global.System.Xml.Serialization.XmlRootAttribute("dsExportPlanningOrder"),  _
  Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")>  _
-Partial Public Class PODutchmill
+Partial Public Class dsExportPlanningOrder
     Inherits Global.System.Data.DataSet
     
-    Private tablePODutchmill As PODutchmillDataTable
-    
-    Private tableXrPODutchmill As XrPODutchmillDataTable
+    Private tabledtExportPlanningOrder As dtExportPlanningOrderDataTable
     
     Private _schemaSerializationMode As Global.System.Data.SchemaSerializationMode = Global.System.Data.SchemaSerializationMode.IncludeSchema
     
@@ -58,11 +56,8 @@ Partial Public Class PODutchmill
         If (Me.DetermineSchemaSerializationMode(info, context) = Global.System.Data.SchemaSerializationMode.IncludeSchema) Then
             Dim ds As Global.System.Data.DataSet = New Global.System.Data.DataSet()
             ds.ReadXmlSchema(New Global.System.Xml.XmlTextReader(New Global.System.IO.StringReader(strSchema)))
-            If (Not (ds.Tables("PODutchmill")) Is Nothing) Then
-                MyBase.Tables.Add(New PODutchmillDataTable(ds.Tables("PODutchmill")))
-            End If
-            If (Not (ds.Tables("XrPODutchmill")) Is Nothing) Then
-                MyBase.Tables.Add(New XrPODutchmillDataTable(ds.Tables("XrPODutchmill")))
+            If (Not (ds.Tables("dtExportPlanningOrder")) Is Nothing) Then
+                MyBase.Tables.Add(New dtExportPlanningOrderDataTable(ds.Tables("dtExportPlanningOrder")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -85,19 +80,9 @@ Partial Public Class PODutchmill
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0"),  _
      Global.System.ComponentModel.Browsable(false),  _
      Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
-    Public ReadOnly Property _PODutchmill() As PODutchmillDataTable
+    Public ReadOnly Property dtExportPlanningOrder() As dtExportPlanningOrderDataTable
         Get
-            Return Me.tablePODutchmill
-        End Get
-    End Property
-    
-    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0"),  _
-     Global.System.ComponentModel.Browsable(false),  _
-     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
-    Public ReadOnly Property XrPODutchmill() As XrPODutchmillDataTable
-        Get
-            Return Me.tableXrPODutchmill
+            Return Me.tabledtExportPlanningOrder
         End Get
     End Property
     
@@ -143,7 +128,7 @@ Partial Public Class PODutchmill
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
     Public Overrides Function Clone() As Global.System.Data.DataSet
-        Dim cln As PODutchmill = CType(MyBase.Clone,PODutchmill)
+        Dim cln As dsExportPlanningOrder = CType(MyBase.Clone,dsExportPlanningOrder)
         cln.InitVars
         cln.SchemaSerializationMode = Me.SchemaSerializationMode
         Return cln
@@ -168,11 +153,8 @@ Partial Public Class PODutchmill
             Me.Reset
             Dim ds As Global.System.Data.DataSet = New Global.System.Data.DataSet()
             ds.ReadXml(reader)
-            If (Not (ds.Tables("PODutchmill")) Is Nothing) Then
-                MyBase.Tables.Add(New PODutchmillDataTable(ds.Tables("PODutchmill")))
-            End If
-            If (Not (ds.Tables("XrPODutchmill")) Is Nothing) Then
-                MyBase.Tables.Add(New XrPODutchmillDataTable(ds.Tables("XrPODutchmill")))
+            If (Not (ds.Tables("dtExportPlanningOrder")) Is Nothing) Then
+                MyBase.Tables.Add(New dtExportPlanningOrderDataTable(ds.Tables("dtExportPlanningOrder")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -206,16 +188,10 @@ Partial Public Class PODutchmill
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
     Friend Overloads Sub InitVars(ByVal initTable As Boolean)
-        Me.tablePODutchmill = CType(MyBase.Tables("PODutchmill"),PODutchmillDataTable)
+        Me.tabledtExportPlanningOrder = CType(MyBase.Tables("dtExportPlanningOrder"),dtExportPlanningOrderDataTable)
         If (initTable = true) Then
-            If (Not (Me.tablePODutchmill) Is Nothing) Then
-                Me.tablePODutchmill.InitVars
-            End If
-        End If
-        Me.tableXrPODutchmill = CType(MyBase.Tables("XrPODutchmill"),XrPODutchmillDataTable)
-        If (initTable = true) Then
-            If (Not (Me.tableXrPODutchmill) Is Nothing) Then
-                Me.tableXrPODutchmill.InitVars
+            If (Not (Me.tabledtExportPlanningOrder) Is Nothing) Then
+                Me.tabledtExportPlanningOrder.InitVars
             End If
         End If
     End Sub
@@ -223,26 +199,18 @@ Partial Public Class PODutchmill
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
     Private Sub InitClass()
-        Me.DataSetName = "PODutchmill"
+        Me.DataSetName = "dsExportPlanningOrder"
         Me.Prefix = ""
-        Me.Namespace = "http://tempuri.org/PODutchmill.xsd"
+        Me.Namespace = "http://tempuri.org/dsExportPlanningOrder.xsd"
         Me.EnforceConstraints = true
         Me.SchemaSerializationMode = Global.System.Data.SchemaSerializationMode.IncludeSchema
-        Me.tablePODutchmill = New PODutchmillDataTable()
-        MyBase.Tables.Add(Me.tablePODutchmill)
-        Me.tableXrPODutchmill = New XrPODutchmillDataTable()
-        MyBase.Tables.Add(Me.tableXrPODutchmill)
+        Me.tabledtExportPlanningOrder = New dtExportPlanningOrderDataTable()
+        MyBase.Tables.Add(Me.tabledtExportPlanningOrder)
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Private Function ShouldSerialize_PODutchmill() As Boolean
-        Return false
-    End Function
-    
-    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Private Function ShouldSerializeXrPODutchmill() As Boolean
+    Private Function ShouldSerializedtExportPlanningOrder() As Boolean
         Return false
     End Function
     
@@ -257,7 +225,7 @@ Partial Public Class PODutchmill
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
     Public Shared Function GetTypedDataSetSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
-        Dim ds As PODutchmill = New PODutchmill()
+        Dim ds As dsExportPlanningOrder = New dsExportPlanningOrder()
         Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
         Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
         Dim any As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
@@ -305,42 +273,75 @@ Partial Public Class PODutchmill
     End Function
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Public Delegate Sub PODutchmillRowChangeEventHandler(ByVal sender As Object, ByVal e As PODutchmillRowChangeEvent)
-    
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Public Delegate Sub XrPODutchmillRowChangeEventHandler(ByVal sender As Object, ByVal e As XrPODutchmillRowChangeEvent)
+    Public Delegate Sub dtExportPlanningOrderRowChangeEventHandler(ByVal sender As Object, ByVal e As dtExportPlanningOrderRowChangeEvent)
     
     '''<summary>
     '''Represents the strongly named DataTable class.
     '''</summary>
     <Global.System.Serializable(),  _
      Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
-    Partial Public Class PODutchmillDataTable
-        Inherits Global.System.Data.TypedTableBase(Of PODutchmillRow)
+    Partial Public Class dtExportPlanningOrderDataTable
+        Inherits Global.System.Data.TypedTableBase(Of dtExportPlanningOrderRow)
         
-        Private columnBarcode As Global.System.Data.DataColumn
+        Private columnRenew As Global.System.Data.DataColumn
         
-        Private columnProName As Global.System.Data.DataColumn
+        Private columnNotAccept As Global.System.Data.DataColumn
         
-        Private columnRemark As Global.System.Data.DataColumn
+        Private columnChangeQty As Global.System.Data.DataColumn
         
-        Private columnSize As Global.System.Data.DataColumn
+        Private columnId As Global.System.Data.DataColumn
         
-        Private columnQtyPCase As Global.System.Data.DataColumn
+        Private columnCusNum As Global.System.Data.DataColumn
         
         Private columnCusName As Global.System.Data.DataColumn
         
+        Private columnDeltoId As Global.System.Data.DataColumn
+        
+        Private columnDelto As Global.System.Data.DataColumn
+        
+        Private columnZone As Global.System.Data.DataColumn
+        
+        Private columnUnitNumber As Global.System.Data.DataColumn
+        
+        Private columnBarcode As Global.System.Data.DataColumn
+        
+        Private columnCusCode As Global.System.Data.DataColumn
+        
+        Private columnProName As Global.System.Data.DataColumn
+        
+        Private columnSize As Global.System.Data.DataColumn
+        
+        Private columnQtyPerCase As Global.System.Data.DataColumn
+        
+        Private columnPcsOrder As Global.System.Data.DataColumn
+        
+        Private columnCTNOrder As Global.System.Data.DataColumn
+        
         Private columnTotalPcsOrder As Global.System.Data.DataColumn
         
-        Private columnMissing As Global.System.Data.DataColumn
+        Private columnSupNum As Global.System.Data.DataColumn
         
-        Private columnPiecesPerTray As Global.System.Data.DataColumn
+        Private columnSupName As Global.System.Data.DataColumn
+        
+        Private columnDepartment As Global.System.Data.DataColumn
+        
+        Private columnPlanningOrder As Global.System.Data.DataColumn
+        
+        Private columnMachineName As Global.System.Data.DataColumn
+        
+        Private columnIPAddress As Global.System.Data.DataColumn
+        
+        Private columnCreatedDate As Global.System.Data.DataColumn
+        
+        Private columnVerifyDate As Global.System.Data.DataColumn
+        
+        Private columnRequiredDate As Global.System.Data.DataColumn
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Sub New()
             MyBase.New
-            Me.TableName = "PODutchmill"
+            Me.TableName = "dtExportPlanningOrder"
             Me.BeginInit
             Me.InitClass
             Me.EndInit
@@ -373,41 +374,41 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property BarcodeColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property RenewColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnBarcode
+                Return Me.columnRenew
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property ProNameColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property NotAcceptColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnProName
+                Return Me.columnNotAccept
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property RemarkColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property ChangeQtyColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnRemark
+                Return Me.columnChangeQty
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property SizeColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property IdColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnSize
+                Return Me.columnId
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property QtyPCaseColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property CusNumColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnQtyPCase
+                Return Me.columnCusNum
             End Get
         End Property
         
@@ -421,323 +422,49 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property TotalPcsOrderColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property DeltoIdColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnTotalPcsOrder
+                Return Me.columnDeltoId
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property MissingColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property DeltoColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnMissing
+                Return Me.columnDelto
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property PiecesPerTrayColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property ZoneColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnPiecesPerTray
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0"),  _
-         Global.System.ComponentModel.Browsable(false)>  _
-        Public ReadOnly Property Count() As Integer
-            Get
-                Return Me.Rows.Count
+                Return Me.columnZone
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Default ReadOnly Property Item(ByVal index As Integer) As PODutchmillRow
+        Public ReadOnly Property UnitNumberColumn() As Global.System.Data.DataColumn
             Get
-                Return CType(Me.Rows(index),PODutchmillRow)
+                Return Me.columnUnitNumber
             End Get
         End Property
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event PODutchmillRowChanging As PODutchmillRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event PODutchmillRowChanged As PODutchmillRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event PODutchmillRowDeleting As PODutchmillRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event PODutchmillRowDeleted As PODutchmillRowChangeEventHandler
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Overloads Sub AddPODutchmillRow(ByVal row As PODutchmillRow)
-            Me.Rows.Add(row)
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Overloads Function AddPODutchmillRow(ByVal Barcode As String, ByVal ProName As String, ByVal Remark As String, ByVal Size As String, ByVal QtyPCase As Integer, ByVal CusName As String, ByVal TotalPcsOrder As Decimal, ByVal Missing As Boolean, ByVal PiecesPerTray As Decimal) As PODutchmillRow
-            Dim rowPODutchmillRow As PODutchmillRow = CType(Me.NewRow,PODutchmillRow)
-            Dim columnValuesArray() As Object = New Object() {Barcode, ProName, Remark, Size, QtyPCase, CusName, TotalPcsOrder, Missing, PiecesPerTray}
-            rowPODutchmillRow.ItemArray = columnValuesArray
-            Me.Rows.Add(rowPODutchmillRow)
-            Return rowPODutchmillRow
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Overrides Function Clone() As Global.System.Data.DataTable
-            Dim cln As PODutchmillDataTable = CType(MyBase.Clone,PODutchmillDataTable)
-            cln.InitVars
-            Return cln
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
-            Return New PODutchmillDataTable()
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Friend Sub InitVars()
-            Me.columnBarcode = MyBase.Columns("Barcode")
-            Me.columnProName = MyBase.Columns("ProName")
-            Me.columnRemark = MyBase.Columns("Remark")
-            Me.columnSize = MyBase.Columns("Size")
-            Me.columnQtyPCase = MyBase.Columns("QtyPCase")
-            Me.columnCusName = MyBase.Columns("CusName")
-            Me.columnTotalPcsOrder = MyBase.Columns("TotalPcsOrder")
-            Me.columnMissing = MyBase.Columns("Missing")
-            Me.columnPiecesPerTray = MyBase.Columns("PiecesPerTray")
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Private Sub InitClass()
-            Me.columnBarcode = New Global.System.Data.DataColumn("Barcode", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnBarcode)
-            Me.columnProName = New Global.System.Data.DataColumn("ProName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnProName)
-            Me.columnRemark = New Global.System.Data.DataColumn("Remark", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnRemark)
-            Me.columnSize = New Global.System.Data.DataColumn("Size", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnSize)
-            Me.columnQtyPCase = New Global.System.Data.DataColumn("QtyPCase", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnQtyPCase)
-            Me.columnCusName = New Global.System.Data.DataColumn("CusName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnCusName)
-            Me.columnTotalPcsOrder = New Global.System.Data.DataColumn("TotalPcsOrder", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnTotalPcsOrder)
-            Me.columnMissing = New Global.System.Data.DataColumn("Missing", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnMissing)
-            Me.columnPiecesPerTray = New Global.System.Data.DataColumn("PiecesPerTray", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnPiecesPerTray)
-            Me.ExtendedProperties.Add("Generator_TablePropName", "_PODutchmill")
-            Me.ExtendedProperties.Add("Generator_UserTableName", "PODutchmill")
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function NewPODutchmillRow() As PODutchmillRow
-            Return CType(Me.NewRow,PODutchmillRow)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
-            Return New PODutchmillRow(builder)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Function GetRowType() As Global.System.Type
-            Return GetType(PODutchmillRow)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowChanged(e)
-            If (Not (Me.PODutchmillRowChangedEvent) Is Nothing) Then
-                RaiseEvent PODutchmillRowChanged(Me, New PODutchmillRowChangeEvent(CType(e.Row,PODutchmillRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowChanging(e)
-            If (Not (Me.PODutchmillRowChangingEvent) Is Nothing) Then
-                RaiseEvent PODutchmillRowChanging(Me, New PODutchmillRowChangeEvent(CType(e.Row,PODutchmillRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowDeleted(e)
-            If (Not (Me.PODutchmillRowDeletedEvent) Is Nothing) Then
-                RaiseEvent PODutchmillRowDeleted(Me, New PODutchmillRowChangeEvent(CType(e.Row,PODutchmillRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowDeleting(e)
-            If (Not (Me.PODutchmillRowDeletingEvent) Is Nothing) Then
-                RaiseEvent PODutchmillRowDeleting(Me, New PODutchmillRowChangeEvent(CType(e.Row,PODutchmillRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub RemovePODutchmillRow(ByVal row As PODutchmillRow)
-            Me.Rows.Remove(row)
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
-            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
-            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
-            Dim ds As PODutchmill = New PODutchmill()
-            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
-            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
-            any1.MinOccurs = New Decimal(0)
-            any1.MaxOccurs = Decimal.MaxValue
-            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
-            sequence.Items.Add(any1)
-            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
-            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
-            any2.MinOccurs = New Decimal(1)
-            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
-            sequence.Items.Add(any2)
-            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
-            attribute1.Name = "namespace"
-            attribute1.FixedValue = ds.Namespace
-            type.Attributes.Add(attribute1)
-            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
-            attribute2.Name = "tableTypeName"
-            attribute2.FixedValue = "PODutchmillDataTable"
-            type.Attributes.Add(attribute2)
-            type.Particle = sequence
-            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
-            If xs.Contains(dsSchema.TargetNamespace) Then
-                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
-                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
-                Try 
-                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
-                    dsSchema.Write(s1)
-                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
-                    Do While schemas.MoveNext
-                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
-                        s2.SetLength(0)
-                        schema.Write(s2)
-                        If (s1.Length = s2.Length) Then
-                            s1.Position = 0
-                            s2.Position = 0
-                            
-                            Do While ((s1.Position <> s1.Length)  _
-                                        AndAlso (s1.ReadByte = s2.ReadByte))
-                                
-                                
-                            Loop
-                            If (s1.Position = s1.Length) Then
-                                Return type
-                            End If
-                        End If
-                        
-                    Loop
-                Finally
-                    If (Not (s1) Is Nothing) Then
-                        s1.Close
-                    End If
-                    If (Not (s2) Is Nothing) Then
-                        s2.Close
-                    End If
-                End Try
-            End If
-            xs.Add(dsSchema)
-            Return type
-        End Function
-    End Class
-    
-    '''<summary>
-    '''Represents the strongly named DataTable class.
-    '''</summary>
-    <Global.System.Serializable(),  _
-     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
-    Partial Public Class XrPODutchmillDataTable
-        Inherits Global.System.Data.TypedTableBase(Of XrPODutchmillRow)
-        
-        Private columnBarcode As Global.System.Data.DataColumn
-        
-        Private columnProName As Global.System.Data.DataColumn
-        
-        Private columnRemark As Global.System.Data.DataColumn
-        
-        Private columnSize As Global.System.Data.DataColumn
-        
-        Private columnQtyPCase As Global.System.Data.DataColumn
-        
-        Private columnTotalOrder As Global.System.Data.DataColumn
-        
-        Private columnPiecesPerTray As Global.System.Data.DataColumn
-        
-        Private columnTotalExtraLeft As Global.System.Data.DataColumn
-        
-        Private columnTotalOrderToThailand As Global.System.Data.DataColumn
-        
-        Private columnTotalTray As Global.System.Data.DataColumn
-        
-        Private columnPromotionMachanic As Global.System.Data.DataColumn
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub New()
-            MyBase.New
-            Me.TableName = "XrPODutchmill"
-            Me.BeginInit
-            Me.InitClass
-            Me.EndInit
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Friend Sub New(ByVal table As Global.System.Data.DataTable)
-            MyBase.New
-            Me.TableName = table.TableName
-            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
-                Me.CaseSensitive = table.CaseSensitive
-            End If
-            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
-                Me.Locale = table.Locale
-            End If
-            If (table.Namespace <> table.DataSet.Namespace) Then
-                Me.Namespace = table.Namespace
-            End If
-            Me.Prefix = table.Prefix
-            Me.MinimumCapacity = table.MinimumCapacity
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
-            MyBase.New(info, context)
-            Me.InitVars
-        End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public ReadOnly Property BarcodeColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnBarcode
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property CusCodeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCusCode
             End Get
         End Property
         
@@ -751,14 +478,6 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property RemarkColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnRemark
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public ReadOnly Property SizeColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columnSize
@@ -767,57 +486,105 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property QtyPCaseColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property QtyPerCaseColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnQtyPCase
+                Return Me.columnQtyPerCase
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property TotalOrderColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property PcsOrderColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnTotalOrder
+                Return Me.columnPcsOrder
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property PiecesPerTrayColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property CTNOrderColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnPiecesPerTray
+                Return Me.columnCTNOrder
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property TotalExtraLeftColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property TotalPcsOrderColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnTotalExtraLeft
+                Return Me.columnTotalPcsOrder
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property TotalOrderToThailandColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property SupNumColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnTotalOrderToThailand
+                Return Me.columnSupNum
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property TotalTrayColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property SupNameColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnTotalTray
+                Return Me.columnSupName
             End Get
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property PromotionMachanicColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property DepartmentColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnPromotionMachanic
+                Return Me.columnDepartment
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property PlanningOrderColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnPlanningOrder
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property MachineNameColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnMachineName
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property IPAddressColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnIPAddress
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property CreatedDateColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCreatedDate
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property VerifyDateColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnVerifyDate
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public ReadOnly Property RequiredDateColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnRequiredDate
             End Get
         End Property
         
@@ -832,44 +599,71 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Default ReadOnly Property Item(ByVal index As Integer) As XrPODutchmillRow
+        Public Default ReadOnly Property Item(ByVal index As Integer) As dtExportPlanningOrderRow
             Get
-                Return CType(Me.Rows(index),XrPODutchmillRow)
+                Return CType(Me.Rows(index),dtExportPlanningOrderRow)
             End Get
         End Property
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event XrPODutchmillRowChanging As XrPODutchmillRowChangeEventHandler
+        Public Event dtExportPlanningOrderRowChanging As dtExportPlanningOrderRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event XrPODutchmillRowChanged As XrPODutchmillRowChangeEventHandler
+        Public Event dtExportPlanningOrderRowChanged As dtExportPlanningOrderRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event XrPODutchmillRowDeleting As XrPODutchmillRowChangeEventHandler
+        Public Event dtExportPlanningOrderRowDeleting As dtExportPlanningOrderRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Event XrPODutchmillRowDeleted As XrPODutchmillRowChangeEventHandler
+        Public Event dtExportPlanningOrderRowDeleted As dtExportPlanningOrderRowChangeEventHandler
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Overloads Sub AddXrPODutchmillRow(ByVal row As XrPODutchmillRow)
+        Public Overloads Sub AdddtExportPlanningOrderRow(ByVal row As dtExportPlanningOrderRow)
             Me.Rows.Add(row)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Overloads Function AddXrPODutchmillRow(ByVal Barcode As String, ByVal ProName As String, ByVal Remark As String, ByVal Size As String, ByVal QtyPCase As Integer, ByVal TotalOrder As Decimal, ByVal PiecesPerTray As Decimal, ByVal TotalExtraLeft As String, ByVal TotalOrderToThailand As String, ByVal TotalTray As String, ByVal PromotionMachanic As String) As XrPODutchmillRow
-            Dim rowXrPODutchmillRow As XrPODutchmillRow = CType(Me.NewRow,XrPODutchmillRow)
-            Dim columnValuesArray() As Object = New Object() {Barcode, ProName, Remark, Size, QtyPCase, TotalOrder, PiecesPerTray, TotalExtraLeft, TotalOrderToThailand, TotalTray, PromotionMachanic}
-            rowXrPODutchmillRow.ItemArray = columnValuesArray
-            Me.Rows.Add(rowXrPODutchmillRow)
-            Return rowXrPODutchmillRow
+        Public Overloads Function AdddtExportPlanningOrderRow( _
+                    ByVal Renew As Boolean,  _
+                    ByVal NotAccept As Boolean,  _
+                    ByVal ChangeQty As Boolean,  _
+                    ByVal Id As Decimal,  _
+                    ByVal CusNum As String,  _
+                    ByVal CusName As String,  _
+                    ByVal DeltoId As String,  _
+                    ByVal Delto As String,  _
+                    ByVal Zone As String,  _
+                    ByVal UnitNumber As String,  _
+                    ByVal Barcode As String,  _
+                    ByVal CusCode As String,  _
+                    ByVal ProName As String,  _
+                    ByVal Size As String,  _
+                    ByVal QtyPerCase As Long,  _
+                    ByVal PcsOrder As Decimal,  _
+                    ByVal CTNOrder As Single,  _
+                    ByVal TotalPcsOrder As Decimal,  _
+                    ByVal SupNum As String,  _
+                    ByVal SupName As String,  _
+                    ByVal Department As String,  _
+                    ByVal PlanningOrder As String,  _
+                    ByVal MachineName As String,  _
+                    ByVal IPAddress As String,  _
+                    ByVal CreatedDate As Date,  _
+                    ByVal VerifyDate As Date,  _
+                    ByVal RequiredDate As Date) As dtExportPlanningOrderRow
+            Dim rowdtExportPlanningOrderRow As dtExportPlanningOrderRow = CType(Me.NewRow,dtExportPlanningOrderRow)
+            Dim columnValuesArray() As Object = New Object() {Renew, NotAccept, ChangeQty, Id, CusNum, CusName, DeltoId, Delto, Zone, UnitNumber, Barcode, CusCode, ProName, Size, QtyPerCase, PcsOrder, CTNOrder, TotalPcsOrder, SupNum, SupName, Department, PlanningOrder, MachineName, IPAddress, CreatedDate, VerifyDate, RequiredDate}
+            rowdtExportPlanningOrderRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowdtExportPlanningOrderRow)
+            Return rowdtExportPlanningOrderRow
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Overrides Function Clone() As Global.System.Data.DataTable
-            Dim cln As XrPODutchmillDataTable = CType(MyBase.Clone,XrPODutchmillDataTable)
+            Dim cln As dtExportPlanningOrderDataTable = CType(MyBase.Clone,dtExportPlanningOrderDataTable)
             cln.InitVars
             Return cln
         End Function
@@ -877,77 +671,124 @@ Partial Public Class PODutchmill
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
-            Return New XrPODutchmillDataTable()
+            Return New dtExportPlanningOrderDataTable()
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Friend Sub InitVars()
+            Me.columnRenew = MyBase.Columns("Renew")
+            Me.columnNotAccept = MyBase.Columns("NotAccept")
+            Me.columnChangeQty = MyBase.Columns("ChangeQty")
+            Me.columnId = MyBase.Columns("Id")
+            Me.columnCusNum = MyBase.Columns("CusNum")
+            Me.columnCusName = MyBase.Columns("CusName")
+            Me.columnDeltoId = MyBase.Columns("DeltoId")
+            Me.columnDelto = MyBase.Columns("Delto")
+            Me.columnZone = MyBase.Columns("Zone")
+            Me.columnUnitNumber = MyBase.Columns("UnitNumber")
             Me.columnBarcode = MyBase.Columns("Barcode")
+            Me.columnCusCode = MyBase.Columns("CusCode")
             Me.columnProName = MyBase.Columns("ProName")
-            Me.columnRemark = MyBase.Columns("Remark")
             Me.columnSize = MyBase.Columns("Size")
-            Me.columnQtyPCase = MyBase.Columns("QtyPCase")
-            Me.columnTotalOrder = MyBase.Columns("TotalOrder")
-            Me.columnPiecesPerTray = MyBase.Columns("PiecesPerTray")
-            Me.columnTotalExtraLeft = MyBase.Columns("TotalExtraLeft")
-            Me.columnTotalOrderToThailand = MyBase.Columns("TotalOrderToThailand")
-            Me.columnTotalTray = MyBase.Columns("TotalTray")
-            Me.columnPromotionMachanic = MyBase.Columns("PromotionMachanic")
+            Me.columnQtyPerCase = MyBase.Columns("QtyPerCase")
+            Me.columnPcsOrder = MyBase.Columns("PcsOrder")
+            Me.columnCTNOrder = MyBase.Columns("CTNOrder")
+            Me.columnTotalPcsOrder = MyBase.Columns("TotalPcsOrder")
+            Me.columnSupNum = MyBase.Columns("SupNum")
+            Me.columnSupName = MyBase.Columns("SupName")
+            Me.columnDepartment = MyBase.Columns("Department")
+            Me.columnPlanningOrder = MyBase.Columns("PlanningOrder")
+            Me.columnMachineName = MyBase.Columns("MachineName")
+            Me.columnIPAddress = MyBase.Columns("IPAddress")
+            Me.columnCreatedDate = MyBase.Columns("CreatedDate")
+            Me.columnVerifyDate = MyBase.Columns("VerifyDate")
+            Me.columnRequiredDate = MyBase.Columns("RequiredDate")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Private Sub InitClass()
+            Me.columnRenew = New Global.System.Data.DataColumn("Renew", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnRenew)
+            Me.columnNotAccept = New Global.System.Data.DataColumn("NotAccept", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnNotAccept)
+            Me.columnChangeQty = New Global.System.Data.DataColumn("ChangeQty", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnChangeQty)
+            Me.columnId = New Global.System.Data.DataColumn("Id", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnId)
+            Me.columnCusNum = New Global.System.Data.DataColumn("CusNum", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCusNum)
+            Me.columnCusName = New Global.System.Data.DataColumn("CusName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCusName)
+            Me.columnDeltoId = New Global.System.Data.DataColumn("DeltoId", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnDeltoId)
+            Me.columnDelto = New Global.System.Data.DataColumn("Delto", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnDelto)
+            Me.columnZone = New Global.System.Data.DataColumn("Zone", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnZone)
+            Me.columnUnitNumber = New Global.System.Data.DataColumn("UnitNumber", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnUnitNumber)
             Me.columnBarcode = New Global.System.Data.DataColumn("Barcode", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnBarcode)
+            Me.columnCusCode = New Global.System.Data.DataColumn("CusCode", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCusCode)
             Me.columnProName = New Global.System.Data.DataColumn("ProName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnProName)
-            Me.columnRemark = New Global.System.Data.DataColumn("Remark", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnRemark)
             Me.columnSize = New Global.System.Data.DataColumn("Size", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnSize)
-            Me.columnQtyPCase = New Global.System.Data.DataColumn("QtyPCase", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnQtyPCase)
-            Me.columnTotalOrder = New Global.System.Data.DataColumn("TotalOrder", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnTotalOrder)
-            Me.columnPiecesPerTray = New Global.System.Data.DataColumn("PiecesPerTray", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnPiecesPerTray)
-            Me.columnTotalExtraLeft = New Global.System.Data.DataColumn("TotalExtraLeft", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnTotalExtraLeft)
-            Me.columnTotalOrderToThailand = New Global.System.Data.DataColumn("TotalOrderToThailand", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnTotalOrderToThailand)
-            Me.columnTotalTray = New Global.System.Data.DataColumn("TotalTray", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnTotalTray)
-            Me.columnPromotionMachanic = New Global.System.Data.DataColumn("PromotionMachanic", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnPromotionMachanic)
-            Me.columnTotalOrder.Caption = "TotalPcsOrder"
+            Me.columnQtyPerCase = New Global.System.Data.DataColumn("QtyPerCase", GetType(Long), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnQtyPerCase)
+            Me.columnPcsOrder = New Global.System.Data.DataColumn("PcsOrder", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnPcsOrder)
+            Me.columnCTNOrder = New Global.System.Data.DataColumn("CTNOrder", GetType(Single), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCTNOrder)
+            Me.columnTotalPcsOrder = New Global.System.Data.DataColumn("TotalPcsOrder", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnTotalPcsOrder)
+            Me.columnSupNum = New Global.System.Data.DataColumn("SupNum", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnSupNum)
+            Me.columnSupName = New Global.System.Data.DataColumn("SupName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnSupName)
+            Me.columnDepartment = New Global.System.Data.DataColumn("Department", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnDepartment)
+            Me.columnPlanningOrder = New Global.System.Data.DataColumn("PlanningOrder", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnPlanningOrder)
+            Me.columnMachineName = New Global.System.Data.DataColumn("MachineName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnMachineName)
+            Me.columnIPAddress = New Global.System.Data.DataColumn("IPAddress", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnIPAddress)
+            Me.columnCreatedDate = New Global.System.Data.DataColumn("CreatedDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCreatedDate)
+            Me.columnVerifyDate = New Global.System.Data.DataColumn("VerifyDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnVerifyDate)
+            Me.columnRequiredDate = New Global.System.Data.DataColumn("RequiredDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnRequiredDate)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function NewXrPODutchmillRow() As XrPODutchmillRow
-            Return CType(Me.NewRow,XrPODutchmillRow)
+        Public Function NewdtExportPlanningOrderRow() As dtExportPlanningOrderRow
+            Return CType(Me.NewRow,dtExportPlanningOrderRow)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
-            Return New XrPODutchmillRow(builder)
+            Return New dtExportPlanningOrderRow(builder)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Function GetRowType() As Global.System.Type
-            Return GetType(XrPODutchmillRow)
+            Return GetType(dtExportPlanningOrderRow)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowChanged(e)
-            If (Not (Me.XrPODutchmillRowChangedEvent) Is Nothing) Then
-                RaiseEvent XrPODutchmillRowChanged(Me, New XrPODutchmillRowChangeEvent(CType(e.Row,XrPODutchmillRow), e.Action))
+            If (Not (Me.dtExportPlanningOrderRowChangedEvent) Is Nothing) Then
+                RaiseEvent dtExportPlanningOrderRowChanged(Me, New dtExportPlanningOrderRowChangeEvent(CType(e.Row,dtExportPlanningOrderRow), e.Action))
             End If
         End Sub
         
@@ -955,8 +796,8 @@ Partial Public Class PODutchmill
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowChanging(e)
-            If (Not (Me.XrPODutchmillRowChangingEvent) Is Nothing) Then
-                RaiseEvent XrPODutchmillRowChanging(Me, New XrPODutchmillRowChangeEvent(CType(e.Row,XrPODutchmillRow), e.Action))
+            If (Not (Me.dtExportPlanningOrderRowChangingEvent) Is Nothing) Then
+                RaiseEvent dtExportPlanningOrderRowChanging(Me, New dtExportPlanningOrderRowChangeEvent(CType(e.Row,dtExportPlanningOrderRow), e.Action))
             End If
         End Sub
         
@@ -964,8 +805,8 @@ Partial Public Class PODutchmill
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowDeleted(e)
-            If (Not (Me.XrPODutchmillRowDeletedEvent) Is Nothing) Then
-                RaiseEvent XrPODutchmillRowDeleted(Me, New XrPODutchmillRowChangeEvent(CType(e.Row,XrPODutchmillRow), e.Action))
+            If (Not (Me.dtExportPlanningOrderRowDeletedEvent) Is Nothing) Then
+                RaiseEvent dtExportPlanningOrderRowDeleted(Me, New dtExportPlanningOrderRowChangeEvent(CType(e.Row,dtExportPlanningOrderRow), e.Action))
             End If
         End Sub
         
@@ -973,14 +814,14 @@ Partial Public Class PODutchmill
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowDeleting(e)
-            If (Not (Me.XrPODutchmillRowDeletingEvent) Is Nothing) Then
-                RaiseEvent XrPODutchmillRowDeleting(Me, New XrPODutchmillRowChangeEvent(CType(e.Row,XrPODutchmillRow), e.Action))
+            If (Not (Me.dtExportPlanningOrderRowDeletingEvent) Is Nothing) Then
+                RaiseEvent dtExportPlanningOrderRowDeleting(Me, New dtExportPlanningOrderRowChangeEvent(CType(e.Row,dtExportPlanningOrderRow), e.Action))
             End If
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub RemoveXrPODutchmillRow(ByVal row As XrPODutchmillRow)
+        Public Sub RemovedtExportPlanningOrderRow(ByVal row As dtExportPlanningOrderRow)
             Me.Rows.Remove(row)
         End Sub
         
@@ -989,7 +830,7 @@ Partial Public Class PODutchmill
         Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
             Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
             Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
-            Dim ds As PODutchmill = New PODutchmill()
+            Dim ds As dsExportPlanningOrder = New dsExportPlanningOrder()
             Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
             any1.Namespace = "http://www.w3.org/2001/XMLSchema"
             any1.MinOccurs = New Decimal(0)
@@ -1007,7 +848,7 @@ Partial Public Class PODutchmill
             type.Attributes.Add(attribute1)
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
-            attribute2.FixedValue = "XrPODutchmillDataTable"
+            attribute2.FixedValue = "dtExportPlanningOrderDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -1054,90 +895,90 @@ Partial Public Class PODutchmill
     '''<summary>
     '''Represents strongly named DataRow class.
     '''</summary>
-    Partial Public Class PODutchmillRow
+    Partial Public Class dtExportPlanningOrderRow
         Inherits Global.System.Data.DataRow
         
-        Private tablePODutchmill As PODutchmillDataTable
+        Private tabledtExportPlanningOrder As dtExportPlanningOrderDataTable
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
             MyBase.New(rb)
-            Me.tablePODutchmill = CType(Me.Table,PODutchmillDataTable)
+            Me.tabledtExportPlanningOrder = CType(Me.Table,dtExportPlanningOrderDataTable)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property Barcode() As String
+        Public Property Renew() As Boolean
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.BarcodeColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.RenewColumn),Boolean)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Barcode' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Renew' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.BarcodeColumn) = value
+                Me(Me.tabledtExportPlanningOrder.RenewColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property ProName() As String
+        Public Property NotAccept() As Boolean
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.ProNameColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.NotAcceptColumn),Boolean)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'ProName' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'NotAccept' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.ProNameColumn) = value
+                Me(Me.tabledtExportPlanningOrder.NotAcceptColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property Remark() As String
+        Public Property ChangeQty() As Boolean
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.RemarkColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.ChangeQtyColumn),Boolean)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Remark' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ChangeQty' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.RemarkColumn) = value
+                Me(Me.tabledtExportPlanningOrder.ChangeQtyColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property Size() As String
+        Public Property Id() As Decimal
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.SizeColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.IdColumn),Decimal)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Size' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Id' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.SizeColumn) = value
+                Me(Me.tabledtExportPlanningOrder.IdColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property QtyPCase() As Integer
+        Public Property CusNum() As String
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.QtyPCaseColumn),Integer)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.CusNumColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'QtyPCase' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CusNum' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.QtyPCaseColumn) = value
+                Me(Me.tabledtExportPlanningOrder.CusNumColumn) = value
             End Set
         End Property
         
@@ -1146,197 +987,103 @@ Partial Public Class PODutchmill
         Public Property CusName() As String
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.CusNameColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.CusNameColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'CusName' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CusName' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.CusNameColumn) = value
+                Me(Me.tabledtExportPlanningOrder.CusNameColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property TotalPcsOrder() As Decimal
+        Public Property DeltoId() As String
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.TotalPcsOrderColumn),Decimal)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.DeltoIdColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalPcsOrder' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'DeltoId' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.TotalPcsOrderColumn) = value
+                Me(Me.tabledtExportPlanningOrder.DeltoIdColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property Missing() As Boolean
+        Public Property Delto() As String
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.MissingColumn),Boolean)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.DeltoColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Missing' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Delto' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.MissingColumn) = value
+                Me(Me.tabledtExportPlanningOrder.DeltoColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property PiecesPerTray() As Decimal
+        Public Property Zone() As String
             Get
                 Try 
-                    Return CType(Me(Me.tablePODutchmill.PiecesPerTrayColumn),Decimal)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.ZoneColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'PiecesPerTray' in table 'PODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Zone' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tablePODutchmill.PiecesPerTrayColumn) = value
+                Me(Me.tabledtExportPlanningOrder.ZoneColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsBarcodeNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.BarcodeColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetBarcodeNull()
-            Me(Me.tablePODutchmill.BarcodeColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsProNameNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.ProNameColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetProNameNull()
-            Me(Me.tablePODutchmill.ProNameColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsRemarkNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.RemarkColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetRemarkNull()
-            Me(Me.tablePODutchmill.RemarkColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsSizeNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.SizeColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetSizeNull()
-            Me(Me.tablePODutchmill.SizeColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsQtyPCaseNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.QtyPCaseColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetQtyPCaseNull()
-            Me(Me.tablePODutchmill.QtyPCaseColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsCusNameNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.CusNameColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetCusNameNull()
-            Me(Me.tablePODutchmill.CusNameColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsTotalPcsOrderNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.TotalPcsOrderColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetTotalPcsOrderNull()
-            Me(Me.tablePODutchmill.TotalPcsOrderColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsMissingNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.MissingColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetMissingNull()
-            Me(Me.tablePODutchmill.MissingColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsPiecesPerTrayNull() As Boolean
-            Return Me.IsNull(Me.tablePODutchmill.PiecesPerTrayColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetPiecesPerTrayNull()
-            Me(Me.tablePODutchmill.PiecesPerTrayColumn) = Global.System.Convert.DBNull
-        End Sub
-    End Class
-    
-    '''<summary>
-    '''Represents strongly named DataRow class.
-    '''</summary>
-    Partial Public Class XrPODutchmillRow
-        Inherits Global.System.Data.DataRow
-        
-        Private tableXrPODutchmill As XrPODutchmillDataTable
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
-            MyBase.New(rb)
-            Me.tableXrPODutchmill = CType(Me.Table,XrPODutchmillDataTable)
-        End Sub
+        Public Property UnitNumber() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.UnitNumberColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'UnitNumber' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.UnitNumberColumn) = value
+            End Set
+        End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Property Barcode() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.BarcodeColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.BarcodeColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Barcode' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Barcode' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.BarcodeColumn) = value
+                Me(Me.tabledtExportPlanningOrder.BarcodeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property CusCode() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.CusCodeColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CusCode' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.CusCodeColumn) = value
             End Set
         End Property
         
@@ -1345,28 +1092,13 @@ Partial Public Class PODutchmill
         Public Property ProName() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.ProNameColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.ProNameColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'ProName' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ProName' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.ProNameColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property Remark() As String
-            Get
-                Try 
-                    Return CType(Me(Me.tableXrPODutchmill.RemarkColumn),String)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Remark' in table 'XrPODutchmill' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableXrPODutchmill.RemarkColumn) = value
+                Me(Me.tabledtExportPlanningOrder.ProNameColumn) = value
             End Set
         End Property
         
@@ -1375,251 +1107,533 @@ Partial Public Class PODutchmill
         Public Property Size() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.SizeColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.SizeColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Size' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Size' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.SizeColumn) = value
+                Me(Me.tabledtExportPlanningOrder.SizeColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property QtyPCase() As Integer
+        Public Property QtyPerCase() As Long
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.QtyPCaseColumn),Integer)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.QtyPerCaseColumn),Long)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'QtyPCase' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'QtyPerCase' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.QtyPCaseColumn) = value
+                Me(Me.tabledtExportPlanningOrder.QtyPerCaseColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property TotalOrder() As Decimal
+        Public Property PcsOrder() As Decimal
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.TotalOrderColumn),Decimal)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.PcsOrderColumn),Decimal)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalOrder' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'PcsOrder' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.TotalOrderColumn) = value
+                Me(Me.tabledtExportPlanningOrder.PcsOrderColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property PiecesPerTray() As Decimal
+        Public Property CTNOrder() As Single
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.PiecesPerTrayColumn),Decimal)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.CTNOrderColumn),Single)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'PiecesPerTray' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CTNOrder' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.PiecesPerTrayColumn) = value
+                Me(Me.tabledtExportPlanningOrder.CTNOrderColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property TotalExtraLeft() As String
+        Public Property TotalPcsOrder() As Decimal
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.TotalExtraLeftColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.TotalPcsOrderColumn),Decimal)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalExtraLeft' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalPcsOrder' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.TotalExtraLeftColumn) = value
+                Me(Me.tabledtExportPlanningOrder.TotalPcsOrderColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property TotalOrderToThailand() As String
+        Public Property SupNum() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.TotalOrderToThailandColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.SupNumColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalOrderToThailand' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'SupNum' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.TotalOrderToThailandColumn) = value
+                Me(Me.tabledtExportPlanningOrder.SupNumColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property TotalTray() As String
+        Public Property SupName() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.TotalTrayColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.SupNameColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'TotalTray' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'SupName' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.TotalTrayColumn) = value
+                Me(Me.tabledtExportPlanningOrder.SupNameColumn) = value
             End Set
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Property PromotionMachanic() As String
+        Public Property Department() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableXrPODutchmill.PromotionMachanicColumn),String)
+                    Return CType(Me(Me.tabledtExportPlanningOrder.DepartmentColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'PromotionMachanic' in table 'XrPODutchmill' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Department' in table 'dtExportPlanningOrder' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableXrPODutchmill.PromotionMachanicColumn) = value
+                Me(Me.tabledtExportPlanningOrder.DepartmentColumn) = value
             End Set
         End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property PlanningOrder() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.PlanningOrderColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'PlanningOrder' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.PlanningOrderColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property MachineName() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.MachineNameColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'MachineName' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.MachineNameColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property IPAddress() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.IPAddressColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'IPAddress' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.IPAddressColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property CreatedDate() As Date
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.CreatedDateColumn),Date)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CreatedDate' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.CreatedDateColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property VerifyDate() As Date
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.VerifyDateColumn),Date)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'VerifyDate' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.VerifyDateColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Property RequiredDate() As Date
+            Get
+                Try 
+                    Return CType(Me(Me.tabledtExportPlanningOrder.RequiredDateColumn),Date)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'RequiredDate' in table 'dtExportPlanningOrder' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabledtExportPlanningOrder.RequiredDateColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsRenewNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.RenewColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetRenewNull()
+            Me(Me.tabledtExportPlanningOrder.RenewColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsNotAcceptNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.NotAcceptColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetNotAcceptNull()
+            Me(Me.tabledtExportPlanningOrder.NotAcceptColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsChangeQtyNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.ChangeQtyColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetChangeQtyNull()
+            Me(Me.tabledtExportPlanningOrder.ChangeQtyColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsIdNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.IdColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetIdNull()
+            Me(Me.tabledtExportPlanningOrder.IdColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsCusNumNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.CusNumColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetCusNumNull()
+            Me(Me.tabledtExportPlanningOrder.CusNumColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsCusNameNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.CusNameColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetCusNameNull()
+            Me(Me.tabledtExportPlanningOrder.CusNameColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsDeltoIdNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.DeltoIdColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetDeltoIdNull()
+            Me(Me.tabledtExportPlanningOrder.DeltoIdColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsDeltoNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.DeltoColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetDeltoNull()
+            Me(Me.tabledtExportPlanningOrder.DeltoColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsZoneNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.ZoneColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetZoneNull()
+            Me(Me.tabledtExportPlanningOrder.ZoneColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsUnitNumberNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.UnitNumberColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetUnitNumberNull()
+            Me(Me.tabledtExportPlanningOrder.UnitNumberColumn) = Global.System.Convert.DBNull
+        End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Function IsBarcodeNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.BarcodeColumn)
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.BarcodeColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Sub SetBarcodeNull()
-            Me(Me.tableXrPODutchmill.BarcodeColumn) = Global.System.Convert.DBNull
+            Me(Me.tabledtExportPlanningOrder.BarcodeColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsCusCodeNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.CusCodeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetCusCodeNull()
+            Me(Me.tabledtExportPlanningOrder.CusCodeColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Function IsProNameNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.ProNameColumn)
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.ProNameColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Sub SetProNameNull()
-            Me(Me.tableXrPODutchmill.ProNameColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsRemarkNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.RemarkColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetRemarkNull()
-            Me(Me.tableXrPODutchmill.RemarkColumn) = Global.System.Convert.DBNull
+            Me(Me.tabledtExportPlanningOrder.ProNameColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Function IsSizeNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.SizeColumn)
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.SizeColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
         Public Sub SetSizeNull()
-            Me(Me.tableXrPODutchmill.SizeColumn) = Global.System.Convert.DBNull
+            Me(Me.tabledtExportPlanningOrder.SizeColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsQtyPCaseNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.QtyPCaseColumn)
+        Public Function IsQtyPerCaseNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.QtyPerCaseColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetQtyPCaseNull()
-            Me(Me.tableXrPODutchmill.QtyPCaseColumn) = Global.System.Convert.DBNull
+        Public Sub SetQtyPerCaseNull()
+            Me(Me.tabledtExportPlanningOrder.QtyPerCaseColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsTotalOrderNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.TotalOrderColumn)
+        Public Function IsPcsOrderNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.PcsOrderColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetTotalOrderNull()
-            Me(Me.tableXrPODutchmill.TotalOrderColumn) = Global.System.Convert.DBNull
+        Public Sub SetPcsOrderNull()
+            Me(Me.tabledtExportPlanningOrder.PcsOrderColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsPiecesPerTrayNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.PiecesPerTrayColumn)
+        Public Function IsCTNOrderNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.CTNOrderColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetPiecesPerTrayNull()
-            Me(Me.tableXrPODutchmill.PiecesPerTrayColumn) = Global.System.Convert.DBNull
+        Public Sub SetCTNOrderNull()
+            Me(Me.tabledtExportPlanningOrder.CTNOrderColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsTotalExtraLeftNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.TotalExtraLeftColumn)
+        Public Function IsTotalPcsOrderNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.TotalPcsOrderColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetTotalExtraLeftNull()
-            Me(Me.tableXrPODutchmill.TotalExtraLeftColumn) = Global.System.Convert.DBNull
+        Public Sub SetTotalPcsOrderNull()
+            Me(Me.tabledtExportPlanningOrder.TotalPcsOrderColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsTotalOrderToThailandNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.TotalOrderToThailandColumn)
+        Public Function IsSupNumNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.SupNumColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetTotalOrderToThailandNull()
-            Me(Me.tableXrPODutchmill.TotalOrderToThailandColumn) = Global.System.Convert.DBNull
+        Public Sub SetSupNumNull()
+            Me(Me.tabledtExportPlanningOrder.SupNumColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsTotalTrayNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.TotalTrayColumn)
+        Public Function IsSupNameNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.SupNameColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetTotalTrayNull()
-            Me(Me.tableXrPODutchmill.TotalTrayColumn) = Global.System.Convert.DBNull
+        Public Sub SetSupNameNull()
+            Me(Me.tabledtExportPlanningOrder.SupNameColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Function IsPromotionMachanicNull() As Boolean
-            Return Me.IsNull(Me.tableXrPODutchmill.PromotionMachanicColumn)
+        Public Function IsDepartmentNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.DepartmentColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub SetPromotionMachanicNull()
-            Me(Me.tableXrPODutchmill.PromotionMachanicColumn) = Global.System.Convert.DBNull
+        Public Sub SetDepartmentNull()
+            Me(Me.tabledtExportPlanningOrder.DepartmentColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsPlanningOrderNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.PlanningOrderColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetPlanningOrderNull()
+            Me(Me.tabledtExportPlanningOrder.PlanningOrderColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsMachineNameNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.MachineNameColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetMachineNameNull()
+            Me(Me.tabledtExportPlanningOrder.MachineNameColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsIPAddressNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.IPAddressColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetIPAddressNull()
+            Me(Me.tabledtExportPlanningOrder.IPAddressColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsCreatedDateNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.CreatedDateColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetCreatedDateNull()
+            Me(Me.tabledtExportPlanningOrder.CreatedDateColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsVerifyDateNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.VerifyDateColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetVerifyDateNull()
+            Me(Me.tabledtExportPlanningOrder.VerifyDateColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Function IsRequiredDateNull() As Boolean
+            Return Me.IsNull(Me.tabledtExportPlanningOrder.RequiredDateColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
+        Public Sub SetRequiredDateNull()
+            Me(Me.tabledtExportPlanningOrder.RequiredDateColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -1627,16 +1641,16 @@ Partial Public Class PODutchmill
     '''Row event argument class
     '''</summary>
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Public Class PODutchmillRowChangeEvent
+    Public Class dtExportPlanningOrderRowChangeEvent
         Inherits Global.System.EventArgs
         
-        Private eventRow As PODutchmillRow
+        Private eventRow As dtExportPlanningOrderRow
         
         Private eventAction As Global.System.Data.DataRowAction
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub New(ByVal row As PODutchmillRow, ByVal action As Global.System.Data.DataRowAction)
+        Public Sub New(ByVal row As dtExportPlanningOrderRow, ByVal action As Global.System.Data.DataRowAction)
             MyBase.New
             Me.eventRow = row
             Me.eventAction = action
@@ -1644,43 +1658,7 @@ Partial Public Class PODutchmill
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property Row() As PODutchmillRow
-            Get
-                Return Me.eventRow
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
-            Get
-                Return Me.eventAction
-            End Get
-        End Property
-    End Class
-    
-    '''<summary>
-    '''Row event argument class
-    '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-    Public Class XrPODutchmillRowChangeEvent
-        Inherits Global.System.EventArgs
-        
-        Private eventRow As XrPODutchmillRow
-        
-        Private eventAction As Global.System.Data.DataRowAction
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public Sub New(ByVal row As XrPODutchmillRow, ByVal action As Global.System.Data.DataRowAction)
-            MyBase.New
-            Me.eventRow = row
-            Me.eventAction = action
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")>  _
-        Public ReadOnly Property Row() As XrPODutchmillRow
+        Public ReadOnly Property Row() As dtExportPlanningOrderRow
             Get
                 Return Me.eventRow
             End Get

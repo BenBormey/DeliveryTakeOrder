@@ -22,6 +22,7 @@ Public Class FrmProcessTakeOrderPreviewNEdit
     Private query As String
     Private lists As DataTable
     Public Property vRequiredDate As Date
+    Public Property iPlanningOrder As String
 
     Private Sub LoadingInitialized()
         Initialized.LoadingInitialized(Data, App)
@@ -40,8 +41,8 @@ Public Class FrmProcessTakeOrderPreviewNEdit
     End Sub
 
     Private Sub FrmProcessTakeOrderPreviewNEdit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadingInitialized()
-        DisplayLoading.Enabled = True
+        Me.LoadingInitialized()
+        Me.DisplayLoading.Enabled = True
     End Sub
 
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
@@ -69,10 +70,9 @@ Public Class FrmProcessTakeOrderPreviewNEdit
     Private Sub DisplayLoading_Tick(sender As Object, e As EventArgs) Handles DisplayLoading.Tick
         Me.Cursor = Cursors.WaitCursor
         DisplayLoading.Enabled = False
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @DateRequired AS DATE = N'{1:yyyy-MM-dd}';
+                DECLARE @oPlanningOrder AS NVARCHAR(100) = N'{2}';
                 WITH o AS (
 	                SELECT v.ProID,v.ProNumY,v.ProNumYP,v.ProNumYC,v.ProName,v.ProPacksize,v.ProQtyPCase,v.ProQtyPPack,v.ProCat
 	                FROM [Stock].[dbo].[TPRProducts] v
@@ -120,12 +120,12 @@ Public Class FrmProcessTakeOrderPreviewNEdit
                 WITH v as (
                     SELECT [Barcode],[ProName],[Category] AS [Remark],[Size],[QtyPCase],ISNULL([DelTo],'') AS [CusName],SUM(ISNULL([TotalPcsOrder],0)) AS [TotalPcsOrder],[DateRequired],[DelToId]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill]
-                    WHERE DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
+                    WHERE (ISNULL([PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,[DateRequired],@DateRequired) = 0
                     GROUP BY [Barcode],[ProName],[Category],[Size],[QtyPCase],ISNULL([DelTo],''),[DateRequired],[DelToId]
                     UNION ALL
                     SELECT x.[Barcode],x.[ProName],x.[Category] AS [Remark],x.[Size],x.[QtyPCase],ISNULL(x.[DelTo],'') AS [CusName],NULL AS [TotalPcsOrder],[DateRequired],x.[DelToId]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill] as x
-                    WHERE DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
+                    WHERE (ISNULL([PromotionMachanic],N'') = @oPlanningOrder) AND DATEDIFF(DAY,x.[DateRequired],@DateRequired) = 0
                 ),
 
 				w AS (
@@ -184,9 +184,8 @@ Public Class FrmProcessTakeOrderPreviewNEdit
 				ORDER BY v.Remark,v.Size,v.Barcode,v.ProName;
 				DROP TABLE #vLists;				
 				DROP TABLE #v;
-            ]]>
-        </SQL>
-        query = String.Format(query, DatabaseName, vRequiredDate)
+            ]]></SQL>
+        query = String.Format(query, DatabaseName, vRequiredDate, iPlanningOrder)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DgvShow.DataSource = lists
         DgvShow.Refresh()
@@ -216,7 +215,7 @@ Public Class FrmProcessTakeOrderPreviewNEdit
     End Sub
 
     Private Sub DgvShow_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles DgvShow.CellBeginEdit
-        
+
     End Sub
 
     Private Sub DgvShow_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DgvShow.CellEndEdit
@@ -234,9 +233,7 @@ Public Class FrmProcessTakeOrderPreviewNEdit
             RCom.Transaction = RTran
             RCom.Connection = RCon
             RCom.CommandType = CommandType.Text
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @vDelTo AS NVARCHAR(100) = N'{1}';
                     DECLARE @vBarcode AS NVARCHAR(MAX) = N'{2}';
                     DECLARE @vPcsOrder AS DECIMAL(18,0) = {3};
@@ -248,17 +245,14 @@ Public Class FrmProcessTakeOrderPreviewNEdit
                     ,[CTNOrder] = 0
                     ,[TotalPcsOrder] = @vPcsOrder
                     WHERE [Barcode] = @vBarcode AND [DelTo] = @vDelTo AND DATEDIFF(DAY,CONVERT(DATE,[DateRequired]),@vDateRequired) = 0;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, vHeader, vBarcode, vPcsOrder, vRequiredDate)
             RCom.CommandText = query
             RCom.ExecuteNonQuery()
             RTran.Commit()
             RCon.Close()
 
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @vDateRequired AS DATE = N'{1:yyyy-MM-dd}';
                     DECLARE @vBarcode AS NVARCHAR(MAX) = N'{2}';                    
                     SELECT SUM(v.TotalPcsOrder) AS [Total Order],((CEILING(SUM(v.TotalPcsOrder)/ISNULL(x.PiecesPerTray,1))*ISNULL(x.PiecesPerTray,1)) - SUM(v.TotalPcsOrder)) AS [Total Extra/Left],(CEILING(SUM(v.TotalPcsOrder)/ISNULL(x.PiecesPerTray,1))*ISNULL(x.PiecesPerTray,1)) AS [Total Order To Thailand]
@@ -266,8 +260,7 @@ Public Class FrmProcessTakeOrderPreviewNEdit
                     LEFT OUTER JOIN [{0}].[dbo].[TblDeliveryTakeOrders_Dutchmill_TraySetting] AS x ON v.Barcode = x.Barcode
                     WHERE v.[Barcode] = @vBarcode AND DATEDIFF(DAY,CONVERT(DATE,[DateRequired]),@vDateRequired) = 0
                     GROUP BY ISNULL(x.PiecesPerTray,1);
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, vRequiredDate, vBarcode)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then

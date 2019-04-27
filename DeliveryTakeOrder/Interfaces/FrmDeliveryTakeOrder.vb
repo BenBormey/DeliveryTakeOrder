@@ -171,37 +171,34 @@ Public Class FrmDeliveryTakeOrder
         IsKeyPress = True
         If RdbManually.Checked = True Then
             If ProgramName.Equals("Sale_Team") = True Then
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL>
+                            <![CDATA[
                         SELECT [CusNum],[CusName]
                         FROM [Stock].[dbo].[TPRCustomer]
                         WHERE [Status] = 'Activate' AND [CusName] LIKE 'YN %'
                         {1}AND [CusNum] IN (SELECT [CusNum] FROM [Stock].[dbo].[TPRDeliveryTakeOrder_SetBillTo] GROUP BY [CusNum])
                         ORDER BY [CusName];
                     ]]>
-                </SQL>
+                        </SQL>
             Else
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL>
+                            <![CDATA[
                         SELECT [CusNum],[CusName]
                         FROM [Stock].[dbo].[TPRCustomer]
                         WHERE [Status] = 'Activate'
                         {1}AND [CusNum] IN (SELECT [CusNum] FROM [Stock].[dbo].[TPRDeliveryTakeOrder_SetBillTo] GROUP BY [CusNum])
                         ORDER BY [CusName];
                     ]]>
-                </SQL>
+                        </SQL>
             End If
         Else
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     SELECT * 
                     FROM `untapp`.`tprdeliverytakeorder` 
                     WHERE `Status`='Process';
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, IIf(Initialized.vIsNestleOnly = True, "", "--"))
             lists = MyData.Selects(query)
             If Not (lists Is Nothing) Then
@@ -216,9 +213,8 @@ Public Class FrmDeliveryTakeOrder
                         RCom.Transaction = RTran
                         RCom.Connection = RCon
                         RCom.CommandType = CommandType.Text
-                        query = _
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL>
+                                    <![CDATA[
                                 DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                                 DECLARE @CusName AS NVARCHAR(100) = N'';
                                 DECLARE @DelTo AS NVARCHAR(100) = N'{2}';
@@ -268,7 +264,7 @@ Public Class FrmDeliveryTakeOrder
                                 INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrder_Online]([CusNum],[CusName],[DelTo],[DateOrd],[DateRequired],[ProNumy],[ProName],[ProPackSize],[ProQtyPCase],[PcsFree],[PcsOrder],[CTNOrder],[TotalPcsOrder],[PONumber],[LogInName],[PromotionMachanic],[ProCat],[TranDate],[RemarkExpiry],[Saleman],[UserId],[UOM],[OrderNum],[Status],[CreatedDate])
                                 VALUES(@CusNum,@CusName,@DelTo,@DateOrd,@DateRequired,@ProNumy,@ProName,@ProPackSize,@ProQtyPCase,@PcsFree,@PcsOrder,@CTNOrder,@TotalPcsOrder,@PONumber,@LogInName,@PromotionMachanic,@ProCat,@TranDate,@RemarkExpiry,@Saleman,@UserId,@UOM,@OrderNum,@STATUS,GETDATE());
                             ]]>
-                        </SQL>
+                                </SQL>
                         query = String.Format(query, DatabaseName, _
                                               Trim(IIf(IsDBNull(r.Item("CusNum")) = True, "", r.Item("CusNum"))), _
                                               Trim(IIf(IsDBNull(r.Item("DelTo")) = True, "", r.Item("DelTo"))), _
@@ -291,14 +287,13 @@ Public Class FrmDeliveryTakeOrder
                         RCom.CommandText = query
                         RCom.ExecuteNonQuery()
 
-                        query = _
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL>
+                                    <![CDATA[
                                 DELETE 
                                 FROM `untapp`.`tprdeliverytakeorder` 
                                 WHERE `ID`={1};
                             ]]>
-                        </SQL>
+                                </SQL>
                         query = String.Format(query, DatabaseName, CLng(IIf(IsDBNull(r.Item("ID")) = True, 0, r.Item("ID"))))
                         MyData.Execute(query)
                         RTran.Commit()
@@ -319,16 +314,15 @@ Public Class FrmDeliveryTakeOrder
                 ProgressOnlinePO.Visible = False
             End If
 
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     SELECT [CusNum],[CusName]
                     FROM [{0}].[dbo].[TblDeliveryTakeOrder_Online]
                     {1}WHERE [CusNum] IN (SELECT [CusNum] FROM [Stock].[dbo].[TPRDeliveryTakeOrder_SetBillTo] GROUP BY [CusNum])
                     GROUP BY [CusNum],[CusName]
                     ORDER BY [CusName];
                 ]]>
-            </SQL>
+                    </SQL>
         End If
         query = String.Format(query, DatabaseName, IIf(Initialized.vIsNestleOnly = True, "", "--"))
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
@@ -750,6 +744,7 @@ Public Class FrmDeliveryTakeOrder
     Private vCity As String
     Private vAdditionalCost As Boolean
     Private oFixedPriceQtyInvoicing As Integer
+    Private oIsFixedPrice As Boolean
 
     Private Sub ClearProductItems()
         rSupNum = ""
@@ -764,16 +759,13 @@ Public Class FrmDeliveryTakeOrder
         WS = 0
         WSAfter = 0
         oFixedPriceQtyInvoicing = 0
+        oIsFixedPrice = False
         BtnAdd.Enabled = True
         PicProducts.Image = Nothing
         App.ClearController(TxtQtyPerCase, TxtStock, TxtWSPrice, TxtBarcodeFree, TxtPcsFree, TxtItemDiscount, TxtPcsOrder, TxtPackOrder, TxtCTNOrder, TxtTotalPcsOrder, TxtUnitPrice, TxtPackPrice, TxtTotalAmount, TxtRemark)
         App.SetReadOnlyController(False, TxtPackOrder)
     End Sub
     Private Sub CmbProducts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbProducts.SelectedIndexChanged
-        If CmbProducts.Focused Then
-            DeactivatedProduct()
-        End If
-
         ClearProductItems()
         If CmbProducts.Text.Trim() = "" Then Exit Sub
         If TypeOf CmbProducts.SelectedValue Is DataRowView Or CmbProducts.SelectedValue Is Nothing Then Exit Sub
@@ -825,11 +817,7 @@ FROM dbo.TblEmailCCProductDC;
                 WHERE (ISNULL([ProNumY],'') = @Barcode OR ISNULL([ProNumYP],'') = @Barcode OR ISNULL([ProNumYC],'') = @Barcode);
             ]]>
         </SQL>
-
-        Dim str As String() = CmbProducts.Text.Trim.Split(" ")
-        Dim x As String = "-1"
-        If Not str(0).Trim.Equals(String.Empty) Then x = str(0)
-        query = String.Format(query, DatabaseName, x)
+        query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
         Return lists
@@ -966,18 +954,86 @@ FROM dbo.TblEmailCCProductDC;
         Dim TotalAmount As Double = (((PcsOrder * UnitPrice) + (PackOrder * PackPrice) + (CTNOrder * WSPrice)) * ItemDis)
         Dim vTotalPcs As Decimal = PcsOrder + (PackOrder * QtyPerPack) + (CTNOrder * QtyPerCase)
         'If (vIssueUnitPrice = True And TxtPackOrder.ReadOnly = True) Or (vIsFormatUnitPrice = True) Then
-        If (vIssueUnitPrice = True) Or (vIsFormatUnitPrice = True) Then
-            Dim oDigited As Decimal = GetDigitsValue(vDigit)
-            Dim oWS As Double = Math.Round((WSPrice / QtyPerCase), 8)
-            UnitPrice = (Math.Ceiling(oWS * oDigited) / oDigited)
-            TotalAmount = ((vTotalPcs * UnitPrice) * ItemDis)
-            TxtWSPrice.Text = String.Format("{0:N2}", (UnitPrice * QtyPerCase))
+        Dim oDigited As Decimal = GetDigitsValue(vDigit)
+        Dim oWS As Double = 0
+        If (vIssueUnitPrice = True) Or (vIsFormatUnitPrice = True) Or (vIssueUnitPrice_ = True) Or (vIssuePackPrice = True) Then
+            If oIsFixedPrice = True Then
+                UnitPrice = (WSPrice / QtyPerCase)
+                TotalAmount = ((vTotalPcs * UnitPrice) * ItemDis)
+            Else
+                oWS = Math.Round((WSPrice / QtyPerCase), 8)
+                UnitPrice = (Math.Ceiling(oWS * oDigited) / oDigited)
+                TotalAmount = ((vTotalPcs * UnitPrice) * ItemDis)
+                TxtWSPrice.Text = String.Format("{0:N2}", (UnitPrice * QtyPerCase))
+            End If
             If vIssuePackPrice = True Then
                 TxtPackPrice.Text = String.Format("{0:N2}", (UnitPrice * QtyPerPack))
                 PackPrice = CDbl(IIf(TxtPackPrice.Text.Trim().Equals("") = True, 0, TxtPackPrice.Text.Trim()))
                 WSPrice = CDbl(IIf(TxtWSPrice.Text.Trim() = "", 0, TxtWSPrice.Text.Trim()))
                 TotalAmount = (((PcsOrder * UnitPrice) + (PackOrder * PackPrice) + (CTNOrder * WSPrice)) * ItemDis)
             End If
+        Else
+            TotalAmount = (((vTotalPcs / QtyPerCase) * WSPrice) * ItemDis)
+
+            'query = <SQL>
+            '            <![CDATA[
+            '            DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
+            '            DECLARE @vBarcode AS NVARCHAR(MAX) = N'{2}';                        
+            '         WITH v AS (
+            '             SELECT N'UNIT.NUMBER' AS Value FROM [Stock].[dbo].[TPRProducts] AS v WHERE v.ProNumY = @vBarcode AND ISNULL(v.ProNumY,N'') <> N''
+            '             UNION ALL
+            '                SELECT N'PACK.NUMBER' AS Value FROM [Stock].[dbo].[TPRProducts] AS v WHERE v.ProNumYP = @vBarcode AND ISNULL(v.ProNumYP,N'') <> N''
+            '             UNION ALL
+            '                SELECT N'CASE.NUMBER' AS Value FROM [Stock].[dbo].[TPRProducts] AS v WHERE v.ProNumYC = @vBarcode AND ISNULL(v.ProNumYC,N'') <> N''
+            '             UNION ALL
+            '             SELECT N'UNIT.NUMBER' AS Value FROM [Stock].[dbo].[TPRProductsDeactivated] AS v WHERE v.ProNumY = @vBarcode AND ISNULL(v.ProNumY,N'') <> N''
+            '             UNION ALL
+            '                SELECT N'PACK.NUMBER' AS Value FROM [Stock].[dbo].[TPRProductsDeactivated] AS v WHERE v.ProNumYP = @vBarcode AND ISNULL(v.ProNumYP,N'') <> N''
+            '             UNION ALL
+            '                SELECT N'CASE.NUMBER' AS Value FROM [Stock].[dbo].[TPRProductsDeactivated] AS v WHERE v.ProNumYC = @vBarcode AND ISNULL(v.ProNumYC,N'') <> N''
+            '             UNION ALL
+            '             SELECT N'UNIT.NUMBER' AS Value FROM [Stock].[dbo].[TPRProductsOldCode] AS v WHERE v.OldProNumy = @vBarcode AND ISNULL(v.OldProNumy,N'') <> N'')
+            '             SELECT v.*
+            '         FROM v;                        
+            '        ]]>
+            '        </SQL>
+            'query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
+            'lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
+            'If Not (lists Is Nothing) Then
+            '    If lists.Rows.Count > 0 Then
+            '        Dim oValue As String = Trim(IIf(IsDBNull(lists.Rows(0).Item("Value")) = True, "", lists.Rows(0).Item("Value")))
+            '        If oValue.Equals("UNIT.NUMBER") = True Then
+            '            vIssuePackPrice = False
+            '            vIssueCasePrice = False
+            '            TxtPcsOrder.ReadOnly = False
+            '            TxtCTNOrder.ReadOnly = True
+            '            TxtPackOrder.ReadOnly = True
+            '            TxtPcsOrder.Focus()
+            '        ElseIf oValue.Equals("PACK.NUMBER") = True Then
+            '            vIssuePackPrice = True
+            '            vIssueCasePrice = False
+            '            TxtPcsOrder.ReadOnly = True
+            '            TxtCTNOrder.ReadOnly = True
+            '            TxtPackOrder.ReadOnly = False
+            '            TxtPackOrder.Focus()
+            '        ElseIf oValue.Equals("CASE.NUMBER") = True Then
+            '            vIssuePackPrice = False
+            '            vIssueCasePrice = True
+            '            TxtPcsOrder.ReadOnly = True
+            '            TxtCTNOrder.ReadOnly = False
+            '            TxtPackOrder.ReadOnly = True
+            '            TxtCTNOrder.Focus()
+            '        End If
+            '    End If
+            'End If
+            'If vIssuePackPrice = True Then
+            '    oWS = Math.Round((WSPrice / (QtyPerCase / QtyPerPack)), 8)
+            '    oWS = (Math.Ceiling(oWS * oDigited) / oDigited)
+            '    txtpackprice.Text = String.Format("{0:N2}", oWS)
+            '    PackPrice = CDbl(IIf(txtpackprice.Text.Trim().Equals("") = True, 0, txtpackprice.Text.Trim()))
+            '    WSPrice = CDbl(IIf(txtwsprice.Text.Trim() = "", 0, txtwsprice.Text.Trim()))
+            '    TotalAmount = (((PcsOrder * UnitPrice) + (PackOrder * PackPrice) + (CTNOrder * WSPrice)) * ItemDis)
+            'End If
         End If
         TxtUnitPrice.Text = String.Format("{0:N" & vDigit & "}", UnitPrice)
         TxtTotalAmount.Text = String.Format("{0:N2}", TotalAmount)
@@ -1014,6 +1070,7 @@ FROM dbo.TblEmailCCProductDC;
     Private MaxMonthAllow As Integer
     Private CreditLimitAllow As Double
     Private vIssueUnitPrice As Boolean
+    Private vIssueUnitPrice_ As Boolean
     Private vIssuePackPrice As Boolean
     Private vIssueCasePrice As Boolean
     Private vDigit As Integer
@@ -1036,6 +1093,7 @@ FROM dbo.TblEmailCCProductDC;
         vCity = ""
         vAdditionalCost = False
         vIssueUnitPrice = False
+        vIssueUnitPrice_ = False
         vIssuePackPrice = False
         vIssueCasePrice = False
         vDigit = 2
@@ -1062,15 +1120,14 @@ FROM dbo.TblEmailCCProductDC;
             End If
         End If
         REM Customer Formation UnitPrice
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 SELECT [Id],[CusNum],[CusName],[CreatedDate]
                 FROM [{0}].[dbo].[TblCustomer.FormatUnitPrice]
                 WHERE ([CusNum] = @vCusNum);
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         Dim oList As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (oList Is Nothing) Then
@@ -1081,9 +1138,8 @@ FROM dbo.TblEmailCCProductDC;
 
         REM Alert Customer Bad Payment
         Panel18.Enabled = True
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 SELECT [Id],[CusNum],[CusName],[Remark],[AlertDate],[BlockDate],[CreatedDate]
                 FROM [{0}].[dbo].[TblCustomerRemarkSetting]
@@ -1091,7 +1147,7 @@ FROM dbo.TblEmailCCProductDC;
                 AND (([Status] = N'Both') OR ([Status] = N'Dry Items'))
                 AND (CONVERT(DATE,[AlertDate]) <= CONVERT(DATE,GETDATE()));                
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         Dim oRemarkList As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (oRemarkList Is Nothing) Then
@@ -1146,16 +1202,15 @@ FROM dbo.TblEmailCCProductDC;
         Dim ShipDate As Date = Nothing
         Dim GrandTotal As Double = 0
         Dim CreditAmount As Double = 0
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 DECLARE @NewLineChar AS CHAR(2) = CHAR(13) + CHAR(10);
                 DECLARE @query AS NVARCHAR(MAX) = '';
                 DECLARE @CreditLists AS TABLE
                 (
 	                [InvNumber] [DECIMAL](18,0) NULL,
-	                [PONumber] [NVARCHAR](25) NULL,
+	                [PONumber] [NVARCHAR](100) NULL,
 	                [CusNum] [NVARCHAR](8) NULL,
 	                [CusName] [NVARCHAR](100) NULL,
 	                [ShipDate] [DATE] NULL,
@@ -1213,7 +1268,7 @@ FROM dbo.TblEmailCCProductDC;
                 FROM @CreditLists
                 ORDER BY [ShipDate] ASC;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         Dim CreditAmountList As DataTable = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (CreditAmountList Is Nothing) Then
@@ -1224,16 +1279,15 @@ FROM dbo.TblEmailCCProductDC;
             End If
         End If
 
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 DECLARE @NewLineChar AS CHAR(2) = CHAR(13) + CHAR(10);
                 DECLARE @query AS NVARCHAR(MAX) = '';
                 DECLARE @CreditLists AS TABLE
                 (
 	                [InvNumber] [DECIMAL](18,0) NULL,
-	                [PONumber] [NVARCHAR](25) NULL,
+	                [PONumber] [NVARCHAR](100) NULL,
 	                [CusNum] [NVARCHAR](8) NULL,
 	                [CusName] [NVARCHAR](100) NULL,
 	                [ShipDate] [DATE] NULL,
@@ -1288,7 +1342,7 @@ FROM dbo.TblEmailCCProductDC;
                 SELECT SUM([GrandTotal]) AS [CreditAmountOwed]
                 FROM @CreditLists;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1302,15 +1356,14 @@ FROM dbo.TblEmailCCProductDC;
         'Check Credit Amount Allow
         Dim AllowInv As Integer = 0
         Dim CreditAllow As Double = 0
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [Id],[CusNum],[CusName],[Allow],[MaxCredit],[CreatedDate] 
                 FROM [{0}].[dbo].[TblCustomerAllowCredits] 
                 WHERE DATEDIFF(DAY,GETDATE(),ISNULL([Expiry],GETDATE())) > 0 AND [CusNum] = @CusNum;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1462,16 +1515,15 @@ CreditAllows:
         Dim IsAlertForm As Boolean = False
         Dim Msg As String = ""
         Dim Title As String = ""
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [CreditLimit],[Expiry],[AlertDate],GETDATE() AS [CurDate]
                 FROM [Stock].[dbo].[TPRCustomerBankGarantee]
                 WHERE [CusId] = @CusNum
                 ORDER BY [Expiry];
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1507,15 +1559,14 @@ CreditAllows:
 
     Private Function CheckInfoCustomer(CusNum As String) As Boolean
         Dim IsExisted As Boolean = True
-        query = _
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT [CusID],[CusNum],[CusName],[CusVat],[Terms],[Discount],[InvoiceDiscount],[CreditLimit],[CreditLimitAllow],[MaxMonthAllow],[ServiceRebate],[City],[AdditionalCost],[IssueUnitPrice],[Digit],[ServiceCost]
                 FROM [Stock].[dbo].[TPRCustomer]
                 WHERE [CusNum] = @CusNum;
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName, CusNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1659,9 +1710,8 @@ CreditAllows:
     Private Sub TimerSalemanLoading_Tick(sender As Object, e As EventArgs) Handles TimerSalemanLoading.Tick
         Me.Cursor = Cursors.WaitCursor
         TimerSalemanLoading.Enabled = False
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL>
+                    <![CDATA[
                 SELECT [Value],[Display],[SalesmanName]
                 FROM (
 	                SELECT 0 AS [Index],N'CUS00000' AS [Value], N'Admin' AS [Display], N'Admin' AS [SalesmanName]
@@ -1674,7 +1724,7 @@ CreditAllows:
                 GROUP BY [Index],[value],[Display],[SalesmanName]
                 ORDER BY [Index],[SalesmanName];
             ]]>
-        </SQL>
+                </SQL>
         query = String.Format(query, DatabaseName)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         DataSources(CmbSaleman, lists, "Display", "Value")
@@ -1704,9 +1754,7 @@ CreditAllows:
             Exit Sub
         End If
         'Check Customer Cash Van Existed Fixed Price Or Not
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @vBarcode AS NVARCHAR(MAX) = N'{2}';
                 WITH v AS (
@@ -1739,8 +1787,7 @@ CreditAllows:
 	                SELECT N'NO_NEED' [Reason];
                 END
                 DROP TABLE #oPriceSetting;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1757,9 +1804,7 @@ CreditAllows:
 
         'Separate By Supplier
         Dim SupNumSeparate As String = ""
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = '{1}';
                 SELECT [SupNum] FROM [{0}].[dbo].[TblSuppliers_IssuePOSeparately] WHERE [SupNum] IN (
                 SELECT LEFT([Sup1],8) AS [SupNum] FROM [Stock].[dbo].[TPRProducts] WHERE (ISNULL([ProNumY],'') = @Barcode OR ISNULL([ProNumYP],'') = @Barcode OR ISNULL([ProNumYC],'') = @Barcode)
@@ -1769,8 +1814,7 @@ CreditAllows:
                 SELECT LEFT(A.[Sup1],8) AS [SupNum] FROM [Stock].[dbo].[TPRProducts] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId] WHERE B.[OldProNumy] = @Barcode
                 UNION ALL
                 SELECT LEFT(A.[Sup1],8) AS [SupNum] FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId] WHERE B.[OldProNumy] = @Barcode)
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1794,29 +1838,23 @@ CreditAllows:
 
         'Add Shipping Cost
         Dim AddShippingCost As Double = 0
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                 SELECT * 
                 FROM [Stock].[dbo].[TPRCustomer] 
                 WHERE [IsAddShippingCost] = 1 AND [CusNum] = @CusNum;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
             If lists.Rows.Count > 0 Then
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL><![CDATA[
                         DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                         DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                         SELECT * 
                         FROM [Stock].[dbo].[TPRAddShippingCost] 
                         WHERE [CusNum] = @CusNum AND [Barcode] = @Barcode;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
                 query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
                 lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                 If Not (lists Is Nothing) Then
@@ -1835,7 +1873,48 @@ Msg_Check:
         End If
 
         'Deactivated Item
-        
+        Dim dtDC As DataTable = CheckDeactivatedItem()
+        If dtDC.Rows.Count > 0 Then
+            If MessageBox.Show("This Barcode is in Product Deactivated! Do you want to send email to customer?", "Confirm Deactivated Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return
+
+            Dim email As String = CheckCustomerEmail().Rows(0)(0)
+            If email.Equals(String.Empty) Then
+                MessageBox.Show("This customer does not have email address.")
+                Cursor = Cursors.Default
+                Return
+            End If
+
+            Dim dcReport As New MailDCSKUReport
+            Dim dr As DataRow = dtDC.Rows(0)
+            With dcReport
+                .paramDear.Value = String.Format("Dear {0},", CmbBillTo.Text)
+                .paramPO.Value = TxtPONo.Text
+                .paramBarcode.Value = dr("ProNumY")
+                .paramName.Value = dr("ProName")
+                .paramSize.Value = dr("ProPacksize")
+
+                .CreateDocument(True)
+                Try
+                    Using client As New SmtpClient("mail.untwholesale.com", 26)
+                        Using message As MailMessage = .ExportToMail("sales@untwholesale.com", email, "Product Discontinued")
+                            Dim cc As New MailAddressCollection
+                            For Each drEmail As DataRow In QueryCCEmail.Rows
+                                message.CC.Add(drEmail(0))
+                            Next
+
+                            client.Credentials = New System.Net.NetworkCredential("sales@untwholesale.com", "UNT@@!@#12345678")
+                            client.EnableSsl = True
+                            client.Send(message)
+                            MessageBox.Show("Your email has been sent successfully.")
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    MessageBox.Show("Send email failed.")
+                End Try
+
+
+            End With
+        End If
 
         'Old Code
         If CheckOldItem() = True Then Exit Sub
@@ -1850,9 +1929,7 @@ Msg_Check:
         'Products
         Dim PackNumber As String = ""
         Dim vCaseNumber As String = ""
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{1}';
                 SELECT [ProNumY],[ProNumYP],[ProNumYC],[ProName],[ProPacksize],[ProQtyPCase],[ProQtyPPack],[ProTotQty],[ProCurr],[ProImpPri],[ProDis],[ProVAT],[ProFinBuyin],[Average],[ProUPrSE],[ProUPriSeH],[SupNum],[SupName]
                 FROM (
@@ -1872,8 +1949,7 @@ Msg_Check:
 	                FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId]
 	                WHERE B.[OldProNumy] = @Barcode
                 ) LISTS;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -1935,9 +2011,7 @@ Check_Item:
         REM Products Delivery Logistic
         Dim vDeliveryLogistic As Double = 0
         If vAdditionalCost = True Then
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @vBarcode AS NVARCHAR(MAX) = N'{1}';
                     DECLARE @vCity AS NVARCHAR(100) = N'{2}';
                     SELECT ISNULL([DeliveryCost],0) AS [DeliveryCost] 
@@ -1947,8 +2021,7 @@ Check_Item:
                     UNION ALL
                     SELECT [ProId] FROM [Stock].[dbo].[TPRProductsOldCode] WHERE [OldProNumy] = @vBarcode) 
                     AND [City] = @vCity;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbProducts.SelectedValue, vCity)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -1972,9 +2045,7 @@ Err_CheckAdditionalCost:
 
         'Product Image
         Dim img() As Byte = Nothing
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{1}';
                 SELECT [ProId],[ProImage]
                 FROM [Stock].[dbo].[TPRProductsPicture]
@@ -1982,8 +2053,7 @@ Err_CheckAdditionalCost:
                 SELECT [ProID] FROM [Stock].[dbo].[TPRProducts] WHERE (ISNULL([ProNumY],'') = @Barcode OR ISNULL([ProNumYP],'') = @Barcode OR ISNULL([ProNumYC],'') = @Barcode)
                 UNION ALL
                 SELECT [ProId] FROM [Stock].[dbo].[TPRProductsOldCode] WHERE [OldProNumy] = @Barcode);
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -2000,18 +2070,16 @@ Err_CheckAdditionalCost:
         Dim Row As DataRow = Nothing
         Dim vWSTemp As Double = 0
         oFixedPriceQtyInvoicing = 0
+        oIsFixedPrice = False
         'Fixed Prices
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{2}';
                 SELECT v.[Id],v.[ByinPrice],v.[WSPrice],v.[QtyInvoicing]
                 FROM [{0}].[dbo].[TblProductsPriceSetting] AS v
                 LEFT OUTER JOIN [{0}].[dbo].[TblFixedPriceCustomerGroupSetting] AS o ON ISNULL(v.[GroupNumber],0) = ISNULL(o.[GroupNumber],0)
                 WHERE (DATEDIFF(DAY,GETDATE(),v.[PeriodFrom]) <= 0 AND DATEDIFF(DAY,GETDATE(),v.[PeriodTo]) >= 0) AND (ISNULL(v.[CusNum],o.[CusNum]) = @CusNum) AND v.[Barcode] = @Barcode;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -2021,9 +2089,7 @@ Err_CheckAdditionalCost:
                 oFixedPriceQtyInvoicing = CInt(IIf(IsDBNull(lists.Rows(0).Item("QtyInvoicing")) = True, 0, lists.Rows(0).Item("QtyInvoicing")))
                 Dim vTotalTO As Decimal = 0
                 If (oFixedPriceQtyInvoicing > 0) Then
-                    query =
-                    <SQL>
-                        <![CDATA[
+                    query = <SQL><![CDATA[
                             DECLARE @vFixedIdLink AS DECIMAL(18,0) = {1};
                             WITH v AS (
 	                            SELECT SUM([QtyInvoicing]) [Qty]
@@ -2036,8 +2102,7 @@ Err_CheckAdditionalCost:
                             )
                             SELECT SUM(v.[Qty]) [Qty]
                             FROM v;
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
                     query = String.Format(query, DatabaseName, vFixedId)
                     lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                     If Not (lists Is Nothing) Then
@@ -2049,6 +2114,7 @@ Err_CheckAdditionalCost:
                     If (oFixedPriceQtyInvoicing > vTotalTO) Then
                         Dim vMsg As String = String.Format("~ Total Fixed Price: {4:C2} ({1:N0}){0}~ Used Fixed Price: {2:N0}{0}~ Left Fixed Price: {3:N0}{0}{0}Do you want to set fixed price for Item in the Take Order? (Yes/No)", vbCrLf, oFixedPriceQtyInvoicing, vTotalTO, (oFixedPriceQtyInvoicing - vTotalTO), vWSTemp)
                         If MessageBox.Show(vMsg, "Confirm Fixed Price", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                            oIsFixedPrice = True
                             WSAfter = vWSTemp
                             Row = vFixedPriceList.NewRow
                             Row("FixedIdLink") = vFixedId
@@ -2059,23 +2125,21 @@ Err_CheckAdditionalCost:
                         End If
                     End If
                 Else
+                    oIsFixedPrice = True
                     WSAfter = vWSTemp
                     GoTo WSPrice_Final
                 End If
             End If
         End If
         'Fixed Prices Expiry Date
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{2}';
                 SELECT v.*
                 FROM [{0}].[dbo].[TblProductsPriceSetting] AS v
                 LEFT OUTER JOIN [{0}].[dbo].[TblFixedPriceCustomerGroupSetting] AS o ON ISNULL(v.[GroupNumber],0) = ISNULL(o.[GroupNumber],0)
                 WHERE (DATEDIFF(DAY,GETDATE(),v.[PeriodFrom]) <= 0 AND DATEDIFF(DAY,GETDATE(),v.[PeriodTo]) < 0) AND (ISNULL(v.[CusNum],o.[CusNum]) = @CusNum) AND v.[Barcode] = @Barcode;
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -2093,26 +2157,22 @@ Err_CheckAdditionalCost:
 
         'Customer Prices    
         'ExclusiveImpSup
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @SupNum AS NVARCHAR(8) = '{1}';
                         SELECT [SupNo],[SupName]
                         FROM [Stock].[dbo].[TPRExclusiveImpSup]
                         WHERE [SupNo] = @SupNum;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, rSupNum)
         ExclusiveImpSupList = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
         'ExclusiveCus        
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                         SELECT [CusNum],[CusName],[AddPercentImport],[BirthDate]
                         FROM [Stock].[dbo].[TPRExclusiveCus]
                         WHERE [CusNum] = @CusNum;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue)
         ExclusiveCusList = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If CusVAT.Trim.Equals("") = False Or CusVAT.Trim.Equals("0") = False Then
@@ -2168,8 +2228,7 @@ WSPrice_Final:
         IsCheckPromotion = True
 
         If RdbOnlinePO.Checked = True Then
-            query = <SQL>
-                        <![CDATA[
+            query = <SQL><![CDATA[
                             DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                             DECLARE @Delto AS NVARCHAR(100) = '{2}';
                             DECLARE @Barcode AS NVARCHAR(MAX) = '{3}';
@@ -2177,8 +2236,7 @@ WSPrice_Final:
                             FROM [{0}].[dbo].[TblDeliveryTakeOrder_Online]
                             WHERE [CusNum] = @CusNum AND [DelTo] = @Delto AND [ProNumy] = @Barcode
                             GROUP BY [DateOrd],[DateRequired],[PONumber],[RemarkExpiry];
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbDelto.Text.Trim(), CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -2193,8 +2251,7 @@ WSPrice_Final:
             End If
         End If
 
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                         DECLARE @vBarcode AS NVARCHAR(MAX) = N'{2}';
                         IF EXISTS(SELECT * FROM [{0}].[dbo].[TblCustomerInputQtyByBarcodeSetting] WHERE [CusNum] = @vCusNum)
@@ -2227,14 +2284,14 @@ WSPrice_Final:
                         BEGIN
 	                        SELECT TOP 0 N'' AS Value FROM [Stock].[dbo].[TPRProducts] AS v WHERE v.ProNumY = @vBarcode OR v.ProNumYP = @vBarcode OR v.ProNumYC = @vBarcode;
                         END
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
             If lists.Rows.Count > 0 Then
                 Dim oValue As String = Trim(IIf(IsDBNull(lists.Rows(0).Item("Value")) = True, "", lists.Rows(0).Item("Value")))
                 If oValue.Equals("UNIT.NUMBER") = True Then
+                    vIssueUnitPrice_ = True
                     vIssuePackPrice = False
                     vIssueCasePrice = False
                     TxtPcsOrder.ReadOnly = False
@@ -2242,19 +2299,17 @@ WSPrice_Final:
                     TxtPackOrder.ReadOnly = True
                     TxtPcsOrder.Focus()
                 ElseIf oValue.Equals("PACK.NUMBER") = True Then
-                    If vIssueUnitPrice = True Then
-                        vIssuePackPrice = True
-                        vIssueCasePrice = False
-                    End If
+                    vIssueUnitPrice_ = False
+                    vIssuePackPrice = True
+                    vIssueCasePrice = False
                     TxtPcsOrder.ReadOnly = True
                     TxtCTNOrder.ReadOnly = True
                     TxtPackOrder.ReadOnly = False
                     TxtPackOrder.Focus()
                 ElseIf oValue.Equals("CASE.NUMBER") = True Then
-                    If vIssueUnitPrice = True Then
-                        vIssuePackPrice = False
-                        vIssueCasePrice = True
-                    End If
+                    vIssueUnitPrice_ = False
+                    vIssuePackPrice = False
+                    vIssueCasePrice = True
                     TxtPcsOrder.ReadOnly = True
                     TxtCTNOrder.ReadOnly = False
                     TxtPackOrder.ReadOnly = True
@@ -2268,7 +2323,7 @@ WSPrice_Final:
 
     Private IsCheckPromotion As Boolean
     Private oQtyInvoicing As Integer
-    Private oPromotionId As Long
+    Private oPromotionId As Decimal
     Private Sub TimerCheckPromotion_Tick(sender As Object, e As EventArgs) Handles TimerCheckPromotion.Tick
         If CmbProducts.Text.Trim() = "" Then Exit Sub
         TimerCheckPromotion.Enabled = False
@@ -2298,9 +2353,7 @@ WSPrice_Final:
         oQtyInvoicing = 0
         oPromotionId = 0
         App.ClearController(TxtBarcodeFree, TxtPcsFree, TxtItemDiscount)
-        query =
-        <SQL>
-            <![CDATA[
+        query = <SQL><![CDATA[
                 DECLARE @Barcode AS NVARCHAR(MAX) = '{1}';
                 SELECT @Barcode = ISNULL([ProNumY],N'')
                 FROM (
@@ -2339,8 +2392,7 @@ WSPrice_Final:
                     UNION ALL
                     SELECT LEFT(A.[Sup1],8) AS [SupNum] FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProID] WHERE B.[OldProNumy] = @Barcode);
                 END
-            ]]>
-        </SQL>
+            ]]></SQL>
         query = String.Format(query, DatabaseName, Barcode)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -2352,9 +2404,7 @@ WSPrice_Final:
             End If
         Else
 Promotion:
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{1}';
                     SELECT @Barcode = ISNULL([ProNumY],N'')
                     FROM (
@@ -2386,14 +2436,13 @@ Promotion:
 	                    WHERE (DATEDIFF(DAY,GETDATE(),A.[PeriodFrom]) <= 0 AND DATEDIFF(DAY,GETDATE(),A.[PeriodTo]) >= 0) AND A.[IsBuyGroup] = 1 AND B.[Barcode] = @Barcode
                     ) LISTS
                     ORDER BY [IsBuyGroup],[Mechanic],[QtyBuy] DESC;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, Barcode)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
                 For Each r As DataRow In lists.Rows
                     iMechanic = Trim(IIf(IsDBNull(r.Item("Mechanic")) = True, "", r.Item("Mechanic")))
-                    oPromotionId = CLng(IIf(IsDBNull(r.Item("ID")) = True, 0, r.Item("ID")))
+                    oPromotionId = CDec(IIf(IsDBNull(r.Item("ID")) = True, 0, r.Item("ID")))
                     iQtyBuy = CLng(IIf(IsDBNull(r.Item("QtyBuy")) = True, 0, r.Item("QtyBuy")))
                     iQtyFree = CLng(IIf(IsDBNull(r.Item("QtyFree")) = True, 0, r.Item("QtyFree")))
                     iDiscount = CSng(IIf(IsDBNull(r.Item("Discount")) = True, 0, r.Item("Discount")))
@@ -2416,16 +2465,15 @@ Promotion:
                         If Not (DeliveryTakeOrderList Is Nothing) Then
                             For Each row As DataRow In DeliveryTakeOrderList.Rows
                                 If CLng(IIf(IsDBNull(row.Item("PcsFree")) = True, 0, row.Item("PcsFree"))) = 0 Then
-                                    query =
-                                    <SQL>
-                                        <![CDATA[
+                                    query = <SQL>
+                                                <![CDATA[
                                             DECLARE @GroupNumber AS INT = {1};
                                             DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                                             SELECT [Barcode] 
                                             FROM [{0}].[dbo].[TblProductsPromotionBarcodeGroupSetting] 
                                             WHERE [GroupNumber] = @GroupNumber AND [Barcode] = @Barcode;
                                         ]]>
-                                    </SQL>
+                                            </SQL>
                                     query = String.Format(query, DatabaseName, iGroupNum, Trim(IIf(IsDBNull(row.Item("ProNumy")) = True, "", row.Item("ProNumy"))))
                                     ilists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                                     If Not (ilists Is Nothing) Then
@@ -2456,9 +2504,8 @@ Promotion:
 
                     REM Check Exception
                     If iMechanic.Trim.Equals("Discount And Free") = True Or iMechanic.Trim.Equals("Free") = True Or iMechanic.Trim.Equals("Volume Discount") = True Then
-                        query =
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL>
+                                    <![CDATA[
                                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                                 DECLARE @PromotionId AS DECIMAL(18,0) = {2};
                                 SELECT [CusNum]
@@ -2472,7 +2519,7 @@ Promotion:
 	                                SELECT [CusNum] FROM [{0}].[dbo].[TblProductsPromotionCustomerException] WHERE ISNUMERIC([CusNum]) = 0 AND [CusNum] = @CusNum AND [PromotionId] IS NULL
                                 ) Lists;
                             ]]>
-                        </SQL>
+                                </SQL>
                         query = String.Format(query, DatabaseName, CusNum, oPromotionId)
                         ilists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                         If Not (ilists Is Nothing) Then
@@ -2493,16 +2540,13 @@ Promotion:
                     If iMechanic.Trim.Equals("Customer Discount") = True Then
                         iCusNum = Trim(IIf(IsDBNull(r.Item("CusNum")) = True, "", r.Item("CusNum")))
                         If IsNumeric(iCusNum) = True Then
-                            query =
-                            <SQL>
-                                <![CDATA[
+                            query = <SQL><![CDATA[
                                     DECLARE @GroupNumber AS INT = {1};
                                     DECLARE @CusNum AS NVARCHAR(8) = '{2}';
                                     SELECT [CusNum] 
                                     FROM [{0}].[dbo].[TblProductsPromotionGroupSetting] 
                                     WHERE [GroupNumber] = @GroupNumber AND [CusNum] = @CusNum;
-                                ]]>
-                            </SQL>
+                                ]]></SQL>
                             query = String.Format(query, DatabaseName, iCusNum, CusNum)
                             ilists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                             If Not (ilists Is Nothing) Then
@@ -2542,16 +2586,15 @@ Promotion:
                     If iMechanic.Trim.Equals("Discount And Free For Customer") = True Then
                         iCusNum = Trim(IIf(IsDBNull(r.Item("CusNumInvolve")) = True, 0, r.Item("CusNumInvolve")))
                         If IsNumeric(iCusNum) = True Then
-                            query =
-                            <SQL>
-                                <![CDATA[
+                            query = <SQL>
+                                        <![CDATA[
                                     DECLARE @GroupNumber AS INT = {1};
                                     DECLARE @CusNum AS NVARCHAR(8) = '{2}';
                                     SELECT [CusNum] 
                                     FROM [{0}].[dbo].[TblProductsPromotionGroupSetting] 
                                     WHERE [GroupNumber] = @GroupNumber AND [CusNum] = @CusNum;
                                 ]]>
-                            </SQL>
+                                    </SQL>
                             query = String.Format(query, DatabaseName, iCusNum, CusNum)
                             ilists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                             If Not (ilists Is Nothing) Then
@@ -2595,16 +2638,15 @@ Promotion:
                     If iMechanic.Trim.Equals("Free For Customer") = True Then
                         iCusNum = Trim(IIf(IsDBNull(r.Item("CusNumInvolve")) = True, 0, r.Item("CusNumInvolve")))
                         If IsNumeric(iCusNum) = True Then
-                            query =
-                            <SQL>
-                                <![CDATA[
+                            query = <SQL>
+                                        <![CDATA[
                                     DECLARE @GroupNumber AS INT = {1};
                                     DECLARE @CusNum AS NVARCHAR(8) = '{2}';
                                     SELECT [CusNum] 
                                     FROM [{0}].[dbo].[TblProductsPromotionGroupSetting] 
                                     WHERE [GroupNumber] = @GroupNumber AND [CusNum] = @CusNum;
                                 ]]>
-                            </SQL>
+                                    </SQL>
                             query = String.Format(query, DatabaseName, iCusNum, CusNum)
                             ilists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                             If Not (ilists Is Nothing) Then
@@ -2684,9 +2726,7 @@ Return_Promotion:
             '    CmbProducts.Focus()
             '    Exit Sub
         Else
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @vcusnum AS NVARCHAR(8) = N'{1}';
                     DECLARE @vdeltoid AS DECIMAL(18,0) = {3};
                     DECLARE @vbarcode AS NVARCHAR(15) = N'{2}';
@@ -2714,8 +2754,7 @@ Return_Promotion:
                     )
                     SELECT v.*
                     FROM v;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue, CmbDelto.SelectedValue, TxtPONo.Text.Replace("'", "").Trim())
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -2734,9 +2773,7 @@ Return_Promotion:
             End If
 
             'Check Barcode Setting
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                     IF EXISTS (
@@ -2767,8 +2804,7 @@ Return_Promotion:
 	                    UNION ALL
 	                    SELECT [OldProNumy] AS [ProNumY] FROM [Stock].[dbo].[TPRProductsOldCode] WHERE ISNULL([OldProNumy],'') <> '' AND ISNULL([OldProNumy],'') = @Barcode
                     END
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -2789,8 +2825,8 @@ Return_Promotion:
             Dim Msg As String = ""
             Dim iIndex As Integer = 1
             Dim iHours As Integer = 0
-            query = <SQL>
-                        <![CDATA[
+            Dim iPONumber As String = ""
+            query = <SQL><![CDATA[
                             DECLARE @vcusnum AS NVARCHAR(8) = N'{1}';
                             DECLARE @vdeltoid AS DECIMAL(18,0) = {3};
                             DECLARE @vbarcode AS NVARCHAR(15) = N'{2}';
@@ -2813,14 +2849,14 @@ Return_Promotion:
                             )
                             SELECT v.*
                             FROM v;
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue, CmbDelto.SelectedValue, CDec(IIf(TxtTotalPcsOrder.Text.Trim() = "", 0, TxtTotalPcsOrder.Text.Trim())))
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
                 If lists.Rows.Count > 0 Then
+                    iPONumber = Trim(IIf(IsDBNull(lists.Rows(0).Item("ponumber")) = True, "", lists.Rows(0).Item("ponumber")))
                     For Each r As DataRow In lists.Rows
-                        Msg &= iIndex & "). Take Order " & Trim(IIf(IsDBNull(lists.Rows(0).Item("TakeOrderInvoiceNumber")) = True, "", lists.Rows(0).Item("TakeOrderInvoiceNumber"))) & " On " & String.Format("{0:dd-MMM-yyyy}", CDate(IIf(IsDBNull(lists.Rows(0).Item("DateOrd")) = True, Todate, lists.Rows(0).Item("DateOrd")))) & vbCrLf
+                        Msg &= iIndex & "). Take Order " & Trim(IIf(IsDBNull(r.Item("TakeOrderInvoiceNumber")) = True, "", r.Item("TakeOrderInvoiceNumber"))) & " On " & String.Format("{0:dd-MMM-yyyy}", CDate(IIf(IsDBNull(r.Item("DateOrd")) = True, Todate, r.Item("DateOrd")))) & vbCrLf
                         iIndex = iIndex + 1
                         iHours = CInt(IIf(IsDBNull(lists.Rows(0).Item("NumberOfOrder")) = True, 1, lists.Rows(0).Item("NumberOfOrder")))
                         iHours = (iHours * 24)
@@ -2830,11 +2866,16 @@ Return_Promotion:
             End If
             If iExisted = True Then
                 If iHours <= 72 Then
-                    If MessageBox.Show("Please check this take order again!" & vbCrLf & "The Take Order is existed!" & vbCrLf & Msg, "Duplicated Take Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Exit Sub
-                    Initialized.R_CorrectPassword = False
-                    FrmPasswordContinues.R_PasswordPermission = "'Managing Director','MD Assistant','IT Manager','Office Manager'"
-                    FrmPasswordContinues.ShowDialog()
-                    If Initialized.R_CorrectPassword = False Then Exit Sub
+                    If TxtPONo.Text.Replace("'", "").Trim().Equals(iPONumber.Trim()) = True Then
+                        If MessageBox.Show("Please check this take order again!" & vbCrLf & "The Take Order is existed!" & vbCrLf & Msg, "Duplicated Take Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Exit Sub
+                        Initialized.R_CorrectPassword = False
+                        Dim of1 As New FrmPasswordContinues
+                        of1.R_PasswordPermission = "'Managing Director','MD Assistant','IT Manager','Office Manager'"
+                        of1.ShowDialog()
+                        If Initialized.R_CorrectPassword = False Then Exit Sub
+                    Else
+                        MessageBox.Show("Please check this take order again!" & vbCrLf & "The Take Order is existed!" & vbCrLf & Msg, "Duplicated Take Order", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                 End If
             Else
                 iAllowDay = 2
@@ -2842,8 +2883,8 @@ Return_Promotion:
                 Msg = ""
                 iIndex = 1
                 iHours = 0
-                query = <SQL>
-                            <![CDATA[
+                iPONumber = ""
+                query = <SQL><![CDATA[
                                 DECLARE @vcusnum AS NVARCHAR(8) = N'{1}';
                                 DECLARE @vdeltoid AS DECIMAL(18,0) = {3};
                                 DECLARE @vbarcode AS NVARCHAR(15) = N'{2}';
@@ -2856,14 +2897,14 @@ Return_Promotion:
                                 )
                                 SELECT v.*
                                 FROM v;
-                            ]]>
-                        </SQL>
+                            ]]></SQL>
                 query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue, CmbDelto.SelectedValue, CDec(IIf(TxtTotalPcsOrder.Text.Trim() = "", 0, TxtTotalPcsOrder.Text.Trim())))
                 lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                 If Not (lists Is Nothing) Then
                     If lists.Rows.Count > 0 Then
+                        iPONumber = Trim(IIf(IsDBNull(lists.Rows(0).Item("ponumber")) = True, "", lists.Rows(0).Item("ponumber")))
                         For Each r As DataRow In lists.Rows
-                            Msg &= iIndex & "). Take Order " & Trim(IIf(IsDBNull(lists.Rows(0).Item("TakeOrderInvoiceNumber")) = True, "", lists.Rows(0).Item("TakeOrderInvoiceNumber"))) & " On " & String.Format("{0:dd-MMM-yyyy}", CDate(IIf(IsDBNull(lists.Rows(0).Item("DateOrd")) = True, Todate, lists.Rows(0).Item("DateOrd")))) & vbCrLf
+                            Msg &= iIndex & "). Take Order " & Trim(IIf(IsDBNull(r.Item("TakeOrderInvoiceNumber")) = True, "", r.Item("TakeOrderInvoiceNumber"))) & " On " & String.Format("{0:dd-MMM-yyyy}", CDate(IIf(IsDBNull(r.Item("DateOrd")) = True, Todate, r.Item("DateOrd")))) & vbCrLf
                             iIndex = iIndex + 1
                             iHours = CInt(IIf(IsDBNull(lists.Rows(0).Item("NumberOfOrder")) = True, 1, lists.Rows(0).Item("NumberOfOrder")))
                             iHours = (iHours * 24)
@@ -2873,11 +2914,16 @@ Return_Promotion:
                 End If
                 If iExisted = True Then
                     If iHours <= 48 Then
-                        If MessageBox.Show("Please check this take order <Finish Already> again!" & vbCrLf & "The Take Order <Finish Already> is existed!" & vbCrLf & Msg, "Duplicated Take Order <Finish Already>", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Exit Sub
-                        Initialized.R_CorrectPassword = False
-                        FrmPasswordContinues.R_PasswordPermission = "'Managing Director','MD Assistant','IT Manager','Office Manager',N'TakeOrder'"
-                        FrmPasswordContinues.ShowDialog()
-                        If Initialized.R_CorrectPassword = False Then Exit Sub
+                        If TxtPONo.Text.Replace("'", "").Trim().Equals(iPONumber.Trim()) = True Then
+                            If MessageBox.Show("Please check this take order <Finish Already> again!" & vbCrLf & "The Take Order <Finish Already> is existed!" & vbCrLf & Msg, "Duplicated Take Order <Finish Already>", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Exit Sub
+                            Initialized.R_CorrectPassword = False
+                            Dim of2 As New FrmPasswordContinues
+                            of2.R_PasswordPermission = "'Managing Director','MD Assistant','IT Manager','Office Manager',N'TakeOrder'"
+                            of2.ShowDialog()
+                            If Initialized.R_CorrectPassword = False Then Exit Sub
+                        Else
+                            MessageBox.Show("Please check this take order <Finish Already> again!" & vbCrLf & "The Take Order <Finish Already> is existed!" & vbCrLf & Msg, "Duplicated Take Order <Finish Already>", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                     End If
                 End If
             End If
@@ -2890,15 +2936,12 @@ Return_Promotion:
                         Exit Sub
                     End If
                 Next
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL><![CDATA[
                         DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                         SELECT [Id],[CusNum],[CusName],[CreatedDate]
                         FROM [{0}].[dbo].[TblCustomerSetting_SpecialInvoices]
                         WHERE [CusNum] = @CusNum;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
                 query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue)
                 lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                 If Not (lists Is Nothing) Then
@@ -2936,16 +2979,13 @@ Err_Skip_SpecialInvoice:
                 If CheckCreditAmountCustomer(CmbBillTo.SelectedValue, CDbl(IIf(TxtTotalAmount.Text.Trim() = "", 0, TxtTotalAmount.Text.Trim()))) = False Then Exit Sub
             End If
 
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                     SELECT * 
                     FROM [Stock].[dbo].[TPRCustomerDiscontinueSKU]
                     WHERE [CusNum] = @CusNum AND [Barcode] = @Barcode;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -2956,9 +2996,7 @@ Err_Skip_SpecialInvoice:
             End If
 
             'not allow when stock smaller than reserve for special customer
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{1}';
                     DECLARE @QtyReserve AS INT = 0;
                     DECLARE @QtyOnHand AS INT = 0;
@@ -2986,8 +3024,7 @@ Err_Skip_SpecialInvoice:
                     SELECT @QtyReserve = SUM([CTNQtyReserve]) FROM [Stock].[dbo].[TPRMap_ProductReserveForSpecialCustomer] WHERE [ProNumy] = @Barcode;
                     SELECT @QtyOnHand = SUM([QtyOnHand]) FROM [Stock].[dbo].[TPRWarehouseStockIn] WHERE [ProNumy] = @Barcode;
                     SELECT CASE WHEN @QtyOnHand <= (@QtyReserve * @QtyPerCase) THEN 'NOT ENOUGH' ELSE 'ENOUGH' END AS [Result];
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -3003,9 +3040,7 @@ Err_Skip_SpecialInvoice:
             End If
 
             'not allow to go ahead when no special code
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                     
@@ -3039,8 +3074,7 @@ Err_Skip_SpecialInvoice:
 	                    SELECT * 
 	                    FROM [{0}].[dbo].[TblCustomerCodes];
                     END
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -3056,17 +3090,14 @@ Err_msg:
             End If
 
             'Fixed Prices
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                 DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                 DECLARE @Barcode AS NVARCHAR(MAX) = N'{2}';
                 SELECT v.[ByinPrice],v.[WSPrice]
                 FROM [{0}].[dbo].[TblProductsPriceSetting] AS v
                 LEFT OUTER JOIN [{0}].[dbo].[TblFixedPriceCustomerGroupSetting] AS o ON ISNULL(v.[GroupNumber],0) = ISNULL(o.[GroupNumber],0)
                 WHERE (DATEDIFF(DAY,GETDATE(),v.[PeriodFrom]) <= 0 AND DATEDIFF(DAY,GETDATE(),v.[PeriodTo]) >= 0) AND (ISNULL(v.[CusNum],o.[CusNum]) = @CusNum) AND v.[Barcode] = @Barcode;
-            ]]>
-            </SQL>
+            ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -3080,9 +3111,7 @@ Err_msg:
             Dim ProductList1Week As DataTable = Nothing
             Dim IsProductListExisted As Boolean = False
             Dim IsProductList1WeekExisted As Boolean = False
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
 
@@ -3100,17 +3129,14 @@ Err_msg:
                     SELECT * 
                     FROM [Stock].[dbo].[TPRWSCusProductList] 
                     WHERE [Cusnum] = @CusNum AND [ProNumY] = @Barcode;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             ProductList = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (ProductList Is Nothing) Then
                 If ProductList.Rows.Count > 0 Then IsProductListExisted = True
             End If
 
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                     DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
 
@@ -3128,8 +3154,7 @@ Err_msg:
                     SELECT * 
                     FROM [Stock].[dbo].[TPRWSCusProductList1Week] 
                     WHERE [Cusnum] = @CusNum AND [ProNumY] = @Barcode;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
             ProductList1Week = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (ProductList1Week Is Nothing) Then
@@ -3157,9 +3182,7 @@ Err_msg:
                     MessageBox.Show("Last Updated price in one week was on '" & String.Format("{0:dd-MMM-yyyy}", i1WKDate) & "' for this customer is " & String.Format("{0:N2}", iWS1WKCurrent) & "/" & iQtyPerCase & " PCS." & vbCrLf &
                     "Your last previous updated price was on '" & String.Format("{0:dd-MMM-yyyy}", iDate) & "' is " & String.Format("{0:N2}", iWSCurrent) & "/" & iQtyPerCase & " PCS. " & vbCrLf &
                     "Once is one month old, you must update Customer product list first.", "Confirm Update Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    query =
-                    <SQL>
-                        <![CDATA[
+                    query = <SQL><![CDATA[
                             DECLARE @DateOrd AS DATE = '{1:yyyy-MM-dd}';
                             DECLARE @CusNum AS NVARCHAR(8) = '{2}';
                             DECLARE @CusName AS NVARCHAR(100) = '';
@@ -3191,21 +3214,17 @@ Err_msg:
                             ) LISTS;
                             INSERT INTO [Stock].[dbo].[TPRWSCusProductListReminder]([DateOrd],[CusNum],[CusName],[ProNumy],[ProName],[ProPackSize],[ProQtyPCase],[WsPrice],[PreviousWsPrice],[OnewkWsPrice])
                             VALUES(@DateOrd,@CusNum,@CusName,@Barcode,@ProName,@Size,@QtyPerCase,@WsPrice,@PreviousWsPrice,@OnewkWsPrice);
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
                     query = String.Format(query, DatabaseName, CDate(IIf(TxtOrderDate.Text.Trim() = "", Todate, TxtOrderDate.Text.Trim())), CmbBillTo.SelectedValue, CmbProducts.SelectedValue, iWSAfter, iWSCurrent, iWS1WKCurrent)
                     Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                 ElseIf (iWSAfter <> iWS1WKCurrent) Then
-                    query =
-                    <SQL>
-                        <![CDATA[
+                    query = <SQL><![CDATA[
                             DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                             DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                             DELETE 
                             FROM [Stock].[dbo].[TPRDeliveryTakeOrderAcceptWholesalePrice] 
                             WHERE [CusNum] = @CusNum AND [Barcode] = @Barcode;
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
                     query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
                     Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                     If MessageBox.Show("Last Updated price for this customer is " & String.Format("{0:N2}", iWS1WKCurrent) & "/" & iQtyPerCase & " PCS." & vbCrLf & "Do you want to update old pricing?(Yes/No)", "Confirm Update Old Price", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
@@ -3217,16 +3236,13 @@ Err_msg:
                         TxtWSPrice.Text = String.Format("{0:N2}", iWS1WKCurrent)
                         TxtQtyPerCase.Text = iQtyPerCase
                         TotalAmount()
-                        query =
-                        <SQL>
-                            <![CDATA[
+                        query = <SQL><![CDATA[
                                 DECLARE @CusNum AS NVARCHAR(8) = '{1}';
                                 DECLARE @Barcode AS NVARCHAR(MAX) = '{2}';
                                 DELETE FROM [Stock].[dbo].[TPRDeliveryTakeOrderAcceptWholesalePrice] WHERE [CusNum] = @CusNum AND [Barcode] = @Barcode;
                                 INSERT INTO [Stock].[dbo].[TPRDeliveryTakeOrderAcceptWholesalePrice]([CusNum],[Barcode],[AcceptDate])
                                 VALUES(@CusNum,@Barcode,GETDATE());
-                            ]]>
-                        </SQL>
+                            ]]></SQL>
                         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbProducts.SelectedValue)
                         Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                     ElseIf MsgBoxResult.No = Windows.Forms.DialogResult.No Then
@@ -3249,9 +3265,7 @@ Err_msg:
                         Exit Sub
                     End If
                     MessageBox.Show("Your last previous updated price was on '" & String.Format("{0:dd-MMM-yyyy}", iDate) & "' is " & String.Format("{0:N2}", iWSCurrent) & "/" & iQtyPerCase & " PCS. " & vbCrLf & "Once is one month old, you must update Customer product list first.", "Confirm Update Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    query =
-                    <SQL>
-                        <![CDATA[
+                    query = <SQL><![CDATA[
                             DECLARE @DateOrd AS DATE = '{1:yyyy-MM-dd}';
                             DECLARE @CusNum AS NVARCHAR(8) = '{2}';
                             DECLARE @CusName AS NVARCHAR(100) = '';
@@ -3282,8 +3296,7 @@ Err_msg:
                             ) LISTS;
                             INSERT INTO [Stock].[dbo].[TPRWSCusProductListReminder]([DateOrd],[CusNum],[CusName],[ProNumy],[ProName],[ProPackSize],[ProQtyPCase],[WsPrice],[PreviousWsPrice])
                             VALUES(@DateOrd,@CusNum,@CusName,@Barcode,@ProName,@Size,@QtyPerCase,@WsPrice,@PreviousWsPrice);
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
                     query = String.Format(query, DatabaseName, CDate(IIf(TxtOrderDate.Text.Trim() = "", Todate, TxtOrderDate.Text.Trim())), CmbBillTo.SelectedValue, CmbProducts.SelectedValue, iWSAfter, iWSCurrent)
                     Data.ExecuteCommand(query, Initialized.GetConnectionType(Data, App))
                 End If
@@ -3302,27 +3315,21 @@ WSFixedPrice_Final:
                 Dim iMapSupplier2 As DataTable = Nothing
                 Dim iGroupName1 As String = ""
                 Dim iGroupName2 As String = ""
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL><![CDATA[
                         DECLARE @SupNum AS NVARCHAR(8) = '{1}';
                         SELECT *
                         FROM [Stock].[dbo].[TPRMap_SupplierToDelivery]
                         WHERE [SupNum] = @SupNum;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
                 query = String.Format(query, DatabaseName, rSupNum)
                 iMapSupplier1 = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL><![CDATA[
                         DECLARE @SupNum AS NVARCHAR(8) = '{1}';
                         SELECT *
                         FROM [Stock].[dbo].[TPRMap_SupplierToDelivery]
                         WHERE [SupNum] = @SupNum;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
                 query = String.Format(query, DatabaseName, Trim(IIf(IsDBNull(DeliveryTakeOrderList.Rows(0).Item("SupNum")) = True, "", DeliveryTakeOrderList.Rows(0).Item("SupNum"))))
                 iMapSupplier2 = Data.Selects(query, Initialized.GetConnectionType(Data, App))
 
@@ -3359,24 +3366,42 @@ Err_WrongGroup:
             Dim vAcceptPromotionSetting As Boolean = False
             REM CHECK T.O FOR PROMOTION
             If (oQtyInvoicing > 0) Then
-                query =
-                <SQL>
-                    <![CDATA[
-                        DECLARE @vPromotionIdLink AS DECIMAL(18,0) = {1};
-                        WITH v AS (
-	                        SELECT SUM([QtyInvoicing]) [Qty]
-	                        FROM [{0}].[dbo].[TblProductsPromotionSetting.AllowableInvoicing]
-	                        WHERE ([PromotionIdLink] = @vPromotionIdLink)
-	                        UNION ALL
-	                        SELECT SUM([QtyInvoicing]) [Qty]
-	                        FROM [{0}].[dbo].[TblProductsPromotionSetting.AllowableInvoicing.Completed]
-	                        WHERE ([PromotionIdLink] = @vPromotionIdLink)
-                        )
-                        SELECT SUM(v.[Qty]) [Qty]
-                        FROM v;
-                    ]]>
-                </SQL>
-                query = String.Format(query, DatabaseName, oPromotionId)
+                query = <SQL><![CDATA[
+                        DECLARE @vPromotionIdLink AS DECIMAL(18, 0) = {1};
+DECLARE @vCusNum AS NVARCHAR(8) = N'{2}';
+
+WITH    v AS ( SELECT   SUM([QtyInvoicing]) [Qty]
+               FROM     [{0}].[dbo].[TblProductsPromotionSetting.AllowableInvoicing]
+               WHERE    ( [PromotionIdLink] = @vPromotionIdLink )
+               UNION ALL
+               SELECT   SUM([QtyInvoicing]) [Qty]
+               FROM     [{0}].[dbo].[TblProductsPromotionSetting.AllowableInvoicing.Completed]
+               WHERE    ( [PromotionIdLink] = @vPromotionIdLink )
+             )
+    SELECT  SUM(v.[Qty]) [Qty]
+    INTO    #oPromotion
+    FROM    v;
+
+DECLARE @oCusNum_ AS NVARCHAR(8)= N'';
+SELECT  @oCusNum_ = [CusNumInvolve]
+FROM    [{0}].[dbo].[TblProductsPromotionSetting]
+WHERE   ( [Id] = @vPromotionIdLink )
+        AND ( [CusNum] = @vCusNum );
+
+IF ( @oCusNum_ = @vCusNum )
+    BEGIN
+        UPDATE  v
+        SET     v.[Qty] = 0
+        FROM    #oPromotion v;
+    END;                        
+                    
+
+SELECT  SUM(v.[Qty]) [Qty]
+FROM    #oPromotion v;
+
+DROP TABLE #oPromotion;
+                    ]]></SQL>
+                query = String.Format(query, DatabaseName, oPromotionId, CmbBillTo.SelectedValue)
                 lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                 If Not (lists Is Nothing) Then
                     If lists.Rows.Count > 0 Then
@@ -3393,6 +3418,7 @@ Err_WrongGroup:
                         vPromotionList.Rows.Add(Row)
                         vAcceptPromotionSetting = True
                     Else
+                        TxtItemDiscount.Text = "0"
                         vAcceptPromotionSetting = False
                         GoTo err_skippromotion
                     End If
@@ -3404,9 +3430,7 @@ Err_WrongGroup:
 
             If TxtBarcodeFree.Text.Trim() <> "" And CInt(IIf(TxtPcsFree.Text.Trim() = "", 0, TxtPcsFree.Text.Trim())) <> 0 Then
                 Dim iBarcodeFree() As String = TxtBarcodeFree.Text.Split(Space(3))
-                query =
-                <SQL>
-                    <![CDATA[
+                query = <SQL><![CDATA[
                         DECLARE @Barcode AS NVARCHAR(MAX) = N'{1}';
                         SELECT [ProNumY],[ProNumYP],[ProNumYC],[ProName],[ProPacksize],[ProQtyPCase],[ProQtyPPack],[ProTotQty],[ProCurr],[ProImpPri],[ProDis],[ProVAT],[ProFinBuyin],[Average],[ProUPrSE],[ProUPriSeH],[SupNum],[SupName],[ProCat]
                         FROM (
@@ -3426,8 +3450,7 @@ Err_WrongGroup:
 	                        FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId]
 	                        WHERE B.[OldProNumy] = @Barcode
                         ) LISTS;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
                 query = String.Format(query, DatabaseName, iBarcodeFree(0).Trim())
                 lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
                 If Not (lists Is Nothing) Then
@@ -3458,9 +3481,7 @@ Err_WrongGroup:
             End If
 err_skippromotion:
 
-            query =
-            <SQL>
-                <![CDATA[
+            query = <SQL><![CDATA[
                     DECLARE @Barcode AS NVARCHAR(MAX) = N'{1}';
                     SELECT [ProNumY],[ProNumYP],[ProNumYC],[ProName],[ProPacksize],[ProQtyPCase],[ProQtyPPack],[ProTotQty],[ProCurr],[ProImpPri],[ProDis],[ProVAT],[ProFinBuyin],[Average],[ProUPrSE],[ProUPriSeH],[SupNum],[SupName],[ProCat]
                     FROM (
@@ -3480,8 +3501,7 @@ err_skippromotion:
 	                    FROM [Stock].[dbo].[TPRProductsDeactivated] AS A INNER JOIN [Stock].[dbo].[TPRProductsOldCode] AS B ON A.[ProID] = B.[ProId]
 	                    WHERE B.[OldProNumy] = @Barcode
                     ) LISTS;
-                ]]>
-            </SQL>
+                ]]></SQL>
             query = String.Format(query, DatabaseName, CmbProducts.SelectedValue)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -3502,7 +3522,7 @@ err_skippromotion:
                     Row("PackOrder") = CInt(IIf(TxtPackOrder.Text.Trim() = "", 0, TxtPackOrder.Text.Trim()))
                     Row("CTNOrder") = CSng(IIf(TxtCTNOrder.Text.Trim() = "", 0, TxtCTNOrder.Text.Trim()))
                     Row("TotalPcsOrder") = CInt(IIf(TxtTotalPcsOrder.Text.Trim() = "", 0, TxtTotalPcsOrder.Text.Trim()))
-                    Row("ItemDiscount") = IIf(vAcceptPromotionSetting = False, 0, CSng(IIf(TxtItemDiscount.Text.Trim() = "", 0, TxtItemDiscount.Text.Trim())))
+                    Row("ItemDiscount") = CSng(IIf(TxtItemDiscount.Text.Trim() = "", 0, TxtItemDiscount.Text.Trim()))
                     Row("PromotionMachanic") = TxtNote.Text.Trim()
                     Row("Remark") = TxtRemark.Text.Trim()
                     Row("TotalAmount") = CDbl(IIf(TxtTotalAmount.Text.Trim().Equals("") = True, 0, TxtTotalAmount.Text.Trim()))
@@ -3532,14 +3552,12 @@ Err_Item:
         Dim vAlertDay As Integer = 0
         Dim vIncludeDay As Integer = 0
         Dim vDeliveryDate As Date = Todate.Date
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @vCusNum AS NVARCHAR(8) = N'{1}';
                         SELECT [Id],[CusNum],[CusName],[AlertDay],[IncludeDay],[CreatedDate]
                         FROM [{0}].[dbo].[TblCustomerAlertDeliveryDate]
                         WHERE ([CusNum] = @vCusNum);
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -3562,8 +3580,7 @@ Err_Item:
             vTotalInvoicing += CDbl(IIf(DBNull.Value.Equals(r.Item("TotalAmount")) = True, 0, r.Item("TotalAmount")))
         Next
         Dim oisprevent As Boolean = False
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                             DECLARE @vcusnum AS NVARCHAR(8) = N'{3}';
                             DECLARE @vbarcode AS NVARCHAR(15) = N'{4}';
                             IF EXISTS(SELECT * FROM [DBInvoicing].[dbo].[.tblcustomer.prevent.amount] WHERE ([cusnum] = @vcusnum))
@@ -3581,8 +3598,7 @@ Err_Item:
                             BEGIN
 	                            SELECT N'' [Status];
                             END
-                        ]]>
-                </SQL>
+                        ]]></SQL>
         query = String.Format(query, DatabaseName, "", "", CmbBillTo.SelectedValue, DeliveryTakeOrderList.Rows(0).Item("Barcode"))
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -3649,8 +3665,7 @@ Err_Insert:
 
         'Key
         Dim Key As Long = 0
-        query = <SQL>
-                    <![CDATA[
+        query = <SQL><![CDATA[
                         DECLARE @ProgramName AS NVARCHAR(100) = 'TakeOrderKeyNumber';
                         UPDATE [{0}].[dbo].[TblAutoNumber] 
                         SET [AutoNumber] = 0, [CreatedDate] = GETDATE() 
@@ -3663,8 +3678,7 @@ Err_Insert:
                         SELECT [AutoNumber] 
                         FROM [{0}].[dbo].[TblAutoNumber] 
                         WHERE [ProgramName] = @ProgramName;
-                    ]]>
-                </SQL>
+                    ]]></SQL>
         query = String.Format(query, DatabaseName, rSupNum)
         lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
         If Not (lists Is Nothing) Then
@@ -3681,15 +3695,13 @@ Err_Insert:
             RCom.Connection = RCon
             RCom.CommandType = CommandType.Text
             For Each r As DataRow In vPromotionList.Rows
-                query = <SQL>
-                            <![CDATA[
+                query = <SQL><![CDATA[
                                 DECLARE @vTakeOrderNumber AS DECIMAL(18,0) = {1};
                                 DECLARE @vPromotionIdLink AS DECIMAL(18,0) = {2};
                                 DECLARE @vQtyInvoicing AS INT = 1;
                                 INSERT INTO [{0}].[dbo].[TblProductsPromotionSetting.AllowableInvoicing]([TakeOrderNumber],[PromotionIdLink],[QtyInvoicing],[CreatedDate])
                                 VALUES(@vTakeOrderNumber,@vPromotionIdLink,@vQtyInvoicing,GETDATE());
-                            ]]>
-                        </SQL>
+                            ]]></SQL>
                 query = String.Format(query, DatabaseName, InvNo,
                                       CInt(IIf(IsDBNull(r.Item("PromotionIdLink")) = True, 0, r.Item("PromotionIdLink"))),
                                       CInt(IIf(IsDBNull(r.Item("QtyInvoicing")) = True, 0, r.Item("QtyInvoicing"))))
@@ -3699,8 +3711,7 @@ Err_Insert:
             Next
 
             For Each r As DataRow In DeliveryTakeOrderList.Rows
-                query = <SQL>
-                            <![CDATA[
+                query = <SQL><![CDATA[
                                 DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                                 DECLARE @CusName AS NVARCHAR(100) = N'';
                                 DECLARE @DelToId AS DECIMAL(18,0) = {2} ;
@@ -3870,8 +3881,7 @@ Err_Insert:
 	                                END
                                 END
                                 DROP TABLE #vList;
-                            ]]>
-                        </SQL>
+                            ]]></SQL>
                 query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, CmbDelto.SelectedValue, _
                                       CDate(IIf(TxtOrderDate.Text.Trim() = "", Todate, TxtOrderDate.Text.Trim())), _
                                       DTPRequiredDate.Value, r.Item("Barcode"), _
@@ -3891,15 +3901,13 @@ Err_Insert:
 
                 For Each o As DataRow In vFixedPriceList.Rows
                     If (Trim(IIf(IsDBNull(o.Item("Barcode")) = True, "", o.Item("Barcode"))).Equals(Trim(IIf(IsDBNull(r.Item("Barcode")) = True, "", r.Item("Barcode")))) = True) Then
-                        query = <SQL>
-                                    <![CDATA[
+                        query = <SQL><![CDATA[
                                         DECLARE @vTakeOrderNumber AS DECIMAL(18,0) = {1};
                                         DECLARE @vFixedIdLink AS DECIMAL(18,0) = {2};
                                         DECLARE @vQtyInvoicing AS INT = 1;
                                         INSERT INTO [{0}].[dbo].[TblProductsPriceSetting.AllowableInvoicing]([TakeOrderNumber],[FixedIdLink],[QtyInvoicing],[CreatedDate])
                                         VALUES(@vTakeOrderNumber,@vFixedIdLink,@vQtyInvoicing,GETDATE());
-                                    ]]>
-                                </SQL>
+                                    ]]></SQL>
                         query = String.Format(query, DatabaseName, InvNo,
                                               CInt(IIf(IsDBNull(o.Item("FixedIdLink")) = True, 0, o.Item("FixedIdLink"))),
                                               CInt(IIf(IsDBNull(o.Item("QtyInvoicing")) = True, 0, o.Item("QtyInvoicing"))))
@@ -3913,8 +3921,7 @@ Err_Insert:
 
             If IsDutchmill = False Then
                 Initialized.R_MessageAlert = Initialized.R_MessageAlert.Replace("'", "").Trim()
-                query = <SQL>
-                            <![CDATA[
+                query = <SQL><![CDATA[
                                 DECLARE @TakeOrderNumber AS DECIMAL(18,0) = {1};
                                 DECLARE @RelatedKey AS NVARCHAR(10) = N'{2}';
                                 DECLARE @vMessageAlert AS NVARCHAR(MAX) = N'{3}';
@@ -3980,32 +3987,28 @@ Err_Insert:
                                 SELECT [CusNum],[CusName],[DelTo],[DateOrd],[DateRequired],[UnitNumber],[ProName],[Size],[QtyPCase],[PcsFree],(ISNULL([PcsOrder],0) + (ISNULL([PackOrder],0) * ISNULL([QtyPPack],1))),[CTNOrder],[TotalPcsOrder],0,[TakeOrderNumber],[CreatedDate],NULL,NULL,NULL,NULL,[Remark]
                                 FROM [{0}].[dbo].[TblDeliveryTakeOrders]
                                 WHERE [TakeOrderNumber] = @TakeOrderNumber;
-                            ]]>
-                        </SQL>
+                            ]]></SQL>
                 query = String.Format(query, DatabaseName, InvNo, RelatedKey, Initialized.R_MessageAlert)
                 RCom.CommandText = query
                 RCom.ExecuteNonQuery()
 
 
                 If Initialized.R_MessageAlert.Trim() <> "" Then
-                    query = <SQL>
-                                <![CDATA[
+                    query = <SQL><![CDATA[
                                     DECLARE @TakeOrderNumber AS DECIMAL(18,0) = {1};
                                     DECLARE @Message AS NVARCHAR(100) = N'{2}';
                                     INSERT INTO [Stock].[dbo].[TPRDeliveryTakeOrderAlertToQsDelivery]([InvNo],[CusNum],[CusName],[DelTo],[DateOrd],[DateRequired],[Message],[RegisterDate])
                                     SELECT [TakeOrderNumber],[CusNum],[CusName],[DelTo],[DateOrd],[DateRequired],@Message,GETDATE()
                                     FROM [{0}].[dbo].[TblDeliveryTakeOrders]
                                     WHERE [TakeOrderNumber] = @TakeOrderNumber;
-                                ]]>
-                            </SQL>
+                                ]]></SQL>
                     query = String.Format(query, DatabaseName, InvNo, Initialized.R_MessageAlert.Trim())
                     RCom.CommandText = query
                     RCom.ExecuteNonQuery()
                 End If
 
                 If Initialized.R_DocumentNumber.Trim() <> "" And Initialized.R_LineCode.Trim() <> "" And Initialized.R_DeptCode.Trim <> "" Then
-                    query = <SQL>
-                                <![CDATA[
+                    query = <SQL><![CDATA[
                                     DECLARE @TakeOrderNumber AS DECIMAL(18,0) = {1};
                                     DECLARE @CusNum AS NVARCHAR(8) = N'{2}';
                                     DECLARE @DocumentNumber AS NVARCHAR(20) = N'{3}';
@@ -4013,8 +4016,7 @@ Err_Insert:
                                     DECLARE @DeptCode AS NVARCHAR(14) = N'{5}';
                                     INSERT INTO [Stock].[dbo].[TPRDeliveryTakeOrder_ForAEON]([SupervisorID],[CusNum],[DocumentNumber],[LineCode],[DeptCode],[TakeOrderID],[DeliveryID])
                                     VALUES(NULL,@CusNum,@DocumentNumber,@LineCode,@DeptCode,@TakeOrderNumber,NULL);
-                                ]]>
-                            </SQL>
+                                ]]></SQL>
                     query = String.Format(query, DatabaseName, InvNo, CmbBillTo.SelectedValue, Initialized.R_DocumentNumber.Trim(), Initialized.R_LineCode.Trim(), Initialized.R_DeptCode.Trim())
                     RCom.CommandText = query
                     RCom.ExecuteNonQuery()
@@ -4096,9 +4098,8 @@ Err_Insert:
             e.IsInputKey = True
             Dim StoreCode As String = Trim(IIf(TxtSearchStoreCode.Text.Trim() = "", "", TxtSearchStoreCode.Text.Trim()))
             Dim LinkBarcode As String = ""
-            query = _
-            <SQL>
-                <![CDATA[
+            query = <SQL>
+                        <![CDATA[
                     DECLARE @CusNum AS NVARCHAR(8) = N'{1}';
                     DECLARE @StoreCode AS NVARCHAR(MAX) = N'{2}';
                     IF EXISTS (SELECT * FROM [{0}].[dbo].[TblCustomerSettingForStoreCode] WHERE [CusNum] = @CusNum)
@@ -4108,7 +4109,7 @@ Err_Insert:
 	                    WHERE [CusNum] = @CusNum AND [CusCode] = @StoreCode;
                     END
                 ]]>
-            </SQL>
+                    </SQL>
             query = String.Format(query, DatabaseName, CmbBillTo.SelectedValue, StoreCode)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -4219,8 +4220,4 @@ Err_CheckStorecode:
             End With
         End If
     End Sub
-
-    'Private Sub CmbProducts_DropDown(sender As Object, e As EventArgs) Handles CmbProducts.DropDown
-    '    DeactivatedProduct()
-    'End Sub
 End Class

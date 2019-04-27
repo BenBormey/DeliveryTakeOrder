@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FrmPODutchmillDate
+Partial Class FrmPODutchmillDate_
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class FrmPODutchmillDate
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPODutchmillDate))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPODutchmillDate_))
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.CmbRequiredDate = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -32,10 +32,15 @@ Partial Class FrmPODutchmillDate
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.ChkLock = New System.Windows.Forms.CheckBox()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.CmbPlanningOrder = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.planningloading = New System.Windows.Forms.Timer(Me.components)
         Me.requireddateloading = New System.Windows.Forms.Timer(Me.components)
         Me.Panel2.SuspendLayout()
         Me.Panel44.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel2
@@ -75,7 +80,7 @@ Partial Class FrmPODutchmillDate
         Me.Panel44.Controls.Add(Me.BtnExportToExcel)
         Me.Panel44.Controls.Add(Me.BtnCancel)
         Me.Panel44.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel44.Location = New System.Drawing.Point(10, 99)
+        Me.Panel44.Location = New System.Drawing.Point(10, 159)
         Me.Panel44.Name = "Panel44"
         Me.Panel44.Padding = New System.Windows.Forms.Padding(2)
         Me.Panel44.Size = New System.Drawing.Size(244, 35)
@@ -115,7 +120,7 @@ Partial Class FrmPODutchmillDate
         '
         Me.Panel1.Controls.Add(Me.ChkLock)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel1.Location = New System.Drawing.Point(10, 70)
+        Me.Panel1.Location = New System.Drawing.Point(10, 130)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Padding = New System.Windows.Forms.Padding(2)
         Me.Panel1.Size = New System.Drawing.Size(244, 29)
@@ -133,29 +138,67 @@ Partial Class FrmPODutchmillDate
         Me.ChkLock.Text = "Lock Take Order"
         Me.ChkLock.UseVisualStyleBackColor = True
         '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.CmbPlanningOrder)
+        Me.Panel3.Controls.Add(Me.Label1)
+        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel3.Location = New System.Drawing.Point(10, 70)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Padding = New System.Windows.Forms.Padding(0, 2, 0, 2)
+        Me.Panel3.Size = New System.Drawing.Size(244, 60)
+        Me.Panel3.TabIndex = 113
+        '
+        'CmbPlanningOrder
+        '
+        Me.CmbPlanningOrder.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CmbPlanningOrder.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CmbPlanningOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbPlanningOrder.FormattingEnabled = True
+        Me.CmbPlanningOrder.Location = New System.Drawing.Point(0, 30)
+        Me.CmbPlanningOrder.Name = "CmbPlanningOrder"
+        Me.CmbPlanningOrder.Size = New System.Drawing.Size(244, 27)
+        Me.CmbPlanningOrder.TabIndex = 1
+        '
+        'Label1
+        '
+        Me.Label1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Label1.Location = New System.Drawing.Point(0, 2)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(244, 28)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Planning Order"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'planningloading
+        '
+        Me.planningloading.Interval = 5
+        '
         'requireddateloading
         '
         Me.requireddateloading.Interval = 5
         '
-        'FrmPODutchmillDate
+        'FrmPODutchmillDate_
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 19.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(264, 147)
+        Me.ClientSize = New System.Drawing.Size(264, 205)
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel44)
         Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Font = New System.Drawing.Font("Khmer OS Battambang", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.Name = "FrmPODutchmillDate"
+        Me.Name = "FrmPODutchmillDate_"
         Me.Padding = New System.Windows.Forms.Padding(10)
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Select Date"
         Me.Panel2.ResumeLayout(False)
         Me.Panel44.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
+        Me.Panel3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -167,5 +210,9 @@ Partial Class FrmPODutchmillDate
     Friend WithEvents BtnCancel As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents ChkLock As System.Windows.Forms.CheckBox
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents CmbPlanningOrder As ComboBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents planningloading As Timer
     Friend WithEvents requireddateloading As Timer
 End Class

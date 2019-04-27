@@ -39,13 +39,11 @@ Public Class FrmPlanningOrder
     Private Sub DisplayLoading_Tick(sender As Object, e As EventArgs) Handles DisplayLoading.Tick
         Me.Cursor = Cursors.WaitCursor
         Me.DisplayLoading.Enabled = False
-        Me.query = <SQL>
-                       <![CDATA[
-                        SELECT [Id],[PlanningOrder],[CreatedDate]
+        Me.query = <SQL><![CDATA[
+                        SELECT [Id],[PlanningOrder],[DayOfWeek],[CreatedDate]
                         FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
                         ORDER BY [PlanningOrder];
-                    ]]>
-                   </SQL>
+                    ]]></SQL>
         Me.query = String.Format(Me.query, DatabaseName)
         Me.lists = Data.Selects(Me.query, Initialized.GetConnectionType(Data, App))
         Me.DgvShow.DataSource = Me.lists
@@ -56,6 +54,7 @@ Public Class FrmPlanningOrder
 
     Private Sub FrmPlanningOrder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadingInitialized()
+        Me.dayofweekloading.Enabled = True
         Me.DisplayLoading.Enabled = True
     End Sub
 
@@ -68,23 +67,26 @@ Public Class FrmPlanningOrder
             MessageBox.Show("Please enter the planning order...", "Enter Planning Order", MessageBoxButtons.OK, MessageBoxIcon.Information)
             TxtPlanningOrder.Focus()
             Exit Sub
+        ElseIf CmbDayOfWeek.Text.Trim().Equals("") = True Then
+            MessageBox.Show("Please select any day of week...", "Select Day of Week", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            CmbDayOfWeek.Focus()
+            Exit Sub
         Else
             Dim oPlanningOrder As String = TxtPlanningOrder.Text.Replace("'", "").Trim()
+            Dim oDayOfWeek As String = CmbDayOfWeek.Text.Replace("'", "").Trim()
             Dim oId As Decimal = 0
             If BtnAdd.Text.Trim().Equals("&Add") = True Then
                 oId = 0
             Else
                 oId = CDec(IIf(DBNull.Value.Equals(DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Id").Value) = True, 0, DgvShow.Rows(DgvShow.CurrentRow.Index).Cells("Id").Value))
             End If
-            query = <SQL>
-                        <![CDATA[
+            query = <SQL><![CDATA[
                             DECLARE @oPlanningOrder AS NVARCHAR(50) = N'{1}';
                             DECLARE @oId AS DECIMAL(18,0) = {2};
                             SELECT [Id],[PlanningOrder],[CreatedDate]
                             FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
                             WHERE ([PlanningOrder] = @oPlanningOrder) AND ([Id] <> @oId);
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
             query = String.Format(query, DatabaseName, oPlanningOrder, oId)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -95,14 +97,14 @@ Public Class FrmPlanningOrder
                 End If
             End If
 
-            query = <SQL>
-                        <![CDATA[
-                            DECLARE @oPlanningOrder AS NVARCHAR(50) = N'{1}';
+            query = <SQL><![CDATA[
+                            DECLARE @oPlanningOrder AS NVARCHAR(50) = N'{1}';                            
                             DECLARE @oId AS DECIMAL(18,0) = {2};
+                            DECLARE @oDayOfWeek AS NVARCHAR(25) = N'{3}';
                             IF NOT EXISTS (SELECT * FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder] WHERE ([PlanningOrder] = @oPlanningOrder)) AND (@oId = 0)
                             BEGIN
-	                            INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]([PlanningOrder],[CreatedDate])
-	                            VALUES(@oPlanningOrder,GETDATE());
+	                            INSERT INTO [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]([PlanningOrder],[DayOfWeek],[CreatedDate])
+	                            VALUES(@oPlanningOrder,@oDayOfWeek,GETDATE());
                             END
                             ELSE
                             BEGIN
@@ -114,7 +116,8 @@ Public Class FrmPlanningOrder
 		                            WHERE [Id] = @oId;
 
 		                            UPDATE o
-		                            SET o.[PlanningOrder] = @oPlanningOrder
+		                            SET o.[PlanningOrder] = @oPlanningOrder,
+                                    o.[DayOfWeek] = @oDayOfWeek
 		                            FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder] o
 		                            WHERE [Id] = @oId;
 
@@ -129,9 +132,8 @@ Public Class FrmPlanningOrder
 		                            WHERE o.[PromotionMachanic] = @oPlanningOrder_Old;
 	                            END
                             END
-                        ]]>
-                    </SQL>
-            query = String.Format(query, DatabaseName, oPlanningOrder, oId)
+                        ]]></SQL>
+            query = String.Format(query, DatabaseName, oPlanningOrder, oId, oDayOfWeek)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
             RTran = RCon.BeginTransaction()
@@ -170,7 +172,9 @@ Public Class FrmPlanningOrder
         End If
         With DgvShow.Rows(DgvShow.CurrentRow.Index)
             Dim oPlanning As String = Trim(IIf(DBNull.Value.Equals(.Cells("PlanningOrder").Value) = True, "", .Cells("PlanningOrder").Value))
-            TxtPlanningOrder.Text = oPlanning.Trim()
+            Dim oDayofWeek As String = Trim(IIf(DBNull.Value.Equals(.Cells("DayOfWeek").Value) = True, "", .Cells("DayOfWeek").Value))
+            Me.TxtPlanningOrder.Text = oPlanning.Trim()
+            Me.CmbDayOfWeek.SelectedValue = oDayofWeek
             BtnAdd.Text = "&Update"
             BtnAdd.Image = My.Resources.update_blue
         End With
@@ -199,14 +203,12 @@ Public Class FrmPlanningOrder
         With DgvShow.Rows(DgvShow.CurrentRow.Index)
             Dim oId As Decimal = CDec(IIf(DBNull.Value.Equals(.Cells("Id").Value) = True, 0, .Cells("Id").Value))
             Dim oPlanning As String = Trim(IIf(DBNull.Value.Equals(.Cells("PlanningOrder").Value) = True, "", .Cells("PlanningOrder").Value))
-            query = <SQL>
-                        <![CDATA[
+            query = <SQL><![CDATA[
                             DECLARE @oPlanningOrder AS NVARCHAR(50) = N'{1}';
                             SELECT [CusNum],[CusName],[DeltoId],[Delto],[UnitNumber],[Barcode],[ProName],[Size],[QtyPerCase],[PcsOrder],[CTNOrder],[TotalPcsOrder],[SupNum],[SupName],[Renew],[NotAccept],[ChangeQty],[Department],[PlanningOrder],[MachineName],[IPAddress],[CreatedDate],[VerifyDate],GETDATE()
                             FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
                             WHERE [PlanningOrder] = @oPlanningOrder;                            
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
             query = String.Format(query, DatabaseName, oPlanning)
             lists = Data.Selects(query, Initialized.GetConnectionType(Data, App))
             If Not (lists Is Nothing) Then
@@ -217,8 +219,7 @@ Public Class FrmPlanningOrder
             End If
 
             If MessageBox.Show("Are you sure, you want to delete this (" & oPlanning & ")?(Yes/No)", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
-            query = <SQL>
-                        <![CDATA[
+            query = <SQL><![CDATA[
                             DECLARE @oId AS DECIMAL(18,0) = {1};
                             DECLARE @oPlanningOrder_Old AS NVARCHAR(50) = N'';
 		                    SELECT @oPlanningOrder_Old = ISNULL(o.[PlanningOrder],N'')
@@ -233,10 +234,22 @@ Public Class FrmPlanningOrder
                             DELETE FROM [{0}].[dbo].[TblDeliveryTakeOrders_DutchmillOrder]
                             WHERE [PlanningOrder] = @oPlanningOrder_Old;
 
+                            INSERT  INTO [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder.Deleted]
+        ( [PlanningOrder] ,
+          [DayOfWeek] ,
+          [CreatedDate] ,
+          [DeletedDate]
+        )
+        SELECT  [PlanningOrder] ,
+                [DayOfWeek] ,
+                [CreatedDate] ,
+                GETDATE()
+        FROM    [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
+        WHERE   ( [Id] = @oId );
+
                             DELETE FROM [{0}].[dbo].[TblDeliveryTakeOrders_PlanningOrder]
 		                    WHERE [Id] = @oId;
-                        ]]>
-                    </SQL>
+                        ]]></SQL>
             query = String.Format(query, DatabaseName, oId)
             RCon = New SqlConnection(Data.ConnectionString(Initialized.GetConnectionType(Data, App)))
             RCon.Open()
@@ -284,5 +297,27 @@ Public Class FrmPlanningOrder
     Private Sub FrmPlanningOrder_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         PicLogo.Image = Initialized.R_Logo
         LblCompanyName.Text = UCase(Initialized.R_DatabaseName)
+    End Sub
+
+    Private oDayOfWeekList As DataTable
+    Private Sub dayofweekloading_Tick(sender As Object, e As EventArgs) Handles dayofweekloading.Tick
+        Me.Cursor = Cursors.WaitCursor
+        Me.dayofweekloading.Enabled = False
+        If Not (Me.oDayOfWeekList Is Nothing) Then Me.oDayOfWeekList = Nothing
+        Me.oDayOfWeekList = New DataTable
+        With Me.oDayOfWeekList.Columns
+            .Add("value", GetType(String))
+            .Add("display", GetType(String))
+        End With
+        Dim oRow As DataRow = Nothing
+        For o As Decimal = 1 To 7
+            Dim oDayName As String = WeekdayName(o, False, FirstDayOfWeek.Monday).ToUpper()
+            oRow = Me.oDayOfWeekList.NewRow()
+            oRow("value") = oDayName
+            oRow("display") = oDayName
+            Me.oDayOfWeekList.Rows.Add(oRow)
+        Next
+        Me.DataSources(CmbDayOfWeek, Me.oDayOfWeekList, "display", "value")
+        Me.Cursor = Cursors.Default
     End Sub
 End Class

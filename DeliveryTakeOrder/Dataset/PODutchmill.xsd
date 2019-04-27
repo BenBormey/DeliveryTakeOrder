@@ -12,7 +12,7 @@
   <xs:element name="PODutchmill" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PODutchmill" msprop:Generator_UserDSName="PODutchmill">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="PODutchmill" msprop:Generator_TableClassName="PODutchmillDataTable" msprop:Generator_TableVarName="tablePODutchmill" msprop:Generator_RowChangedName="PODutchmillRowChanged" msprop:Generator_TablePropName="_PODutchmill" msprop:Generator_RowDeletingName="PODutchmillRowDeleting" msprop:Generator_RowChangingName="PODutchmillRowChanging" msprop:Generator_RowEvHandlerName="PODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="PODutchmillRowDeleted" msprop:Generator_RowClassName="PODutchmillRow" msprop:Generator_UserTableName="PODutchmill" msprop:Generator_RowEvArgName="PODutchmillRowChangeEvent">
+        <xs:element name="PODutchmill" msprop:Generator_TableClassName="PODutchmillDataTable" msprop:Generator_TableVarName="tablePODutchmill" msprop:Generator_TablePropName="_PODutchmill" msprop:Generator_RowDeletingName="PODutchmillRowDeleting" msprop:Generator_RowChangingName="PODutchmillRowChanging" msprop:Generator_RowEvHandlerName="PODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="PODutchmillRowDeleted" msprop:Generator_UserTableName="PODutchmill" msprop:Generator_RowChangedName="PODutchmillRowChanged" msprop:Generator_RowEvArgName="PODutchmillRowChangeEvent" msprop:Generator_RowClassName="PODutchmillRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Barcode" msprop:Generator_ColumnVarNameInTable="columnBarcode" msprop:Generator_ColumnPropNameInRow="Barcode" msprop:Generator_ColumnPropNameInTable="BarcodeColumn" msprop:Generator_UserColumnName="Barcode" type="xs:string" minOccurs="0" />
@@ -27,7 +27,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="XrPODutchmill" msprop:Generator_TableClassName="XrPODutchmillDataTable" msprop:Generator_TableVarName="tableXrPODutchmill" msprop:Generator_TablePropName="XrPODutchmill" msprop:Generator_RowDeletingName="XrPODutchmillRowDeleting" msprop:Generator_RowChangingName="XrPODutchmillRowChanging" msprop:Generator_RowEvHandlerName="XrPODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="XrPODutchmillRowDeleted" msprop:Generator_UserTableName="XrPODutchmill" msprop:Generator_RowChangedName="XrPODutchmillRowChanged" msprop:Generator_RowEvArgName="XrPODutchmillRowChangeEvent" msprop:Generator_RowClassName="XrPODutchmillRow">
+        <xs:element name="XrPODutchmill" msprop:Generator_TableClassName="XrPODutchmillDataTable" msprop:Generator_TableVarName="tableXrPODutchmill" msprop:Generator_RowChangedName="XrPODutchmillRowChanged" msprop:Generator_TablePropName="XrPODutchmill" msprop:Generator_RowDeletingName="XrPODutchmillRowDeleting" msprop:Generator_RowChangingName="XrPODutchmillRowChanging" msprop:Generator_RowEvHandlerName="XrPODutchmillRowChangeEventHandler" msprop:Generator_RowDeletedName="XrPODutchmillRowDeleted" msprop:Generator_RowClassName="XrPODutchmillRow" msprop:Generator_UserTableName="XrPODutchmill" msprop:Generator_RowEvArgName="XrPODutchmillRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Barcode" msprop:Generator_ColumnVarNameInTable="columnBarcode" msprop:Generator_ColumnPropNameInRow="Barcode" msprop:Generator_ColumnPropNameInTable="BarcodeColumn" msprop:Generator_UserColumnName="Barcode" type="xs:string" minOccurs="0" />
@@ -40,6 +40,7 @@
               <xs:element name="TotalExtraLeft" msprop:Generator_ColumnVarNameInTable="columnTotalExtraLeft" msprop:Generator_ColumnPropNameInRow="TotalExtraLeft" msprop:Generator_ColumnPropNameInTable="TotalExtraLeftColumn" msprop:Generator_UserColumnName="TotalExtraLeft" type="xs:string" minOccurs="0" />
               <xs:element name="TotalOrderToThailand" msprop:Generator_ColumnVarNameInTable="columnTotalOrderToThailand" msprop:Generator_ColumnPropNameInRow="TotalOrderToThailand" msprop:Generator_ColumnPropNameInTable="TotalOrderToThailandColumn" msprop:Generator_UserColumnName="TotalOrderToThailand" type="xs:string" minOccurs="0" />
               <xs:element name="TotalTray" msprop:Generator_ColumnVarNameInTable="columnTotalTray" msprop:Generator_ColumnPropNameInRow="TotalTray" msprop:Generator_ColumnPropNameInTable="TotalTrayColumn" msprop:Generator_UserColumnName="TotalTray" type="xs:string" minOccurs="0" />
+              <xs:element name="PromotionMachanic" msprop:Generator_ColumnVarNameInTable="columnPromotionMachanic" msprop:Generator_ColumnPropNameInRow="PromotionMachanic" msprop:Generator_ColumnPropNameInTable="PromotionMachanicColumn" msprop:Generator_UserColumnName="PromotionMachanic" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

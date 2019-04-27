@@ -99,8 +99,10 @@ Partial Class FrmDutchmillTakeOrder
         Me.CusName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DeltoId = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Delto = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Zone = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UnitNumber = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CusCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ProName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Size = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.QtyPerCase = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -117,6 +119,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.VerifyDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.RequiredDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel44 = New System.Windows.Forms.Panel()
+        Me.BtnExport = New System.Windows.Forms.Button()
         Me.LblTotalDelto = New System.Windows.Forms.Label()
         Me.LblTotalCustomer = New System.Windows.Forms.Label()
         Me.BtnRetrieveTakeOrder = New System.Windows.Forms.Button()
@@ -130,8 +133,11 @@ Partial Class FrmDutchmillTakeOrder
         Me.DisplayLoading = New System.Windows.Forms.Timer(Me.components)
         Me.Popmain = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MnuChangeCustomer = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.MnuChangePlanningOrder = New System.Windows.Forms.ToolStripMenuItem()
         Me.PCustomerRemark = New System.Windows.Forms.Panel()
         Me.TxtCustomerRemark = New System.Windows.Forms.TextBox()
+        Me.ChangePlanningOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.PanelHeader.SuspendLayout()
@@ -799,7 +805,7 @@ Partial Class FrmDutchmillTakeOrder
         Me.DgvShow.AllowUserToDeleteRows = False
         Me.DgvShow.BackgroundColor = System.Drawing.Color.GhostWhite
         Me.DgvShow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ManualRenew, Me.ManualNotAccept, Me.ManualChangeQty, Me.Renew, Me.NotAccept, Me.ChangeQty, Me.Id, Me.CusNum, Me.CusName, Me.DeltoId, Me.Delto, Me.UnitNumber, Me.Barcode, Me.ProName, Me.Size, Me.QtyPerCase, Me.PcsOrder, Me.CTNOrder, Me.TotalPcsOrder, Me.SupNum, Me.SupName, Me.Department, Me.PlanningOrder, Me.MachineName, Me.IPAddress, Me.CreatedDate, Me.VerifyDate, Me.RequiredDate})
+        Me.DgvShow.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ManualRenew, Me.ManualNotAccept, Me.ManualChangeQty, Me.Renew, Me.NotAccept, Me.ChangeQty, Me.Id, Me.CusNum, Me.CusName, Me.DeltoId, Me.Delto, Me.Zone, Me.UnitNumber, Me.Barcode, Me.CusCode, Me.ProName, Me.Size, Me.QtyPerCase, Me.PcsOrder, Me.CTNOrder, Me.TotalPcsOrder, Me.SupNum, Me.SupName, Me.Department, Me.PlanningOrder, Me.MachineName, Me.IPAddress, Me.CreatedDate, Me.VerifyDate, Me.RequiredDate})
         Me.DgvShow.Cursor = System.Windows.Forms.Cursors.Hand
         Me.DgvShow.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DgvShow.Location = New System.Drawing.Point(5, 233)
@@ -907,6 +913,13 @@ Partial Class FrmDutchmillTakeOrder
         Me.Delto.ReadOnly = True
         Me.Delto.Width = 63
         '
+        'Zone
+        '
+        Me.Zone.DataPropertyName = "Zone"
+        Me.Zone.HeaderText = "Zone"
+        Me.Zone.Name = "Zone"
+        Me.Zone.ReadOnly = True
+        '
         'UnitNumber
         '
         Me.UnitNumber.DataPropertyName = "UnitNumber"
@@ -923,6 +936,13 @@ Partial Class FrmDutchmillTakeOrder
         Me.Barcode.Name = "Barcode"
         Me.Barcode.ReadOnly = True
         Me.Barcode.Width = 81
+        '
+        'CusCode
+        '
+        Me.CusCode.DataPropertyName = "CusCode"
+        Me.CusCode.HeaderText = "Items Code"
+        Me.CusCode.Name = "CusCode"
+        Me.CusCode.ReadOnly = True
         '
         'ProName
         '
@@ -1066,6 +1086,7 @@ Partial Class FrmDutchmillTakeOrder
         '
         'Panel44
         '
+        Me.Panel44.Controls.Add(Me.BtnExport)
         Me.Panel44.Controls.Add(Me.LblTotalDelto)
         Me.Panel44.Controls.Add(Me.LblTotalCustomer)
         Me.Panel44.Controls.Add(Me.BtnRetrieveTakeOrder)
@@ -1078,6 +1099,20 @@ Partial Class FrmDutchmillTakeOrder
         Me.Panel44.Padding = New System.Windows.Forms.Padding(0, 2, 0, 2)
         Me.Panel44.Size = New System.Drawing.Size(824, 35)
         Me.Panel44.TabIndex = 112
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnExport.Dock = System.Windows.Forms.DockStyle.Right
+        Me.BtnExport.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.BtnExport.Image = Global.DeliveryTakeOrder.My.Resources.Resources.view_takeorder
+        Me.BtnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnExport.Location = New System.Drawing.Point(279, 2)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(113, 31)
+        Me.BtnExport.TabIndex = 20
+        Me.BtnExport.Text = "&Export"
+        Me.BtnExport.UseVisualStyleBackColor = True
         '
         'LblTotalDelto
         '
@@ -1175,16 +1210,28 @@ Partial Class FrmDutchmillTakeOrder
         '
         'Popmain
         '
-        Me.Popmain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuChangeCustomer})
+        Me.Popmain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuChangeCustomer, Me.ToolStripSeparator1, Me.MnuChangePlanningOrder})
         Me.Popmain.Name = "ContextMenuStrip1"
-        Me.Popmain.Size = New System.Drawing.Size(171, 26)
+        Me.Popmain.Size = New System.Drawing.Size(199, 54)
         '
         'MnuChangeCustomer
         '
         Me.MnuChangeCustomer.Image = Global.DeliveryTakeOrder.My.Resources.Resources.update_blue
         Me.MnuChangeCustomer.Name = "MnuChangeCustomer"
-        Me.MnuChangeCustomer.Size = New System.Drawing.Size(170, 22)
+        Me.MnuChangeCustomer.Size = New System.Drawing.Size(198, 22)
         Me.MnuChangeCustomer.Text = "&Change Customer"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(195, 6)
+        '
+        'MnuChangePlanningOrder
+        '
+        Me.MnuChangePlanningOrder.Image = Global.DeliveryTakeOrder.My.Resources.Resources.Transfers
+        Me.MnuChangePlanningOrder.Name = "MnuChangePlanningOrder"
+        Me.MnuChangePlanningOrder.Size = New System.Drawing.Size(198, 22)
+        Me.MnuChangePlanningOrder.Text = "Change &Planning Order"
         '
         'PCustomerRemark
         '
@@ -1208,6 +1255,12 @@ Partial Class FrmDutchmillTakeOrder
         Me.TxtCustomerRemark.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.TxtCustomerRemark.Size = New System.Drawing.Size(816, 280)
         Me.TxtCustomerRemark.TabIndex = 11
+        '
+        'ChangePlanningOrderToolStripMenuItem
+        '
+        Me.ChangePlanningOrderToolStripMenuItem.Name = "ChangePlanningOrderToolStripMenuItem"
+        Me.ChangePlanningOrderToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.ChangePlanningOrderToolStripMenuItem.Text = "Change &Planning Order"
         '
         'FrmDutchmillTakeOrder
         '
@@ -1338,36 +1391,42 @@ Partial Class FrmDutchmillTakeOrder
     Friend WithEvents LblTotalCustomer As System.Windows.Forms.Label
     Friend WithEvents Popmain As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents MnuChangeCustomer As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ManualRenew As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents ManualNotAccept As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents ManualChangeQty As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents Renew As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents NotAccept As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents ChangeQty As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents Id As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CusNum As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CusName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DeltoId As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Delto As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents UnitNumber As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Barcode As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents ProName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Size As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents QtyPerCase As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PcsOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CTNOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents TotalPcsOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents SupNum As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents SupName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Department As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PlanningOrder As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents MachineName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents IPAddress As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents CreatedDate As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents VerifyDate As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents RequiredDate As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents BtnViewCredit As System.Windows.Forms.Button
     Friend WithEvents PCustomerRemark As Panel
     Friend WithEvents TxtCustomerRemark As TextBox
     Friend WithEvents picplanningorder As PictureBox
+    Friend WithEvents BtnExport As Button
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents MnuChangePlanningOrder As ToolStripMenuItem
+    Friend WithEvents ChangePlanningOrderToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ManualRenew As DataGridViewCheckBoxColumn
+    Friend WithEvents ManualNotAccept As DataGridViewCheckBoxColumn
+    Friend WithEvents ManualChangeQty As DataGridViewCheckBoxColumn
+    Friend WithEvents Renew As DataGridViewCheckBoxColumn
+    Friend WithEvents NotAccept As DataGridViewCheckBoxColumn
+    Friend WithEvents ChangeQty As DataGridViewCheckBoxColumn
+    Friend WithEvents Id As DataGridViewTextBoxColumn
+    Friend WithEvents CusNum As DataGridViewTextBoxColumn
+    Friend WithEvents CusName As DataGridViewTextBoxColumn
+    Friend WithEvents DeltoId As DataGridViewTextBoxColumn
+    Friend WithEvents Delto As DataGridViewTextBoxColumn
+    Friend WithEvents Zone As DataGridViewTextBoxColumn
+    Friend WithEvents UnitNumber As DataGridViewTextBoxColumn
+    Friend WithEvents Barcode As DataGridViewTextBoxColumn
+    Friend WithEvents CusCode As DataGridViewTextBoxColumn
+    Friend WithEvents ProName As DataGridViewTextBoxColumn
+    Friend WithEvents Size As DataGridViewTextBoxColumn
+    Friend WithEvents QtyPerCase As DataGridViewTextBoxColumn
+    Friend WithEvents PcsOrder As DataGridViewTextBoxColumn
+    Friend WithEvents CTNOrder As DataGridViewTextBoxColumn
+    Friend WithEvents TotalPcsOrder As DataGridViewTextBoxColumn
+    Friend WithEvents SupNum As DataGridViewTextBoxColumn
+    Friend WithEvents SupName As DataGridViewTextBoxColumn
+    Friend WithEvents Department As DataGridViewTextBoxColumn
+    Friend WithEvents PlanningOrder As DataGridViewTextBoxColumn
+    Friend WithEvents MachineName As DataGridViewTextBoxColumn
+    Friend WithEvents IPAddress As DataGridViewTextBoxColumn
+    Friend WithEvents CreatedDate As DataGridViewTextBoxColumn
+    Friend WithEvents VerifyDate As DataGridViewTextBoxColumn
+    Friend WithEvents RequiredDate As DataGridViewTextBoxColumn
 End Class
