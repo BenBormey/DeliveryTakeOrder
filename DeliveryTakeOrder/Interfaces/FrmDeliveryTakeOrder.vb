@@ -4183,12 +4183,12 @@ Err_CheckStorecode:
         If dtDC.Rows.Count > 0 Then
             If MessageBox.Show("This Barcode is in Product Deactivated! Do you want to send email to customer?", "Confirm Deactivated Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return
 
-            Dim email As String = CheckCustomerEmail().Rows(0)(0)
-            If email.Equals(String.Empty) Then
-                MessageBox.Show("This customer does not have email address.")
-                Cursor = Cursors.Default
-                Return
-            End If
+            'Dim email As String = CheckCustomerEmail().Rows(0)(0)
+            'If email.Equals(String.Empty) Then
+            '    MessageBox.Show("This customer does not have email address.")
+            '    Cursor = Cursors.Default
+            '    Return
+            'End If
 
             Dim dcReport As New MailDCSKUReport
             Dim dr As DataRow = dtDC.Rows(0)
@@ -4202,11 +4202,12 @@ Err_CheckStorecode:
                 .CreateDocument(True)
                 Try
                     Using client As New SmtpClient("mail.untwholesale.com", 26)
+                        Dim email As String = QueryCCEmail.Rows(0)(0)
                         Using message As MailMessage = .ExportToMail("sales@untwholesale.com", email, "Product Discontinued")
-                            Dim cc As New MailAddressCollection
-                            For Each drEmail As DataRow In QueryCCEmail.Rows
-                                message.CC.Add(drEmail(0))
-                            Next
+                            'Dim cc As New MailAddressCollection
+                            'For Each drEmail As DataRow In QueryCCEmail.Rows
+                            '    message.CC.Add(drEmail(0))
+                            'Next
 
                             client.Credentials = New System.Net.NetworkCredential("sales@untwholesale.com", "UNT@@!@#12345678")
                             client.EnableSsl = True
